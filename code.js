@@ -18,74 +18,78 @@ const formations = {
   // Ajoutez d'autres formations ici
  };
 
-  const accessToken = 'c09f39f239fbdaf13857dd8f537d713d'; // Remplacez par votre token d'accès Vimeo
+ const accessToken = 'c09f39f239fbdaf13857dd8f537d713d'; // Votre token d'accès Vimeo
 
-  // Fonction pour nettoyer le JSON reçu de Memberstack
-  function cleanJson(json) {
-    while (json.data) {
-      json = json.data;
-    }
-    return json;
+// Fonction pour nettoyer le JSON reçu de Memberstack
+function cleanJson(json) {
+  while (json.data) {
+    json = json.data;
+  }
+  return json;
+}
+
+// Récupération de la durée de la vidéo depuis Vimeo avec mise en cache
+async function fetchVimeoVideoDuration(videoId) {
+  const cacheKey = `vimeoVideoDuration_${videoId}`;
+  const cachedDuration = localStorage.getItem(cacheKey);
+
+  if (cachedDuration) {
+    return parseInt(cachedDuration, 10); // Convertir en nombre
   }
 
-  // Récupération de la durée de la vidéo depuis Vimeo
-  async function fetchVimeoVideoDuration(videoId) {
-    const url = `https://api.vimeo.com/videos/${videoId}`;
-
-    try {
-      const response = await fetch(url, {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`
-        }
-      });
-
-      const data = await response.json();
-      return data.duration; // Retourne la durée en secondes
-    } catch (error) {
-      console.error('Erreur lors de la récupération des données Vimeo:', error);
-      return 0;
-    }
-  }
-
-   // Fonction pour calculer la progression d'une formation
-  async function calculateFormationProgress(memberJson, formationVideos) {
-    let totalProgress = 0;
-    let durations = await Promise.all(formationVideos.map(videoId =>
-      memberJson.lessons && memberJson.lessons[videoId]
-        ? Promise.resolve(memberJson.lessons[videoId].totalTime)
-        : fetchVimeoVideoDuration(videoId)
-    ));
-  
-    let totalTime = durations.reduce((total, duration) => total + duration, 0);
-  
-    formationVideos.forEach(videoId => {
-      if (memberJson.lessons && memberJson.lessons[videoId]) {
-        totalProgress += memberJson.lessons[videoId].time;
+  const url = `https://api.vimeo.com/videos/${videoId}`;
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
       }
     });
-  
-    return totalTime > 0 ? (totalProgress / totalTime) * 100 : 0;
+    const data = await response.json();
+    const duration = data.duration;
+
+    localStorage.setItem(cacheKey, duration.toString()); // Stocker dans le cache
+    return duration;
+  } catch (error) {
+    console.error('Erreur lors de la récupération des données Vimeo:', error);
+    return 0;
+  }
+}
+
+// Fonction pour calculer la progression d'une formation
+async function calculateFormationProgress(memberJson, formationVideos) {
+  let totalProgress = 0;
+  let totalTime = 0;
+
+  for (const videoId of formationVideos) {
+    if (memberJson.lessons && memberJson.lessons[videoId]) {
+      const lesson = memberJson.lessons[videoId];
+      totalProgress += lesson.time;
+    }
+    const videoTotalTime = await fetchVimeoVideoDuration(videoId);
+    totalTime += videoTotalTime;
   }
 
+  return totalTime > 0 ? (totalProgress / totalTime) * 100 : 0;
+}
 
-  // Mettre à jour les barres de progression des formations
-  document.addEventListener('updateProgressBars', async function() {
-    const member = await window.$memberstackDom.getCurrentMember();
-    if (member) {
-      let memberJson = await window.$memberstackDom.getMemberJSON();
-      let cleanedJson = cleanJson(memberJson);
+// Mettre à jour les barres de progression des formations
+document.addEventListener('updateProgressBars', async function() {
+  const member = await window.$memberstackDom.getCurrentMember();
+  if (member) {
+    let memberJson = await window.$memberstackDom.getMemberJSON();
+    let cleanedJson = cleanJson(memberJson);
 
-      for (const [formationName, videoIds] of Object.entries(formations)) {
-        const progress = await calculateFormationProgress(cleanedJson, videoIds);
-        const formationProgressElement = document.querySelector(`#progress-${formationName}`);
-        if (formationProgressElement) {
-          formationProgressElement.style.width = `${progress}%`;
-        }
+    for (const [formationName, videoIds] of Object.entries(formations)) {
+      const progress = await calculateFormationProgress(cleanedJson, videoIds);
+      const formationProgressElement = document.querySelector(`#progress-${formationName}`);
+      if (formationProgressElement) {
+        formationProgressElement.style.width = `${progress}%`;
       }
     }
-  });
+  }
+});
 
-  // Déclencher la mise à jour initiale des barres de progression
-  document.dispatchEvent(new Event('updateProgressBars'));
+// Déclencher la mise à jour initiale des barres de progression
+document.dispatchEvent(new Event('updateProgressBars'));
 
 
