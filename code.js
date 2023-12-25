@@ -1,4 +1,3 @@
-<script>
 console.log('Le script est chargé et exécuté.');
 const formations = {
   "formation1": [
@@ -86,11 +85,11 @@ const formations = {
 
   // Déclencher la mise à jour initiale des barres de progression
   document.dispatchEvent(new Event('updateProgressBars'));
-</script>
 
 
 
-<script>
+
+
   // Variables globales
   let currentTime = 0;
   let totalTime = 0;
@@ -207,5 +206,5 @@ const formations = {
 
   // Mise à jour initiale des barres de progression
   document.dispatchEvent(new Event('updateProgressBars'));
-</script>
+
 
