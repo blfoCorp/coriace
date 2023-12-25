@@ -1,4 +1,4 @@
-console.log('Le script est chargé et exécuté.');
+console.log('Le script GitHub est chargé.');
 const formations = {
   "formation1": [
     "765638967", "765646490", "765678273", "765470935", "765470788",
