@@ -1,5 +1,6 @@
 <script src="https://player.vimeo.com/api/player.js"></script>
 <script>
+console.log('Le script est chargé et exécuté.');
 const formations = {
   "formation1": [
     "765638967", "765646490", "765678273", "765470935", "765470788",
@@ -15,7 +16,7 @@ const formations = {
     "767012030", "767006696", "767002487", "766991921", "765470705",
     "765470724", "765471021", "765470935", "765470788", "765470896",
     "765470977", "765471109"
-  ],
+  ]
   // Ajoutez d'autres formations ici
  };
 
