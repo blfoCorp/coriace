@@ -47,24 +47,26 @@ const formations = {
     }
   }
 
-  // Fonction pour calculer la progression d'une formation
+   // Fonction pour calculer la progression d'une formation
   async function calculateFormationProgress(memberJson, formationVideos) {
     let totalProgress = 0;
-    let totalTime = 0;
-
-    for (const videoId of formationVideos) {
+    let durations = await Promise.all(formationVideos.map(videoId =>
+      memberJson.lessons && memberJson.lessons[videoId]
+        ? Promise.resolve(memberJson.lessons[videoId].totalTime)
+        : fetchVimeoVideoDuration(videoId)
+    ));
+  
+    let totalTime = durations.reduce((total, duration) => total + duration, 0);
+  
+    formationVideos.forEach(videoId => {
       if (memberJson.lessons && memberJson.lessons[videoId]) {
-        const lesson = memberJson.lessons[videoId];
-        totalProgress += lesson.time;
-        totalTime += lesson.totalTime;
-      } else {
-        const videoTotalTime = await fetchVimeoVideoDuration(videoId);
-        totalTime += videoTotalTime;
+        totalProgress += memberJson.lessons[videoId].time;
       }
-    }
-
+    });
+  
     return totalTime > 0 ? (totalProgress / totalTime) * 100 : 0;
   }
+
 
   // Mettre à jour les barres de progression des formations
   document.addEventListener('updateProgressBars', async function() {
