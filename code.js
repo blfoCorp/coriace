@@ -1,6 +1,5 @@
 <script src="https://player.vimeo.com/api/player.js"></script>
 <script>
-console.log('Le script est chargé et exécuté.');
 const formations = {
   "formation1": [
     "765638967", "765646490", "765678273", "765470935", "765470788",
