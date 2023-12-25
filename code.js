@@ -1,4 +1,3 @@
-<script src="https://player.vimeo.com/api/player.js"></script>
 <script>
 console.log('Le script est chargé et exécuté.');
 const formations = {
