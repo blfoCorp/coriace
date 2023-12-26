@@ -18,7 +18,7 @@ const formations = {
   // Ajoutez d'autres formations ici
  };
 
- const accessToken = 'c09f39f239fbdaf13857dd8f537d713d'; // Votre token d'accès Vimeo
+ const accessToken = 'c09f39f239fbdaf13857dd8f537d713d';
 
 function cleanJson(json) {
   while (json.data) {
