@@ -32,7 +32,6 @@ function cleanJson(json) {
 async function fetchVimeoVideoDuration(videoId, videoDurationsCache, formationName) {
 
   if (videoDurationsCache[videoId]) {
-    console.log(`Duration for video ID ${videoId} found in cache`);
     return videoDurationsCache[videoId];
   }
 
@@ -71,7 +70,6 @@ async function calculateFormationProgress(memberJson, formationVideos, formation
     totalTime += await fetchVimeoVideoDuration(videoId, videoDurationsCache, formationName);
   }
 
-  console.log(`Total time for formation: ${totalTime}, Total progress: ${totalProgress}`);
   return totalTime > 0 ? (totalProgress / totalTime) * 100 : 0;
 }
 
