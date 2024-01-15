@@ -29,11 +29,11 @@ function cleanJson(json) {
   return json;
 }
 
-async function fetchVimeoVideoDuration(videoId, videoDurationsCache) {
-  console.log(`Fetching duration for video ID: ${videoId}`); // Déjà présent pour tous les appels
+async function fetchVimeoVideoDuration(videoId, videoDurationsCache, formationName) {
+  console.log(`Fetching duration for video ID: ${videoId}`);
 
   if (videoDurationsCache[videoId]) {
-    console.log(`Duration for video ID ${videoId} found in cache`); // Ajouté pour le suivi du cache
+    console.log(`Duration for video ID ${videoId} found in cache`);
     return videoDurationsCache[videoId];
   }
 
@@ -46,15 +46,15 @@ async function fetchVimeoVideoDuration(videoId, videoDurationsCache) {
     });
 
     if (!response.ok) {
-      console.error(`Failed to fetch duration for video ID ${videoId}. Status: ${response.status}`); // Ajouté pour capturer les erreurs de réponse
+      console.error(`Failed to fetch duration for video ID ${videoId}. Status: ${response.status}`);
       return 0;
     }
 
     const data = await response.json();
-    console.log(`Duration fetched for video ID ${videoId}:`, data.duration); // Ajouté pour afficher la durée récupérée
+    console.log(`Duration fetched for video ID ${videoId}:`, data.duration);
 
     videoDurationsCache[videoId] = data.duration;
-    localStorage.setItem('videoDurations', JSON.stringify(videoDurationsCache));
+    localStorage.setItem(`videoDurations-${formationName}`, JSON.stringify(videoDurationsCache));
     return data.duration;
   } catch (error) {
     console.error(`Erreur lors de la récupération des données Vimeo pour la vidéo ID ${videoId}:`, error);
@@ -62,42 +62,42 @@ async function fetchVimeoVideoDuration(videoId, videoDurationsCache) {
   }
 }
 
-async function calculateFormationProgress(memberJson, formationVideos) {
-  console.log(`Calculating progress for formation: ${formationVideos}`); // Ajouté pour voir quels ID de vidéos sont traités
+async function calculateFormationProgress(memberJson, formationVideos, formationName) {
+  console.log(`Calculating progress for formation: ${formationVideos}`);
   let totalProgress = 0;
   let totalTime = 0;
 
-  const videoDurationsCache = JSON.parse(localStorage.getItem('videoDurations')) || {};
+  const videoDurationsCache = JSON.parse(localStorage.getItem(`videoDurations-${formationName}`)) || {};
 
   for (const videoId of formationVideos) {
     if (memberJson.lessons && memberJson.lessons[videoId]) {
       totalProgress += memberJson.lessons[videoId].time;
     }
-    totalTime += await fetchVimeoVideoDuration(videoId, videoDurationsCache);
+    totalTime += await fetchVimeoVideoDuration(videoId, videoDurationsCache, formationName);
   }
-  console.log(`Total time for formation: ${totalTime}, Total progress: ${totalProgress}`); // Ajouté pour déboguer les totaux calculés
+
+  console.log(`Total time for formation: ${totalTime}, Total progress: ${totalProgress}`);
   return totalTime > 0 ? (totalProgress / totalTime) * 100 : 0;
 }
+
 console.log('Déclenchement de updateProgressBars');
 document.addEventListener('updateProgressBars', async function() {
-  console.log('Updating progress bars...'); // Ajouté pour confirmer que l'événement est déclenché
+  console.log('Updating progress bars...');
   const member = await window.$memberstackDom.getCurrentMember();
   if (member) {
     let memberJson = await window.$memberstackDom.getMemberJSON();
     let cleanedJson = cleanJson(memberJson);
 
     for (const [formationName, videoIds] of Object.entries(formations)) {
-      const progress = await calculateFormationProgress(cleanedJson, videoIds);
+      const progress = await calculateFormationProgress(cleanedJson, videoIds, formationName);
       const formationProgressElement = document.querySelector(`#progress-${formationName}`);
       if (formationProgressElement) {
         formationProgressElement.style.width = `${progress}%`;
       }
     }
   }
-  console.log('Progress bars updated.'); // Ajouté pour confirmer la fin de la mise à jour
+  console.log('Progress bars updated.');
 });
 
-// Déclencher la mise à jour initiale des barres de progression
 document.dispatchEvent(new Event('updateProgressBars'));
-
 
