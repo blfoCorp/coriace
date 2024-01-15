@@ -90,7 +90,7 @@ async function calculateFormationProgress(memberJson, formationVideos) {
   console.log(`Total time for formation: ${totalTime}, Total progress: ${totalProgress}`); // Ajouté pour déboguer les totaux calculés
   return totalTime > 0 ? (totalProgress / totalTime) * 100 : 0;
 }
-
+console.log('Déclenchement de updateProgressBars');
 document.addEventListener('updateProgressBars', async function() {
   console.log('Updating progress bars...'); // Ajouté pour confirmer que l'événement est déclenché
   const member = await window.$memberstackDom.getCurrentMember();
