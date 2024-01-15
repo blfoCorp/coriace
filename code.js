@@ -30,8 +30,10 @@ function cleanJson(json) {
 }
 
 async function fetchVimeoVideoDuration(videoId, videoDurationsCache) {
-  console.log(`Fetching duration for video ID: ${videoId}`); // Ajouté pour déboguer les appels à l'API Vimeo
+  console.log(`Fetching duration for video ID: ${videoId}`); // Déjà présent pour tous les appels
+
   if (videoDurationsCache[videoId]) {
+    console.log(`Duration for video ID ${videoId} found in cache`); // Ajouté pour le suivi du cache
     return videoDurationsCache[videoId];
   }
 
@@ -42,12 +44,20 @@ async function fetchVimeoVideoDuration(videoId, videoDurationsCache) {
         'Authorization': `Bearer ${accessToken}`
       }
     });
+
+    if (!response.ok) {
+      console.error(`Failed to fetch duration for video ID ${videoId}. Status: ${response.status}`); // Ajouté pour capturer les erreurs de réponse
+      return 0;
+    }
+
     const data = await response.json();
+    console.log(`Duration fetched for video ID ${videoId}:`, data.duration); // Ajouté pour afficher la durée récupérée
+
     videoDurationsCache[videoId] = data.duration;
     localStorage.setItem('videoDurations', JSON.stringify(videoDurationsCache));
     return data.duration;
   } catch (error) {
-    console.error('Erreur lors de la récupération des données Vimeo:', error);
+    console.error(`Erreur lors de la récupération des données Vimeo pour la vidéo ID ${videoId}:`, error);
     return 0;
   }
 }
