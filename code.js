@@ -30,7 +30,6 @@ function cleanJson(json) {
 }
 
 async function fetchVimeoVideoDuration(videoId, videoDurationsCache, formationName) {
-  console.log(`Fetching duration for video ID: ${videoId}`);
 
   if (videoDurationsCache[videoId]) {
     console.log(`Duration for video ID ${videoId} found in cache`);
@@ -46,24 +45,20 @@ async function fetchVimeoVideoDuration(videoId, videoDurationsCache, formationNa
     });
 
     if (!response.ok) {
-      console.error(`Failed to fetch duration for video ID ${videoId}. Status: ${response.status}`);
       return 0;
     }
 
     const data = await response.json();
-    console.log(`Duration fetched for video ID ${videoId}:`, data.duration);
 
     videoDurationsCache[videoId] = data.duration;
     localStorage.setItem(`videoDurations-${formationName}`, JSON.stringify(videoDurationsCache));
     return data.duration;
   } catch (error) {
-    console.error(`Erreur lors de la récupération des données Vimeo pour la vidéo ID ${videoId}:`, error);
     return 0;
   }
 }
 
 async function calculateFormationProgress(memberJson, formationVideos, formationName) {
-  console.log(`Calculating progress for formation: ${formationVideos}`);
   let totalProgress = 0;
   let totalTime = 0;
 
