@@ -52,11 +52,7 @@ function cleanJson(json) {
   return json;
 }
 
-async function fetchVimeoVideoDuration(videoId, videoDurationsCache, formationName) {
-  if (videoDurationsCache[videoId]) {
-    return videoDurationsCache[videoId];
-  }
-
+async function fetchVimeoVideoDuration(videoId, accessToken) {
   const url = `https://api.vimeo.com/videos/${videoId}`;
   try {
     const response = await fetch(url, {
@@ -70,28 +66,30 @@ async function fetchVimeoVideoDuration(videoId, videoDurationsCache, formationNa
     }
 
     const data = await response.json();
-
-    videoDurationsCache[videoId] = data.duration;
-    localStorage.setItem(`videoDurations-${formationName}`, JSON.stringify(videoDurationsCache));
     return data.duration;
   } catch (error) {
     return 0;
   }
 }
 
-async function calculateFormationProgress(memberJson, formationVideos, formationName) {
+async function calculateFormationProgress(memberJson, formationVideos, formationName, accessToken) {
   let totalProgress = 0;
   let totalTime = 0;
 
-  const videoDurationsCache = JSON.parse(localStorage.getItem(`videoDurations-${formationName}`)) || {};
+  const videoDurationsPromises = formationVideos.map(videoId =>
+    fetchVimeoVideoDuration(videoId, accessToken)
+  );
 
-  for (const videoId of formationVideos) {
+  const videoDurations = await Promise.all(videoDurationsPromises);
+  
+  formationVideos.forEach((videoId, index) => {
     if (memberJson.lessons && memberJson.lessons[videoId]) {
       totalProgress += memberJson.lessons[videoId].time;
     }
-    totalTime += await fetchVimeoVideoDuration(videoId, videoDurationsCache, formationName);
-  }
+    totalTime += videoDurations[index];
+  });
 
+  localStorage.setItem(`videoDurations-${formationName}`, JSON.stringify(videoDurations));
   return totalTime > 0 ? (totalProgress / totalTime) * 100 : 0;
 }
 
@@ -104,7 +102,7 @@ document.addEventListener('updateProgressBars', async function() {
     let cleanedJson = cleanJson(memberJson);
 
     const progressPromises = Object.entries(formations).map(([formationName, videoIds]) => 
-      calculateFormationProgress(cleanedJson, videoIds, formationName)
+      calculateFormationProgress(cleanedJson, videoIds, formationName, accessToken)
       .then(progress => {
         const formationProgressElement = document.querySelector(`#progress-${formationName}`);
         if (formationProgressElement) {
