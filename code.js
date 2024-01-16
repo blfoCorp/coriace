@@ -1,3 +1,4 @@
+/*-- Progression de chaque formation en fonction de la durée des vidéos dans Vimeo --*/
 console.log('Le script GitHub est chargé.');
 const formations = {
   "formation-wpdv": [
@@ -129,3 +130,5 @@ document.addEventListener('updateProgressBars', async function() {
 });
 
 document.dispatchEvent(new Event('updateProgressBars'));
+
+/*-- Code suivant --*/
