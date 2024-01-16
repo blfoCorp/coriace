@@ -52,69 +52,58 @@ function cleanJson(json) {
   return json;
 }
 
-async function fetchVimeoVideoDuration(videoId, accessToken) {
-  const url = `https://api.vimeo.com/videos/${videoId}`;
-  try {
-    const response = await fetch(url, {
+async function fetchAllVideoDurations(formationVideos, accessToken) {
+  let videoDurations = {};
+  const fetchPromises = formationVideos.map(videoId => {
+    const url = `https://api.vimeo.com/videos/${videoId}`;
+    return fetch(url, {
       headers: {
         'Authorization': `Bearer ${accessToken}`
       }
+    })
+    .then(response => response.json())
+    .then(data => {
+      videoDurations[videoId] = data.duration;
+    })
+    .catch(() => {
+      videoDurations[videoId] = 0;
     });
-
-    if (!response.ok) {
-      return 0;
-    }
-
-    const data = await response.json();
-    return data.duration;
-  } catch (error) {
-    return 0;
-  }
-}
-
-async function calculateFormationProgress(memberJson, formationVideos, formationName, accessToken) {
-  let totalProgress = 0;
-  let totalTime = 0;
-
-  const videoDurationsPromises = formationVideos.map(videoId =>
-    fetchVimeoVideoDuration(videoId, accessToken)
-  );
-
-  const videoDurations = await Promise.all(videoDurationsPromises);
-  
-  formationVideos.forEach((videoId, index) => {
-    if (memberJson.lessons && memberJson.lessons[videoId]) {
-      totalProgress += memberJson.lessons[videoId].time;
-    }
-    totalTime += videoDurations[index];
   });
 
-  localStorage.setItem(`videoDurations-${formationName}`, JSON.stringify(videoDurations));
-  return totalTime > 0 ? (totalProgress / totalTime) * 100 : 0;
+  await Promise.all(fetchPromises);
+  return videoDurations;
 }
 
-console.log('Déclenchement de updateProgressBars');
-document.addEventListener('updateProgressBars', async function() {
-  console.log('Updating progress bars...');
+async function calculateAndDisplayProgress() {
   const member = await window.$memberstackDom.getCurrentMember();
   if (member) {
     let memberJson = await window.$memberstackDom.getMemberJSON();
     let cleanedJson = cleanJson(memberJson);
 
-    const progressPromises = Object.entries(formations).map(([formationName, videoIds]) => 
-      calculateFormationProgress(cleanedJson, videoIds, formationName, accessToken)
-      .then(progress => {
-        const formationProgressElement = document.querySelector(`#progress-${formationName}`);
-        if (formationProgressElement) {
-          formationProgressElement.style.width = `${progress}%`;
-        }
-      })
-    );
+    for (const [formationName, videoIds] of Object.entries(formations)) {
+      const videoDurationsCache = await fetchAllVideoDurations(videoIds, accessToken);
+      localStorage.setItem(`videoDurations-${formationName}`, JSON.stringify(videoDurationsCache));
 
-    await Promise.all(progressPromises);
+      let totalProgress = 0;
+      let totalTime = Object.values(videoDurationsCache).reduce((sum, duration) => sum + duration, 0);
+
+      videoIds.forEach(videoId => {
+        if (cleanedJson.lessons && cleanedJson.lessons[videoId]) {
+          totalProgress += cleanedJson.lessons[videoId].time;
+        }
+      });
+
+      const progress = totalTime > 0 ? (totalProgress / totalTime) * 100 : 0;
+      const formationProgressElement = document.querySelector(`#progress-${formationName}`);
+      if (formationProgressElement) {
+        formationProgressElement.style.width = `${progress}%`;
+      }
+    }
   }
-  console.log('Progress bars updated.');
-});
+}
+
+console.log('Déclenchement de updateProgressBars');
+document.addEventListener('updateProgressBars', calculateAndDisplayProgress);
 
 document.dispatchEvent(new Event('updateProgressBars'));
 
