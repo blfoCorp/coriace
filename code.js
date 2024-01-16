@@ -43,7 +43,7 @@ const formations = {
   ]
  };
 
-const accessToken = 'c09f39f239fbdaf13857dd8f537d713d';
+ const accessToken = 'c09f39f239fbdaf13857dd8f537d713d';
 
 function cleanJson(json) {
   while (json.data) {
@@ -52,58 +52,67 @@ function cleanJson(json) {
   return json;
 }
 
-async function fetchAllVideoDurations(formationVideos, accessToken) {
-  let videoDurations = {};
-  const fetchPromises = formationVideos.map(videoId => {
-    const url = `https://api.vimeo.com/videos/${videoId}`;
-    return fetch(url, {
+async function fetchVimeoVideoDuration(videoId, videoDurationsCache, formationName) {
+
+  if (videoDurationsCache[videoId]) {
+    return videoDurationsCache[videoId];
+  }
+
+  const url = `https://api.vimeo.com/videos/${videoId}`;
+  try {
+    const response = await fetch(url, {
       headers: {
         'Authorization': `Bearer ${accessToken}`
       }
-    })
-    .then(response => response.json())
-    .then(data => {
-      videoDurations[videoId] = data.duration;
-    })
-    .catch(() => {
-      videoDurations[videoId] = 0;
     });
-  });
 
-  await Promise.all(fetchPromises);
-  return videoDurations;
+    if (!response.ok) {
+      return 0;
+    }
+
+    const data = await response.json();
+
+    videoDurationsCache[videoId] = data.duration;
+    localStorage.setItem(`videoDurations-${formationName}`, JSON.stringify(videoDurationsCache));
+    return data.duration;
+  } catch (error) {
+    return 0;
+  }
 }
 
-async function calculateAndDisplayProgress() {
+async function calculateFormationProgress(memberJson, formationVideos, formationName) {
+  let totalProgress = 0;
+  let totalTime = 0;
+
+  const videoDurationsCache = JSON.parse(localStorage.getItem(`videoDurations-${formationName}`)) || {};
+
+  for (const videoId of formationVideos) {
+    if (memberJson.lessons && memberJson.lessons[videoId]) {
+      totalProgress += memberJson.lessons[videoId].time;
+    }
+    totalTime += await fetchVimeoVideoDuration(videoId, videoDurationsCache, formationName);
+  }
+
+  return totalTime > 0 ? (totalProgress / totalTime) * 100 : 0;
+}
+
+console.log('Déclenchement de updateProgressBars');
+document.addEventListener('updateProgressBars', async function() {
+  console.log('Updating progress bars...');
   const member = await window.$memberstackDom.getCurrentMember();
   if (member) {
     let memberJson = await window.$memberstackDom.getMemberJSON();
     let cleanedJson = cleanJson(memberJson);
 
     for (const [formationName, videoIds] of Object.entries(formations)) {
-      const videoDurationsCache = await fetchAllVideoDurations(videoIds, accessToken);
-      localStorage.setItem(`videoDurations-${formationName}`, JSON.stringify(videoDurationsCache));
-
-      let totalProgress = 0;
-      let totalTime = Object.values(videoDurationsCache).reduce((sum, duration) => sum + duration, 0);
-
-      videoIds.forEach(videoId => {
-        if (cleanedJson.lessons && cleanedJson.lessons[videoId]) {
-          totalProgress += cleanedJson.lessons[videoId].time;
-        }
-      });
-
-      const progress = totalTime > 0 ? (totalProgress / totalTime) * 100 : 0;
+      const progress = await calculateFormationProgress(cleanedJson, videoIds, formationName);
       const formationProgressElement = document.querySelector(`#progress-${formationName}`);
       if (formationProgressElement) {
         formationProgressElement.style.width = `${progress}%`;
       }
     }
   }
-}
-
-console.log('Déclenchement de updateProgressBars');
-document.addEventListener('updateProgressBars', calculateAndDisplayProgress);
+  console.log('Progress bars updated.');
+});
 
 document.dispatchEvent(new Event('updateProgressBars'));
-
