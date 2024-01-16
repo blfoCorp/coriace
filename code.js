@@ -43,7 +43,7 @@ const formations = {
   ]
  };
 
- const accessToken = 'c09f39f239fbdaf13857dd8f537d713d';
+const accessToken = 'c09f39f239fbdaf13857dd8f537d713d';
 
 function cleanJson(json) {
   while (json.data) {
@@ -53,7 +53,6 @@ function cleanJson(json) {
 }
 
 async function fetchVimeoVideoDuration(videoId, videoDurationsCache, formationName) {
-
   if (videoDurationsCache[videoId]) {
     return videoDurationsCache[videoId];
   }
@@ -104,13 +103,17 @@ document.addEventListener('updateProgressBars', async function() {
     let memberJson = await window.$memberstackDom.getMemberJSON();
     let cleanedJson = cleanJson(memberJson);
 
-    for (const [formationName, videoIds] of Object.entries(formations)) {
-      const progress = await calculateFormationProgress(cleanedJson, videoIds, formationName);
-      const formationProgressElement = document.querySelector(`#progress-${formationName}`);
-      if (formationProgressElement) {
-        formationProgressElement.style.width = `${progress}%`;
-      }
-    }
+    const progressPromises = Object.entries(formations).map(([formationName, videoIds]) => 
+      calculateFormationProgress(cleanedJson, videoIds, formationName)
+      .then(progress => {
+        const formationProgressElement = document.querySelector(`#progress-${formationName}`);
+        if (formationProgressElement) {
+          formationProgressElement.style.width = `${progress}%`;
+        }
+      })
+    );
+
+    await Promise.all(progressPromises);
   }
   console.log('Progress bars updated.');
 });
