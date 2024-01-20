@@ -28,22 +28,23 @@ window.addEventListener('load', function() {
           if (daysSinceStart >= 30) { accessLevel = 2; }
           if (daysSinceStart >= 60) { accessLevel = 3; }
 
-          // Sélectionnez l'élément masque spécifique à cet item
-          var lessonMask = item.querySelector('.course_lesson-mask-wpdv');
+          var lessonMask = item.querySelector('#lessonMaskWpdv');
 
           if (paidId > accessLevel) {
             allItemsActive = false; // Indiquer qu'il y a au moins un élément inactif
             
-            // Vérifiez si l'élément masque existe et l'afficher
+            // Afficher l'élément masque et griser l'item
             if (lessonMask) {
-              lessonMask.style.display = 'block'; // Afficher l'élément masque
+              lessonMask.style.display = 'block';
             }
-            
+            item.style.opacity = '0.5'; // Griser l'item
+
           } else {
-            // Masquer l'élément masque s'il est visible
+            // Masquer l'élément masque et restaurer l'apparence de l'item
             if (lessonMask) {
-              lessonMask.style.display = 'none'; // Assurez-vous que l'élément masque est masqué si l'item est actif
+              lessonMask.style.display = 'none';
             }
+            item.style.opacity = '1'; // Restaurer l'opacité normale
           }
         });
 
