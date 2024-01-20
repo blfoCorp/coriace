@@ -23,23 +23,26 @@ window.addEventListener('load', function() {
 
         document.querySelectorAll('.course_lesson-item').forEach(function(item) {
           var paidId = parseInt(item.getAttribute('data-paid-id'), 10);
+
           var accessLevel = 1; // Exemple de logique, ajustez en fonction de votre logique d'accès
           if (daysSinceStart >= 30) { accessLevel = 2; }
           if (daysSinceStart >= 60) { accessLevel = 3; }
 
           if (paidId > accessLevel) {
             allItemsActive = false; // Indiquer qu'il y a au moins un élément inactif
-            // Attacher un gestionnaire d'événements click à l'élément
-            item.addEventListener('click', function(event) {
-              // Empêcher l'action par défaut si on clique sur un lien
-              if (event.target.classList.contains('course_lesson-link')) {
-                event.preventDefault();
-                window.location.href = "https://coriace.co"; // Remplacez avec votre URL spécifique
-              }
-            });
+
             // Modifier le style des liens pour indiquer qu'ils sont désactivés
             item.querySelectorAll('.course_lesson-link').forEach(function(link) {
               link.style.color = 'grey'; // Indiquer que le lien est désactivé
+              link.style.pointerEvents = 'auto'; // Permettre les événements de pointeur pour gérer le clic
+            });
+
+            // Attacher un gestionnaire d'événements click au conteneur
+            item.addEventListener('click', function(event) {
+              event.preventDefault(); // Empêcher l'action par défaut pour tous les clics dans l'élément
+              if (event.target.classList.contains('course_lesson-link')) {
+                window.location.href = "https://example.com"; // Rediriger si un lien inactif est cliqué
+              }
             });
           }
         });
