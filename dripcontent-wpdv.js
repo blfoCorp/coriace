@@ -6,7 +6,7 @@ window.addEventListener('load', function() {
     var allItemsActive = true; // Variable pour suivre si tous les éléments sont actifs
 
     if (userData && userData.metaData && userData.metaData.start_date_wf_wpdv && userData.planConnections) {
-      var validPlanIds = "pln_formation-webflow-page-de-vente-3-fois--ul110zw2"; // Remplacez avec vos plans IDs
+      var validPlanIds = ["pln_formation-webflow-page-de-vente-3-fois--ul110zw2"]; // Remplacez avec vos plans IDs en tableau si plusieurs
       
       var hasRequiredPlan = userData.planConnections.some(function(plan) {
         return validPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
@@ -23,17 +23,23 @@ window.addEventListener('load', function() {
 
         document.querySelectorAll('.course_lesson-item').forEach(function(item) {
           var paidId = parseInt(item.getAttribute('data-paid-id'), 10);
-
           var accessLevel = 1; // Exemple de logique, ajustez en fonction de votre logique d'accès
           if (daysSinceStart >= 30) { accessLevel = 2; }
           if (daysSinceStart >= 60) { accessLevel = 3; }
 
           if (paidId > accessLevel) {
             allItemsActive = false; // Indiquer qu'il y a au moins un élément inactif
+            // Attacher un gestionnaire d'événements click à l'élément
+            item.addEventListener('click', function(event) {
+              // Empêcher l'action par défaut si on clique sur un lien
+              if (event.target.classList.contains('course_lesson-link')) {
+                event.preventDefault();
+                window.location.href = "https://coriace.co"; // Remplacez avec votre URL spécifique
+              }
+            });
+            // Modifier le style des liens pour indiquer qu'ils sont désactivés
             item.querySelectorAll('.course_lesson-link').forEach(function(link) {
-              link.style.pointerEvents = 'none';
               link.style.color = 'grey'; // Indiquer que le lien est désactivé
-              link.onclick = function() { window.location.href = "https://googel.com"; } // Remplacez avec votre URL spécifique
             });
           }
         });
