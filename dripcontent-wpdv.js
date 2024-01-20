@@ -29,7 +29,7 @@ window.addEventListener('load', function() {
           if (daysSinceStart >= 60) { accessLevel = 3; }
 
           // Sélectionnez l'élément masque spécifique à cet item
-          var lessonMask = item.querySelector('#lessonMaskWpdv');
+          var lessonMask = item.querySelector('.course_lesson-mask-wpdv');
 
           if (paidId > accessLevel) {
             allItemsActive = false; // Indiquer qu'il y a au moins un élément inactif
