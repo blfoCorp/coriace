@@ -28,13 +28,22 @@ window.addEventListener('load', function() {
           if (daysSinceStart >= 30) { accessLevel = 2; }
           if (daysSinceStart >= 60) { accessLevel = 3; }
 
+          // Sélectionnez l'élément masque spécifique à cet item
+          var lessonMask = item.querySelector('#lessonMaskWpdv');
+
           if (paidId > accessLevel) {
             allItemsActive = false; // Indiquer qu'il y a au moins un élément inactif
-            // Modifier le href des liens pour pointer vers l'URL spécifiée
-            item.querySelectorAll('.course_lesson-link').forEach(function(link) {
-              link.setAttribute('href', "https://coriace.co"); // Remplacez avec votre URL spécifique
-              link.style.color = 'grey'; // Indiquer que le lien est désactivé
-            });
+            
+            // Vérifiez si l'élément masque existe et l'afficher
+            if (lessonMask) {
+              lessonMask.style.display = 'block'; // Afficher l'élément masque
+            }
+            
+          } else {
+            // Masquer l'élément masque s'il est visible
+            if (lessonMask) {
+              lessonMask.style.display = 'none'; // Assurez-vous que l'élément masque est masqué si l'item est actif
+            }
           }
         });
 
