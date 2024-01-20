@@ -77,4 +77,4 @@ window.addEventListener('load', function() {
   checkMemberPlan();
 });
 
-/*-- FIN
+/*-- FIN : Drip Content paiement en plusieurs fois --*/
