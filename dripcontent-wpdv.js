@@ -21,6 +21,8 @@ window.addEventListener('load', function() {
         
         var daysSinceStart = Math.floor((nowUTC - startDateUTC) / (1000 * 60 * 60 * 24));
 
+        var lessonMasks = document.querySelectorAll('.course_lesson-mask-wpdv');
+
         document.querySelectorAll('.course_lesson-item').forEach(function(item) {
           var paidId = parseInt(item.getAttribute('data-paid-id'), 10);
 
@@ -28,24 +30,17 @@ window.addEventListener('load', function() {
           if (daysSinceStart >= 30) { accessLevel = 2; }
           if (daysSinceStart >= 60) { accessLevel = 3; }
 
-          var lessonMask = item.querySelector('.course_lesson-mask-wpdv');
-
           if (paidId > accessLevel) {
             allItemsActive = false; // Indiquer qu'il y a au moins un élément inactif
-            
-            // Afficher l'élément masque et griser l'item
-            if (lessonMask) {
-              lessonMask.style.display = 'block';
-            }
             item.style.opacity = '0.5'; // Griser l'item
-
           } else {
-            // Masquer l'élément masque et restaurer l'apparence de l'item
-            if (lessonMask) {
-              lessonMask.style.display = 'none';
-            }
             item.style.opacity = '1'; // Restaurer l'opacité normale
           }
+        });
+
+        // Afficher ou masquer les masques en fonction de l'état de tous les éléments
+        lessonMasks.forEach(function(mask) {
+          mask.style.display = allItemsActive ? 'none' : 'block';
         });
 
         // Masquer l'élément 'courseNavigationWpdv' si tous les éléments ne sont pas actifs
