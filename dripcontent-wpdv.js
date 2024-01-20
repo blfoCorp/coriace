@@ -5,7 +5,7 @@ window.addEventListener('load', function() {
     var userData = JSON.parse(localStorage.getItem('_ms-mem'));
     var allItemsActive = true; // Variable pour suivre si tous les éléments sont actifs
 
-    if (userData && userData.metaData && userData.metaData.start_date && userData.planConnections) {
+    if (userData && userData.metaData && userData.metaData.start_date_wf_wpdv && userData.planConnections) {
       var validPlanIds = "pln_formation-webflow-page-de-vente-3-fois--ul110zw2"; // Remplacez avec vos plans IDs
       
       var hasRequiredPlan = userData.planConnections.some(function(plan) {
