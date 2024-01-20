@@ -13,7 +13,7 @@ window.addEventListener('load', function() {
       });
 
       if (hasRequiredPlan) {
-        var startDate = new Date(userData.metaData.start_date);
+        var startDate = new Date(userData.metaData.start_date_wf_wpdv);
         var startDateUTC = Date.UTC(startDate.getUTCFullYear(), startDate.getUTCMonth(), startDate.getUTCDate(), startDate.getUTCHours(), startDate.getUTCMinutes(), startDate.getUTCSeconds());
         
         var now = new Date();
