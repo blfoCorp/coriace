@@ -10,7 +10,7 @@ window.addEventListener('load', function() {
       console.log("Informations du membre récupérées depuis le localStorage :", userData);
 
       // Liste des IDs de plan qui déclenchent le drip content
-      var validPlanIds = ["VotrePlanId1", "VotrePlanId2", "VotrePlanId3"]; // Remplacez ces valeurs par les IDs réels de vos plans
+      var validPlanIds = "pln_formation-webflow-page-de-vente-3-fois--ul110zw2";
 
       // Vérifier si l'utilisateur a un des plans actifs spécifiques
       var hasRequiredPlan = userData.planConnections.some(function(plan) {
