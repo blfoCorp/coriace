@@ -21,8 +21,10 @@ window.addEventListener('load', function() {
 
       console.log(`Has required plan: ${hasRequiredPlan}`);
       if (hasRequiredPlan) {
-        var startDate = new Date(userData.metaData.start_date_wf_wpdv);
-        console.log(`Start date from metadata: ${startDate}`);
+        // Utiliser la méthode ISOString de Date pour convertir la date locale en UTC
+        var startDateISOString = userData.metaData.start_date_wf_wpdv;
+        var startDate = new Date(startDateISOString);
+        console.log(`Start date from metadata (ISO String): ${startDate.toISOString()}`);
         
         var daysForLevel2 = 30; // Nombre de jours après lesquels le niveau 2 est disponible
         var daysForLevel3 = 60; // Nombre de jours après lesquels le niveau 3 est disponible
