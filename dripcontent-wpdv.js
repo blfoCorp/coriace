@@ -4,67 +4,75 @@ window.addEventListener('load', function() {
   function calculateDaysLeft(startDate, daysToAdd) {
     var futureDate = new Date(startDate.getTime());
     futureDate.setDate(futureDate.getDate() + daysToAdd);
-    return Math.max(Math.floor((futureDate - new Date()) / (1000 * 60 * 60 * 24)), 0);
+    var daysLeft = Math.max(Math.floor((futureDate - new Date()) / (1000 * 60 * 60 * 24)), 0);
+    console.log(`Days left for add ${daysToAdd} days: ${daysLeft}`);
+    return daysLeft;
   }
 
   function checkMemberPlan() {
     var userData = JSON.parse(localStorage.getItem('_ms-mem'));
+    console.log('User data:', userData);
     var allItemsActive = true; // Variable pour suivre si tous les éléments sont actifs
 
     if (userData && userData.metaData && userData.metaData.start_date_wf_wpdv && userData.planConnections) {
       var validPlanIds = ["pln_formation-webflow-page-de-vente-3-fois--ul110zw2"]; // Remplacez avec vos plans IDs en tableau si plusieurs
+      console.log('Valid plan IDs:', validPlanIds);
+      
       var hasRequiredPlan = userData.planConnections.some(function(plan) {
-        return validPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
+        var isPlanActive = validPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
+        console.log(`Plan ${plan.planId} is active: ${isPlanActive}`);
+        return isPlanActive;
       });
 
+      console.log(`Has required plan: ${hasRequiredPlan}`);
       if (hasRequiredPlan) {
         var startDate = new Date(userData.metaData.start_date_wf_wpdv);
+        console.log(`Start date: ${startDate}`);
         var daysForLevel2 = 30; // Remplacez par le nombre de jours après lesquels le niveau 2 est disponible
         var daysForLevel3 = 60; // Remplacez par le nombre de jours après lesquels le niveau 3 est disponible
-        var startDateUTC = Date.UTC(startDate.getUTCFullYear(), startDate.getUTCMonth(), startDate.getUTCDate(), startDate.getUTCHours(), startDate.getUTCMinutes(), startDate.getUTCSeconds());
-        var now = new Date();
-        var nowUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
-        var daysSinceStart = Math.floor((nowUTC - startDateUTC) / (1000 * 60 * 60 * 24));
-        var accessLevel = 1; // Définir le niveau d'accès initial
 
-        // Mise à jour du niveau d'accès basé sur les jours écoulés
-        if (daysSinceStart >= daysForLevel2) { accessLevel = 2; }
-        if (daysSinceStart >= daysForLevel3) { accessLevel = 3; }
+        var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
+        var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
 
-        document.querySelectorAll('.course_lesson-item').forEach(function(item) {
+        document.querySelectorAll('.course_lesson-item').forEach(function(item, index) {
           var paidId = parseInt(item.getAttribute('data-paid-id'), 10);
+          console.log(`Item ${index}, paidId: ${paidId}`);
+
+          var daysLeft = paidId === 2 ? timeLeftForLevel2 : timeLeftForLevel3;
+          console.log(`Days left for paidId ${paidId}: ${daysLeft}`);
+
+          var courseTimeLeftElement = item.querySelector('#courseTimeLeft');
+          if (courseTimeLeftElement) {
+            courseTimeLeftElement.textContent = daysLeft + " jours";
+            console.log(`Updated #courseTimeLeft for item ${index} to: ${daysLeft} jours`);
+          }
+
           var lessonMask = item.querySelector('.course_lesson-mask-wpdv');
 
-          if (paidId > accessLevel) {
+          if (paidId > 1 && daysLeft > 0) {
             allItemsActive = false; // Indiquer qu'il y a au moins un élément inactif
             item.style.opacity = '0.5'; // Griser l'item
             if (lessonMask) {
               lessonMask.style.display = 'block';
+              console.log(`Displayed lesson mask for item ${index}`);
             }
-
-            // Afficher le temps restant uniquement si le niveau de leçon est supérieur au niveau d'accès actuel
-            if (paidId === 2 || paidId === 3) {
-              var daysLeft = calculateDaysLeft(startDate, paidId === 2 ? daysForLevel2 : daysForLevel3);
-              var courseTimeLeftElement = item.querySelector('#courseTimeLeft');
-              if (courseTimeLeftElement) {
-                courseTimeLeftElement.textContent = daysLeft + " jours";
-              }
-            }
-
           } else {
             item.style.opacity = '1'; // Restaurer l'opacité normale
             if (lessonMask) {
               lessonMask.style.display = 'none';
+              console.log(`Hid lesson mask for item ${index}`);
             }
           }
         });
 
         // Masquer l'élément 'courseNavigationWpdv' si tous les éléments ne sont pas actifs
-        if (!allItemsActive) {
-          var courseNavigation = document.getElementById('courseNavigationWpdv');
-          if (courseNavigation) {
-            courseNavigation.style.display = 'none';
-          }
+        var courseNavigation = document.getElementById('courseNavigationWpdv');
+        if (!allItemsActive && courseNavigation) {
+          courseNavigation.style.display = 'none';
+          console.log('courseNavigationWpdv is hidden');
+        } else if (courseNavigation) {
+          courseNavigation.style.display = 'block';
+          console.log('courseNavigationWpdv is shown');
         }
       } else {
         console.log("L'utilisateur n'est pas sur un des plans requis pour ce contenu.");
