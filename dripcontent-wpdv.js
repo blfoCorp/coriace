@@ -32,19 +32,20 @@ window.addEventListener('load', function() {
 
           if (paidId > accessLevel) {
             allItemsActive = false; // Indiquer qu'il y a au moins un élément inactif
+            item.style.opacity = '0.5'; // Griser l'item
             
-            // Afficher l'élément masque et griser l'item
+            // Afficher l'élément masque
             if (lessonMask) {
               lessonMask.style.display = 'block';
             }
-            item.style.opacity = '0.5'; // Griser l'item
 
           } else {
-            // Masquer l'élément masque et restaurer l'apparence de l'item
+            item.style.opacity = '1'; // Restaurer l'opacité normale
+
+            // Masquer l'élément masque
             if (lessonMask) {
               lessonMask.style.display = 'none';
             }
-            item.style.opacity = '1'; // Restaurer l'opacité normale
           }
         });
 
