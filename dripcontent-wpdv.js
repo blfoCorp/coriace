@@ -1,6 +1,12 @@
 /*-- DÉBUT : Drip Content paiement en plusieurs fois --*/
 
 window.addEventListener('load', function() {
+  function calculateDaysLeft(startDate, daysToAdd) {
+    var futureDate = new Date(startDate.getTime());
+    futureDate.setDate(futureDate.getDate() + daysToAdd);
+    return Math.max(Math.floor((futureDate - new Date()) / (1000 * 60 * 60 * 24)), 0);
+  }
+
   function checkMemberPlan() {
     var userData = JSON.parse(localStorage.getItem('_ms-mem'));
     var allItemsActive = true; // Variable pour suivre si tous les éléments sont actifs
@@ -14,35 +20,30 @@ window.addEventListener('load', function() {
 
       if (hasRequiredPlan) {
         var startDate = new Date(userData.metaData.start_date_wf_wpdv);
-        var startDateUTC = Date.UTC(startDate.getUTCFullYear(), startDate.getUTCMonth(), startDate.getUTCDate(), startDate.getUTCHours(), startDate.getUTCMinutes(), startDate.getUTCSeconds());
-        
-        var now = new Date();
-        var nowUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
-        
-        var daysSinceStart = Math.floor((nowUTC - startDateUTC) / (1000 * 60 * 60 * 24));
+        var daysForLevel2 = 30; // Remplacez par le nombre de jours après lesquels le niveau 2 est disponible
+        var daysForLevel3 = 60; // Remplacez par le nombre de jours après lesquels le niveau 3 est disponible
+
+        var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
+        var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
 
         document.querySelectorAll('.course_lesson-item').forEach(function(item) {
           var paidId = parseInt(item.getAttribute('data-paid-id'), 10);
-
-          var accessLevel = 1; // Exemple de logique, ajustez en fonction de votre logique d'accès
-          if (daysSinceStart >= 30) { accessLevel = 2; }
-          if (daysSinceStart >= 60) { accessLevel = 3; }
-
           var lessonMask = item.querySelector('.course_lesson-mask-wpdv');
+
+          var daysLeft = paidId === 2 ? timeLeftForLevel2 : timeLeftForLevel3;
+          var courseTimeLeftElement = item.querySelector('#courseTimeLeft');
+          if (courseTimeLeftElement) {
+            courseTimeLeftElement.textContent = daysLeft + " jours";
+          }
 
           if (paidId > accessLevel) {
             allItemsActive = false; // Indiquer qu'il y a au moins un élément inactif
             item.style.opacity = '0.5'; // Griser l'item
-            
-            // Afficher l'élément masque
             if (lessonMask) {
               lessonMask.style.display = 'block';
             }
-
           } else {
             item.style.opacity = '1'; // Restaurer l'opacité normale
-
-            // Masquer l'élément masque
             if (lessonMask) {
               lessonMask.style.display = 'none';
             }
