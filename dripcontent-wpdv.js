@@ -19,52 +19,40 @@ window.addEventListener('load', function() {
         return validPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
       });
 
-      console.log(`Has required plan: ${hasRequiredPlan}`);
       if (hasRequiredPlan) {
-        // Utiliser la méthode ISOString de Date pour convertir la date locale en UTC
-        var startDateISOString = userData.metaData.start_date_wf_wpdv;
-        var startDate = new Date(startDateISOString);
-        console.log(`Start date from metadata (ISO String): ${startDate.toISOString()}`);
-        
+        var startDate = new Date(userData.metaData.start_date_wf_wpdv);
         var daysForLevel2 = 30; // Nombre de jours après lesquels le niveau 2 est disponible
         var daysForLevel3 = 60; // Nombre de jours après lesquels le niveau 3 est disponible
         var now = new Date();
         var daysSinceStart = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-        console.log(`Days since start: ${daysSinceStart}`);
         
         var accessLevel = 1; // Définir le niveau d'accès initial
-        if (daysSinceStart >= daysForLevel2) { accessLevel = 2; } // Mise à jour de l'accès pour le niveau 2
-        if (daysSinceStart >= daysForLevel3) { accessLevel = 3; } // Mise à jour de l'accès pour le niveau 3
+        if (daysSinceStart >= daysForLevel2) { accessLevel = 2; }
+        if (daysSinceStart >= daysForLevel3) { accessLevel = 3; }
 
-        document.querySelectorAll('.course_lesson-item').forEach(function(item, index) {
+        // Mettre à jour les éléments span avec le temps restant pour les niveaux 2 et 3
+        var timeLeftSpanLevel2 = document.getElementById('courseTimeLeft2'); // ID pour le niveau 2
+        var timeLeftSpanLevel3 = document.getElementById('courseTimeLeft3'); // ID pour le niveau 3
+        var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
+        var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
+
+        if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2 + " jours";
+        if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3 + " jours";
+
+        document.querySelectorAll('.course_lesson-item').forEach(function(item) {
           var paidId = parseInt(item.getAttribute('data-paid-id'), 10);
           var lessonMask = item.querySelector('.course_lesson-mask-wpdv');
 
-          // Calcul du temps restant pour les niveaux 2 et 3
-          var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2 - daysSinceStart);
-          var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3 - daysSinceStart);
-          var daysLeft = (paidId === 2) ? timeLeftForLevel2 : (paidId === 3) ? timeLeftForLevel3 : 0;
-
-          if (paidId === 2 || paidId === 3) {
-            var courseTimeLeftElement = item.querySelector('#courseTimeLeft');
-            if (courseTimeLeftElement) {
-              courseTimeLeftElement.textContent = daysLeft + " jours";
-              console.log(`Updated #courseTimeLeft for item ${index} to: ${daysLeft} jours`);
-            }
-          }
-
           if (paidId > accessLevel) {
-            allItemsActive = false; // Il y a au moins un élément inactif
+            allItemsActive = false; // Indiquer qu'il y a au moins un élément inactif
             item.style.opacity = '0.5'; // Griser l'item
             if (lessonMask) {
               lessonMask.style.display = 'block'; // Afficher le masque
-              console.log(`Displayed lesson mask for item ${index}`);
             }
           } else {
             item.style.opacity = '1'; // Restaurer l'opacité normale
             if (lessonMask) {
               lessonMask.style.display = 'none'; // Masquer le masque
-              console.log(`Hid lesson mask for item ${index}`);
             }
           }
         });
@@ -72,10 +60,8 @@ window.addEventListener('load', function() {
         var courseNavigation = document.getElementById('courseNavigationWpdv');
         if (!allItemsActive && courseNavigation) {
           courseNavigation.style.display = 'none';
-          console.log('courseNavigationWpdv is hidden because not all items are active.');
         } else if (courseNavigation) {
           courseNavigation.style.display = 'block';
-          console.log('courseNavigationWpdv is shown because all items are active.');
         }
       } else {
         console.log("L'utilisateur n'est pas sur un des plans requis pour ce contenu.");
