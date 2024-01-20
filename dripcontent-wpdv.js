@@ -13,7 +13,6 @@ window.addEventListener('load', function() {
 
     if (userData && userData.metaData && userData.metaData.start_date_wf_wpdv && userData.planConnections) {
       var validPlanIds = ["pln_formation-webflow-page-de-vente-3-fois--ul110zw2"]; // Remplacez avec vos plans IDs en tableau si plusieurs
-      
       var hasRequiredPlan = userData.planConnections.some(function(plan) {
         return validPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
       });
@@ -22,19 +21,19 @@ window.addEventListener('load', function() {
         var startDate = new Date(userData.metaData.start_date_wf_wpdv);
         var daysForLevel2 = 30; // Remplacez par le nombre de jours après lesquels le niveau 2 est disponible
         var daysForLevel3 = 60; // Remplacez par le nombre de jours après lesquels le niveau 3 est disponible
+        var startDateUTC = Date.UTC(startDate.getUTCFullYear(), startDate.getUTCMonth(), startDate.getUTCDate(), startDate.getUTCHours(), startDate.getUTCMinutes(), startDate.getUTCSeconds());
+        var now = new Date();
+        var nowUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+        var daysSinceStart = Math.floor((nowUTC - startDateUTC) / (1000 * 60 * 60 * 24));
+        var accessLevel = 1; // Définir le niveau d'accès initial
 
-        var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
-        var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
+        // Mise à jour du niveau d'accès basé sur les jours écoulés
+        if (daysSinceStart >= daysForLevel2) { accessLevel = 2; }
+        if (daysSinceStart >= daysForLevel3) { accessLevel = 3; }
 
         document.querySelectorAll('.course_lesson-item').forEach(function(item) {
           var paidId = parseInt(item.getAttribute('data-paid-id'), 10);
           var lessonMask = item.querySelector('.course_lesson-mask-wpdv');
-
-          var daysLeft = paidId === 2 ? timeLeftForLevel2 : timeLeftForLevel3;
-          var courseTimeLeftElement = item.querySelector('#courseTimeLeft');
-          if (courseTimeLeftElement) {
-            courseTimeLeftElement.textContent = daysLeft + " jours";
-          }
 
           if (paidId > accessLevel) {
             allItemsActive = false; // Indiquer qu'il y a au moins un élément inactif
@@ -42,6 +41,16 @@ window.addEventListener('load', function() {
             if (lessonMask) {
               lessonMask.style.display = 'block';
             }
+
+            // Afficher le temps restant uniquement si le niveau de leçon est supérieur au niveau d'accès actuel
+            if (paidId === 2 || paidId === 3) {
+              var daysLeft = calculateDaysLeft(startDate, paidId === 2 ? daysForLevel2 : daysForLevel3);
+              var courseTimeLeftElement = item.querySelector('#courseTimeLeft');
+              if (courseTimeLeftElement) {
+                courseTimeLeftElement.textContent = daysLeft + " jours";
+              }
+            }
+
           } else {
             item.style.opacity = '1'; // Restaurer l'opacité normale
             if (lessonMask) {
@@ -68,4 +77,4 @@ window.addEventListener('load', function() {
   checkMemberPlan();
 });
 
-/*-- FIN : Drip Content paiement en plusieurs fois --*/
+/*-- FIN
