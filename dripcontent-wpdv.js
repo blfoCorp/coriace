@@ -3,7 +3,6 @@
 window.addEventListener('load', function() {
   function checkMemberPlan() {
     var userData = JSON.parse(localStorage.getItem('_ms-mem'));
-    console.log("Données utilisateur chargées :", userData);
     var allItemsActive = true; // Variable pour suivre si tous les éléments sont actifs
 
     if (userData && userData.metaData && userData.metaData.start_date_wf_wpdv && userData.planConnections) {
