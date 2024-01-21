@@ -6,7 +6,7 @@ window.addEventListener('load', function() {
     var userData = JSON.parse(localStorage.getItem('_ms-mem'));
 
     // Vérifier si les données du membre, la date de début et les informations de plan sont disponibles
-    if (userData && userData.metaData && userData.metaData.start_date && userData.planConnections) {
+    if (userData && userData.metaData && userData.metaData.start_date_wf_eco && userData.planConnections) {
       console.log("Informations du membre récupérées depuis le localStorage :", userData);
 
       // Liste des IDs de plan qui déclenchent le drip content
@@ -19,7 +19,7 @@ window.addEventListener('load', function() {
 
       if (hasRequiredPlan) {
         // Convertir la date de début en UTC
-        var startDate = new Date(userData.metaData.start_date);
+        var startDate = new Date(userData.metaData.start_date_wf_eco);
         var startDateUTC = Date.UTC(startDate.getUTCFullYear(), startDate.getUTCMonth(), startDate.getUTCDate(), startDate.getUTCHours(), startDate.getUTCMinutes(), startDate.getUTCSeconds());
         console.log("Date de début UTC récupérée :", new Date(startDateUTC));
 
