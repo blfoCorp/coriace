@@ -57,7 +57,7 @@ window.addEventListener('load', function() {
           }
         });
 
-        var courseNavigation = document.getElementById('courseNavigationWpdv');
+        var courseNavigation = document.getElementById('courseNavigationEco');
         if (!allItemsActive && courseNavigation) {
           courseNavigation.style.display = 'none';
         } else if (courseNavigation) {
