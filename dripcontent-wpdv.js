@@ -61,7 +61,7 @@ window.addEventListener('load', function() {
         if (!allItemsActive && courseNavigation) {
           courseNavigation.style.display = 'none';
         } else if (courseNavigation) {
-          courseNavigation.style.display = 'block';
+          courseNavigation.style.display = 'flex';
         }
       } else {
         console.log("L'utilisateur n'est pas sur un des plans requis pour ce contenu.");
