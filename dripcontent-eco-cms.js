@@ -1,64 +1,68 @@
 /*-- DÉBUT : Drip Content paiement en plusieurs fois --*/
 
 window.addEventListener('load', function() {
+  function calculateDaysLeft(startDate, daysToAdd) {
+    var futureDate = new Date(startDate.getTime());
+    futureDate.setDate(futureDate.getDate() + daysToAdd);
+    return Math.max(Math.floor((futureDate - new Date()) / (1000 * 60 * 60 * 24)), 0);
+  }
+
   function checkMemberPlan() {
-    // Récupérer les données du membre depuis le localStorage
     var userData = JSON.parse(localStorage.getItem('_ms-mem'));
+    console.log('User data:', userData);
+    var allItemsActive = true; // Variable pour suivre si tous les éléments sont actifs
 
-    // Vérifier si les données du membre, la date de début et les informations de plan sont disponibles
     if (userData && userData.metaData && userData.metaData.start_date_wf_eco && userData.planConnections) {
-      console.log("Informations du membre récupérées depuis le localStorage :", userData);
-
-      // Liste des IDs de plan qui déclenchent le drip content
-      var validPlanIds = "pln_formation-webflow-e-commerce-cms-3-fois--y110qun";
-
-      // Vérifier si l'utilisateur a un des plans actifs spécifiques
+      var validPlanIds = ["pln_formation-webflow-page-de-vente-3-fois--ul110zw2"]; // Remplacez avec vos plans IDs en tableau si plusieurs
+      
       var hasRequiredPlan = userData.planConnections.some(function(plan) {
         return validPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
       });
 
       if (hasRequiredPlan) {
-        // Convertir la date de début en UTC
         var startDate = new Date(userData.metaData.start_date_wf_eco);
-        var startDateUTC = Date.UTC(startDate.getUTCFullYear(), startDate.getUTCMonth(), startDate.getUTCDate(), startDate.getUTCHours(), startDate.getUTCMinutes(), startDate.getUTCSeconds());
-        console.log("Date de début UTC récupérée :", new Date(startDateUTC));
-
-        // Convertir la date actuelle en UTC
+        var daysForLevel2 = 30; // Nombre de jours après lesquels le niveau 2 est disponible
+        var daysForLevel3 = 60; // Nombre de jours après lesquels le niveau 3 est disponible
         var now = new Date();
-        var nowUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
-        console.log("Date actuelle UTC :", new Date(nowUTC));
+        var daysSinceStart = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
         
-        // Calculer la différence en jours
-        var daysSinceStart = Math.floor((nowUTC - startDateUTC) / (1000 * 60 * 60 * 24));
-        console.log(`Jours depuis le début : ${daysSinceStart}`);
+        var accessLevel = 1; // Définir le niveau d'accès initial
+        if (daysSinceStart >= daysForLevel2) { accessLevel = 2; }
+        if (daysSinceStart >= daysForLevel3) { accessLevel = 3; }
 
-        // Sélectionner tous les éléments '.course_lesson-item'
+        // Mettre à jour les éléments span avec le temps restant pour les niveaux 2 et 3
+        var timeLeftSpanLevel2 = document.getElementById('courseTimeLeft2'); // ID pour le niveau 2
+        var timeLeftSpanLevel3 = document.getElementById('courseTimeLeft3'); // ID pour le niveau 3
+        var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
+        var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
+
+        if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2 + " jours";
+        if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3 + " jours";
+
         document.querySelectorAll('.course_lesson-item').forEach(function(item) {
           var paidId = parseInt(item.getAttribute('data-paid-id'), 10);
-          console.log(`Traitement de l'élément, data-paid-id : ${paidId}`);
+          var lessonMask = item.querySelector('.course_lesson-mask-wpdv');
 
-          // Déterminer le niveau d'accès en fonction des jours écoulés
-          var accessLevel = 1; // Accès immédiat pour data-paid-id = 1
-          if (daysSinceStart >= 30) { // Remplacer par 30 pour des jours réels
-            accessLevel = 2; // Accès après 1 jour pour data-paid-id = 2
-          }
-          if (daysSinceStart >= 60) { // Remplacer par 60 pour des jours réels
-            accessLevel = 3; // Accès après 2 jours pour data-paid-id = 3
-          }
-
-          // Vérifier le niveau d'accès et désactiver les liens si nécessaire
           if (paidId > accessLevel) {
-            console.log(`Élément avec data-paid-id ${paidId} bloqué (Niveau d'accès requis : ${accessLevel})`);
-            item.querySelectorAll('.course_lesson-link').forEach(function(link) {
-              link.style.pointerEvents = 'none';
-              link.style.color = 'grey'; // Change l'apparence pour indiquer que le lien est désactivé
-              console.log(`Lien désactivé dans l'élément avec data-paid-id ${paidId}`);
-            });
+            allItemsActive = false; // Indiquer qu'il y a au moins un élément inactif
+            item.style.opacity = '0.5'; // Griser l'item
+            if (lessonMask) {
+              lessonMask.style.display = 'block'; // Afficher le masque
+            }
           } else {
-            console.log(`Élément avec data-paid-id ${paidId} est accessible`);
-            // Optionnel : Changez l'apparence des éléments accessibles ici si nécessaire
+            item.style.opacity = '1'; // Restaurer l'opacité normale
+            if (lessonMask) {
+              lessonMask.style.display = 'none'; // Masquer le masque
+            }
           }
         });
+
+        var courseNavigation = document.getElementById('courseNavigationWpdv');
+        if (!allItemsActive && courseNavigation) {
+          courseNavigation.style.display = 'none';
+        } else if (courseNavigation) {
+          courseNavigation.style.display = 'block';
+        }
       } else {
         console.log("L'utilisateur n'est pas sur un des plans requis pour ce contenu.");
       }
@@ -67,7 +71,6 @@ window.addEventListener('load', function() {
     }
   }
 
-  // Appeler la fonction pour vérifier le plan du membre
   checkMemberPlan();
 });
 
