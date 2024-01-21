@@ -13,7 +13,7 @@ window.addEventListener('load', function() {
     var allItemsActive = true; // Variable pour suivre si tous les éléments sont actifs
 
     if (userData && userData.metaData && userData.metaData.start_date_wf_eco && userData.planConnections) {
-      var validPlanIds = ["pln_formation-webflow-page-de-vente-3-fois--ul110zw2"]; // Remplacez avec vos plans IDs en tableau si plusieurs
+      var validPlanIds = ["pln_formation-webflow-e-commerce-cms-3-fois--y110qun"]; // Remplacez avec vos plans IDs en tableau si plusieurs
       
       var hasRequiredPlan = userData.planConnections.some(function(plan) {
         return validPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
