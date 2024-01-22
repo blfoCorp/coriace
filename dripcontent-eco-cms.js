@@ -36,8 +36,8 @@ window.addEventListener('load', function() {
         var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
         var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
 
-        if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2 + " jours";
-        if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3 + " jours";
+        if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2;
+        if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3;
 
         var courseTimeLeftCard2 = document.getElementById('courseTimeLeftCard2'); // Obtenez l'élément par son ID
 
