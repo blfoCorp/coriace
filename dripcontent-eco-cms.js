@@ -12,10 +12,14 @@ window.addEventListener('load', function() {
     console.log('User data:', userData);
 
     if (userData && userData.metaData && userData.metaData.start_date_wf_eco && userData.planConnections) {
-      var validPlanIds = ["pln_formation-webflow-e-commerce-cms-3-fois--y110qun"]; // Remplacez avec vos plans IDs en tableau si plusieurs
+      var validPlanIds = ["pln_formation-webflow-e-commerce-cms-3-fois--y110qun", "pln_formation-webflow-e-commerce-cms-kb40awg"]; // Ajout du plan spécifique
       
       var hasRequiredPlan = userData.planConnections.some(function(plan) {
         return validPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
+      });
+
+      var hasSpecialPlan = userData.planConnections.some(function(plan) {
+        return plan.planId === "pln_formation-webflow-e-commerce-cms-kb40awg" && plan.status === "ACTIVE";
       });
 
       if (hasRequiredPlan) {
@@ -29,62 +33,43 @@ window.addEventListener('load', function() {
         if (daysSinceStart >= daysForLevel2) { accessLevel = 2; }
         if (daysSinceStart >= daysForLevel3) { accessLevel = 3; }
 
-        // Mettre à jour les éléments span avec le temps restant pour les niveaux 2 et 3
-        var timeLeftSpanLevel2 = document.getElementById('courseTimeLeft2'); // ID pour le niveau 2
-        var timeLeftSpanLevel3 = document.getElementById('courseTimeLeft3'); // ID pour le niveau 3
+        var timeLeftSpanLevel2 = document.getElementById('courseTimeLeft2');
+        var timeLeftSpanLevel3 = document.getElementById('courseTimeLeft3');
         var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
         var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
 
         if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2 + " jours";
         if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3 + " jours";
 
-        // Masquer l'élément 'courseTimeLeftCard2', mettre à jour 'courseTimeLeftPrice' et le lien 'courseTimeLeftButton'
         var courseTimeLeftCard2 = document.getElementById('courseTimeLeftCard2');
         var courseTimeLeftPrice = document.getElementById('courseTimeLeftPrice');
         var courseTimeLeftButton = document.getElementById('courseTimeLeftButton');
 
         if (daysSinceStart >= daysForLevel2) {
-          if (courseTimeLeftCard2) {
-            courseTimeLeftCard2.style.display = 'none';
-          }
-          if (courseTimeLeftPrice) {
-            courseTimeLeftPrice.textContent = "60€";
-          }
-          if (courseTimeLeftButton) {
-            courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-webflow-ecommerce-cms-60/etape/commande-webflow-ecommerce-cms-60/";
-          }
+          if (courseTimeLeftCard2) courseTimeLeftCard2.style.display = 'none';
+          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "60€";
+          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-webflow-ecommerce-cms-60/etape/commande-webflow-ecommerce-cms-60/";
         } else {
-          if (courseTimeLeftPrice) {
-            courseTimeLeftPrice.textContent = "120€";
-          }
-          if (courseTimeLeftButton) {
-            courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-webflow-ecommerce-cms-120/etape/commande-webflow-ecommerce-cms-120/";
-          }
+          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "120€";
+          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-webflow-ecommerce-cms-120/etape/commande-webflow-ecommerce-cms-120/";
         }
 
         document.querySelectorAll('.course_lesson-item').forEach(function(item) {
           var paidId = parseInt(item.getAttribute('data-paid-id'), 10);
           var lessonMask = item.querySelector('.course_lesson-mask');
 
-          if (paidId > accessLevel) {
-            item.style.opacity = '0.5'; // Griser l'item
-            if (lessonMask) {
-              lessonMask.style.display = 'block'; // Afficher le masque
-            }
+          if (paidId > accessLevel && !hasSpecialPlan) {
+            item.style.opacity = '0.5';
+            if (lessonMask) lessonMask.style.display = 'block';
           } else {
-            item.style.opacity = '1'; // Restaurer l'opacité normale
-            if (lessonMask) {
-              lessonMask.style.display = 'none'; // Masquer le masque
-            }
+            item.style.opacity = '1';
+            if (lessonMask) lessonMask.style.display = 'none';
           }
         });
 
         var courseNavigation = document.getElementById('courseNavigationEco');
-        if (!allItemsActive && courseNavigation) {
-          courseNavigation.style.display = 'none';
-        } else if (courseNavigation) {
-          courseNavigation.style.display = 'flex';
-        }
+        if (!allItemsActive && courseNavigation) courseNavigation.style.display = 'none';
+        else if (courseNavigation) courseNavigation.style.display = 'flex';
       } else {
         console.log("L'utilisateur n'est pas sur un des plans requis pour ce contenu.");
       }
