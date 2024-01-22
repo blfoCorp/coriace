@@ -19,7 +19,7 @@ window.addEventListener('load', function() {
       });
 
       var hasSpecialPlan = userData.planConnections.some(function(plan) {
-        return plan.planId === "pln_formation-webflow-e-commerce-cms-kb40awg" && plan.status === "ACTIVE";
+        return plan.planId === "pln_coriace-formation-webflow-page-de-vente-6b4m0150" && plan.status === "ACTIVE";
       });
 
       if (hasRequiredPlan) {
