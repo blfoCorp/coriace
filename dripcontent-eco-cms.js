@@ -64,7 +64,7 @@ window.addEventListener('load', function() {
 
         document.querySelectorAll('.course_lesson-item').forEach(function(item) {
           var paidId = parseInt(item.getAttribute('data-paid-id'), 10);
-          var lessonMask = item.querySelector('.course_lesson-mask-wpdv');
+          var lessonMask = item.querySelector('.course_lesson-mask');
 
           if (paidId > accessLevel) {
             item.style.opacity = '0.5'; // Griser l'item
