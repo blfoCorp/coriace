@@ -38,20 +38,27 @@ window.addEventListener('load', function() {
         if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2 + " jours";
         if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3 + " jours";
 
-        // Masquer l'élément 'courseTimeLeftCard2' et mettre à jour 'courseTimeLeftPrice' selon le nombre de jours
+        // Masquer l'élément 'courseTimeLeftCard2', mettre à jour 'courseTimeLeftPrice' et le lien 'courseTimeLeftButton'
         var courseTimeLeftCard2 = document.getElementById('courseTimeLeftCard2');
         var courseTimeLeftPrice = document.getElementById('courseTimeLeftPrice');
+        var courseTimeLeftButton = document.getElementById('courseTimeLeftButton');
 
         if (daysSinceStart >= daysForLevel2) {
           if (courseTimeLeftCard2) {
             courseTimeLeftCard2.style.display = 'none';
           }
           if (courseTimeLeftPrice) {
-            courseTimeLeftPrice.textContent = "60€"; // Texte après 30 jours
+            courseTimeLeftPrice.textContent = "60€";
+          }
+          if (courseTimeLeftButton) {
+            courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-webflow-ecommerce-cms-60/etape/commande-webflow-ecommerce-cms-60/";
           }
         } else {
           if (courseTimeLeftPrice) {
-            courseTimeLeftPrice.textContent = "120€"; // Texte avant 30 jours
+            courseTimeLeftPrice.textContent = "120€";
+          }
+          if (courseTimeLeftButton) {
+            courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-webflow-ecommerce-cms-120/etape/commande-webflow-ecommerce-cms-120/";
           }
         }
 
