@@ -23,7 +23,7 @@ window.addEventListener('load', function() {
       });
 
       if (hasRequiredPlan) {
-        var startDate = new Date(userData.metaData.start_date_wf_eco);
+        var startDate = new Date(userData.metaData.start_date_wf_wpdv);
         var daysForLevel2 = 30; // Nombre de jours après lesquels le niveau 2 est disponible
         var daysForLevel3 = 60; // Nombre de jours après lesquels le niveau 3 est disponible
         var now = new Date();
