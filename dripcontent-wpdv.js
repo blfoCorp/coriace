@@ -41,7 +41,7 @@ window.addEventListener('load', function() {
 
         document.querySelectorAll('.course_lesson-item').forEach(function(item) {
           var paidId = parseInt(item.getAttribute('data-paid-id'), 10);
-          var lessonMask = item.querySelector('.course_lesson-mask-wpdv');
+          var lessonMask = item.querySelector('.course_lesson-mask');
 
           if (paidId > accessLevel) {
             allItemsActive = false; // Indiquer qu'il y a au moins un élément inactif
