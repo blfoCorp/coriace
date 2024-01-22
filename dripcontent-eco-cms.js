@@ -10,6 +10,7 @@ window.addEventListener('load', function() {
   function checkMemberPlan() {
     var userData = JSON.parse(localStorage.getItem('_ms-mem'));
     console.log('User data:', userData);
+    var allItemsActive = true; // Variable pour suivre si tous les éléments sont actifs
 
     if (userData && userData.metaData && userData.metaData.start_date_wf_eco && userData.planConnections) {
       var validPlanIds = ["pln_formation-webflow-e-commerce-cms-3-fois--y110qun"]; // Remplacez avec vos plans IDs en tableau si plusieurs
@@ -24,7 +25,7 @@ window.addEventListener('load', function() {
         var daysForLevel3 = 60; // Nombre de jours après lesquels le niveau 3 est disponible
         var now = new Date();
         var daysSinceStart = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-
+        
         var accessLevel = 1; // Définir le niveau d'accès initial
         if (daysSinceStart >= daysForLevel2) { accessLevel = 2; }
         if (daysSinceStart >= daysForLevel3) { accessLevel = 3; }
@@ -38,9 +39,10 @@ window.addEventListener('load', function() {
         if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2 + " jours";
         if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3 + " jours";
 
-        // Masquer l'élément 'courseTimeLeft2' si 30 jours se sont écoulés depuis la date de début
-        if (daysSinceStart >= daysForLevel2 && timeLeftSpanLevel2) {
-          timeLeftSpanLevel2.style.display = 'none';
+        // Masquer l'élément 'courseTimeLeftCard2' si 30 jours se sont écoulés depuis la date de début
+        var courseTimeLeftCard2 = document.getElementById('courseTimeLeftCard2');
+        if (daysSinceStart >= daysForLevel2 && courseTimeLeftCard2) {
+          courseTimeLeftCard2.style.display = 'none';
         }
 
         document.querySelectorAll('.course_lesson-item').forEach(function(item) {
@@ -48,6 +50,7 @@ window.addEventListener('load', function() {
           var lessonMask = item.querySelector('.course_lesson-mask-wpdv');
 
           if (paidId > accessLevel) {
+            allItemsActive = false; // Indiquer qu'il y a au moins un élément inactif
             item.style.opacity = '0.5'; // Griser l'item
             if (lessonMask) {
               lessonMask.style.display = 'block'; // Afficher le masque
@@ -61,8 +64,10 @@ window.addEventListener('load', function() {
         });
 
         var courseNavigation = document.getElementById('courseNavigationEco');
-        if (courseNavigation) {
-          courseNavigation.style.display = allItemsActive ? 'flex' : 'none';
+        if (!allItemsActive && courseNavigation) {
+          courseNavigation.style.display = 'none';
+        } else if (courseNavigation) {
+          courseNavigation.style.display = 'flex';
         }
       } else {
         console.log("L'utilisateur n'est pas sur un des plans requis pour ce contenu.");
