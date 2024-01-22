@@ -11,7 +11,7 @@ window.addEventListener('load', function() {
     var userData = JSON.parse(localStorage.getItem('_ms-mem'));
     console.log('User data:', userData);
 
-    if (userData && userData.metaData && userData.metaData.start_date_wf_eco && userData.planConnections) {
+    if (userData && userData.metaData && userData.metaData.start_date_wf_wpdv && userData.planConnections) {
       var validPlanIds = ["pln_formation-webflow-page-de-vente-3-fois--ul110zw2", "pln_coriace-formation-webflow-page-de-vente-6b4m0150"]; // Ajout du plan spécifique
       
       var hasRequiredPlan = userData.planConnections.some(function(plan) {
