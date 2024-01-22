@@ -10,7 +10,6 @@ window.addEventListener('load', function() {
   function checkMemberPlan() {
     var userData = JSON.parse(localStorage.getItem('_ms-mem'));
     console.log('User data:', userData);
-    var allItemsActive = true; // Variable pour suivre si tous les éléments sont actifs
 
     if (userData && userData.metaData && userData.metaData.start_date_wf_eco && userData.planConnections) {
       var validPlanIds = ["pln_formation-webflow-e-commerce-cms-3-fois--y110qun"]; // Remplacez avec vos plans IDs en tableau si plusieurs
@@ -25,7 +24,7 @@ window.addEventListener('load', function() {
         var daysForLevel3 = 60; // Nombre de jours après lesquels le niveau 3 est disponible
         var now = new Date();
         var daysSinceStart = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-        
+
         var accessLevel = 1; // Définir le niveau d'accès initial
         if (daysSinceStart >= daysForLevel2) { accessLevel = 2; }
         if (daysSinceStart >= daysForLevel3) { accessLevel = 3; }
@@ -36,18 +35,19 @@ window.addEventListener('load', function() {
         var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
         var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
 
-        if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2;
-        if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3;
+        if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2 + " jours";
+        if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3 + " jours";
 
-        var courseTimeLeftCard2 = document.getElementById('courseTimeLeftCard2'); // Obtenez l'élément par son ID
-        var isLevel2Active = false; // Suivi de l'activation du niveau 2
+        // Masquer l'élément 'courseTimeLeft2' si 30 jours se sont écoulés depuis la date de début
+        if (daysSinceStart >= daysForLevel2 && timeLeftSpanLevel2) {
+          timeLeftSpanLevel2.style.display = 'none';
+        }
 
         document.querySelectorAll('.course_lesson-item').forEach(function(item) {
           var paidId = parseInt(item.getAttribute('data-paid-id'), 10);
           var lessonMask = item.querySelector('.course_lesson-mask-wpdv');
 
           if (paidId > accessLevel) {
-            allItemsActive = false; // Indiquer qu'il y a au moins un élément inactif
             item.style.opacity = '0.5'; // Griser l'item
             if (lessonMask) {
               lessonMask.style.display = 'block'; // Afficher le masque
@@ -57,22 +57,12 @@ window.addEventListener('load', function() {
             if (lessonMask) {
               lessonMask.style.display = 'none'; // Masquer le masque
             }
-            if (paidId === 2) {
-              isLevel2Active = true; // Marquer le niveau 2 comme actif
-            }
           }
         });
 
-        // Masquer courseTimeLeftCard2 si le niveau 2 est actif
-        if (isLevel2Active && courseTimeLeftCard2) {
-          courseTimeLeftCard2.style.display = 'none';
-        }
-
         var courseNavigation = document.getElementById('courseNavigationEco');
-        if (!allItemsActive && courseNavigation) {
-          courseNavigation.style.display = 'none';
-        } else if (courseNavigation) {
-          courseNavigation.style.display = 'flex';
+        if (courseNavigation) {
+          courseNavigation.style.display = allItemsActive ? 'flex' : 'none';
         }
       } else {
         console.log("L'utilisateur n'est pas sur un des plans requis pour ce contenu.");
