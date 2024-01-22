@@ -40,6 +40,7 @@ window.addEventListener('load', function() {
         if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3;
 
         var courseTimeLeftCard2 = document.getElementById('courseTimeLeftCard2'); // Obtenez l'élément par son ID
+        var isLevel2Active = false; // Suivi de l'activation du niveau 2
 
         document.querySelectorAll('.course_lesson-item').forEach(function(item) {
           var paidId = parseInt(item.getAttribute('data-paid-id'), 10);
@@ -56,13 +57,16 @@ window.addEventListener('load', function() {
             if (lessonMask) {
               lessonMask.style.display = 'none'; // Masquer le masque
             }
-          }
-
-          // Masquer courseTimeLeftCard2 si l'élément actif a un data-paid-id de 2
-          if (paidId === 2 && accessLevel >= 2 && courseTimeLeftCard2) {
-            courseTimeLeftCard2.style.display = 'none';
+            if (paidId === 2) {
+              isLevel2Active = true; // Marquer le niveau 2 comme actif
+            }
           }
         });
+
+        // Masquer courseTimeLeftCard2 si le niveau 2 est actif
+        if (isLevel2Active && courseTimeLeftCard2) {
+          courseTimeLeftCard2.style.display = 'none';
+        }
 
         var courseNavigation = document.getElementById('courseNavigationEco');
         if (!allItemsActive && courseNavigation) {
