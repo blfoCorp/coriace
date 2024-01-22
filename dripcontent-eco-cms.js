@@ -39,6 +39,8 @@ window.addEventListener('load', function() {
         if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2 + " jours";
         if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3 + " jours";
 
+        var courseTimeLeftCard2 = document.getElementById('courseTimeLeftCard2'); // Obtenez l'élément par son ID
+
         document.querySelectorAll('.course_lesson-item').forEach(function(item) {
           var paidId = parseInt(item.getAttribute('data-paid-id'), 10);
           var lessonMask = item.querySelector('.course_lesson-mask-wpdv');
@@ -54,6 +56,11 @@ window.addEventListener('load', function() {
             if (lessonMask) {
               lessonMask.style.display = 'none'; // Masquer le masque
             }
+          }
+
+          // Masquer courseTimeLeftCard2 si l'élément actif a un data-paid-id de 2
+          if (paidId === 2 && accessLevel >= 2 && courseTimeLeftCard2) {
+            courseTimeLeftCard2.style.display = 'none';
           }
         });
 
