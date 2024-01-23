@@ -21,7 +21,7 @@ window.addEventListener('load', function() {
         "pln_webflow-le-pack-ezhb0291"
       ];
       var hasSpecialPlan = userData.planConnections.some(plan => {
-      return plan.planId === "pln_formation-webflow-e-commerce-cms-kb40awg" && plan.status === "ACTIVE";
+      return plan.planId === "pln_coriace-formation-webflow-page-de-vente-6b4m0150" && plan.status === "ACTIVE";
       }) || userData.planConnections.some(plan => {
       return plan.planId === "pln_webflow-le-pack-ezhb0291" && plan.status === "ACTIVE";
       });
