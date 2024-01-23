@@ -25,8 +25,8 @@ window.addEventListener('load', function() {
       }) || userData.planConnections.some(plan => {
       return plan.planId === "pln_webflow-le-pack-ezhb0291" && plan.status === "ACTIVE";
       });
-      var hasEcomPlan = ecomPlanIds.includes(userData.planConnections[0].planId) && userData.planConnections[0].status === "ACTIVE";
-      var hasPackPlan = packPlanIds.includes(userData.planConnections[0].planId) && userData.planConnections[0].status === "ACTIVE";
+      var hasEcomPlan = userData.planConnections.some(plan => plan.planId === "pln_formation-webflow-e-commerce-cms-3-fois--y110qun" && plan.status === "ACTIVE");
+      var hasPackPlan = userData.planConnections.some(plan => plan.planId === "pln_webflow-le-pack-3-fois--sshd024y" && plan.status === "ACTIVE");
 
       var startDate = hasEcomPlan ? new Date(userData.metaData.start_date_wf_eco) : new Date(userData.metaData.start_date_wf_pack);
       var daysForLevel2 = 30;
