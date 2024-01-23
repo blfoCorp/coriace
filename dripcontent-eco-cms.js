@@ -20,8 +20,10 @@ window.addEventListener('load', function() {
         "pln_webflow-le-pack-3-fois--sshd024y",
         "pln_webflow-le-pack-ezhb0291"
       ];
-      var hasSpecialPlan = userData.planConnections.some(function(plan) {
-        return (plan.planId === "pln_formation-webflow-e-commerce-cms-kb40awg" || plan.planId === "pln_webflow-le-pack-ezhb0291") && plan.status === "ACTIVE";
+      var hasSpecialPlan = userData.planConnections.some(plan => {
+      return plan.planId === "pln_formation-webflow-e-commerce-cms-kb40awg" && plan.status === "ACTIVE";
+      }) || userData.planConnections.some(plan => {
+      return plan.planId === "pln_webflow-le-pack-ezhb0291" && plan.status === "ACTIVE";
       });
       var hasEcomPlan = userData.planConnections.some(plan => ecomPlanIds.includes(plan.planId) && plan.status === "ACTIVE");
       var hasPackPlan = userData.planConnections.some(plan => packPlanIds.includes(plan.planId) && plan.status === "ACTIVE");
