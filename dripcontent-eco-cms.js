@@ -90,7 +90,7 @@ window.addEventListener('load', function() {
         }
       });
 
-      var courseNavigation = document.getElementById('courseNavigationEco');
+      var courseNavigation = document.getElementById('courseNavigation');
       var allItemsActive = accessLevel >= 3 || hasSpecialPlan;
       if (!allItemsActive && courseNavigation) courseNavigation.style.display = 'none';
       else if (courseNavigation) courseNavigation.style.display = 'flex';
