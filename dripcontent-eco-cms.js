@@ -11,37 +11,37 @@ window.addEventListener('load', function() {
     var userData = JSON.parse(localStorage.getItem('_ms-mem'));
     console.log('User data:', userData);
 
-    if (userData && userData.metaData && (userData.metaData.start_date_wf_eco || userData.metaData.start_date_wf_pack) && userData.planConnections) {
-      var validPlanIds = [
+    if (userData && userData.metaData && userData.planConnections) {
+      var ecomPlanIds = [
         "pln_formation-webflow-e-commerce-cms-3-fois--y110qun",
-        "pln_formation-webflow-e-commerce-cms-kb40awg",
+        "pln_formation-webflow-e-commerce-cms-kb40awg"
+      ];
+      var packPlanIds = [
         "pln_webflow-le-pack-3-fois--sshd024y",
         "pln_webflow-le-pack-ezhb0291"
       ];
-      var hasSpecialPlan = userData.planConnections.some(function(plan) {
-      return (plan.planId === "pln_formation-webflow-e-commerce-cms-kb40awg" || plan.planId === "pln_webflow-le-pack-ezhb0291") && plan.status === "ACTIVE";
-      });
-      var hasRequiredPlan = userData.planConnections.some(function(plan) {
-        return validPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
-      });
 
-      var startDate = new Date(userData.metaData.start_date_wf_eco || userData.metaData.start_date_wf_pack);
+      var hasEcomPlan = userData.planConnections.some(plan => ecomPlanIds.includes(plan.planId) && plan.status === "ACTIVE");
+      var hasPackPlan = userData.planConnections.some(plan => packPlanIds.includes(plan.planId) && plan.status === "ACTIVE");
+
+      var startDate = hasEcomPlan ? new Date(userData.metaData.start_date_wf_eco) : new Date(userData.metaData.start_date_wf_pack);
       var daysForLevel2 = 30;
       var daysForLevel3 = 60;
-      var now = new Date();
-      var daysSinceStart = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+      var daysSinceStart = Math.floor((new Date() - startDate) / (1000 * 60 * 60 * 24));
 
       var accessLevel = 1;
       if (daysSinceStart >= daysForLevel2) { accessLevel = 2; }
       if (daysSinceStart >= daysForLevel3) { accessLevel = 3; }
 
+      var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
+      var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
       var timeLeftSpanLevel2 = document.getElementById('courseTimeLeft2');
       var timeLeftSpanLevel3 = document.getElementById('courseTimeLeft3');
       var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
       var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
 
-      if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2;
-      if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3;
+      if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2.toString();
+      if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3.toString();
 
       var courseTimeLeftCard2 = document.getElementById('courseTimeLeftCard2');
       var courseTimeLeftPrice = document.getElementById('courseTimeLeftPrice');
@@ -61,10 +61,10 @@ window.addEventListener('load', function() {
       }
 
       document.querySelectorAll('.course_lesson-item').forEach(function(item) {
-        var paidId = parseInt(item.getAttribute('data-paid-id') || item.getAttribute('data-pack-paid-id'), 10);
+        var paidId = parseInt(hasEcomPlan ? item.getAttribute('data-paid-id') : item.getAttribute('data-pack-paid-id'), 10);
         var lessonMask = item.querySelector('.course_lesson-mask');
 
-        if (paidId > accessLevel && !hasSpecialPlan) {
+        if (paidId > accessLevel) {
           item.style.opacity = '0.5';
           if (lessonMask) lessonMask.style.display = 'block';
         } else {
