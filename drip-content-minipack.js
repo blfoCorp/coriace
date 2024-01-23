@@ -25,8 +25,8 @@ window.addEventListener('load', function() {
       }) || userData.planConnections.some(plan => {
       return plan.planId === "pln_le-mega-pack-webflow-2ljs0t3b" && plan.status === "ACTIVE";
       });
-      var hasMiniPackPlan = miniPackPlanIds.includes(userData.planConnections[0].planId) && userData.planConnections[0].status === "ACTIVE";
-      var hasMegaPackPlan = megaPackPlanIds.includes(userData.planConnections[0].planId) && userData.planConnections[0].status === "ACTIVE";
+      var hasMiniPackPlan = userData.planConnections.some(plan => plan.planId === "pln_le-mini-pack-webflow-3-fois--lsj50wev" && plan.status === "ACTIVE");
+      var hasMegaPackPlan = userData.planConnections.some(plan => plan.planId === "pln_le-mega-pack-webflow-3-fois--tnkm02zj" && plan.status === "ACTIVE");
 
       var startDate = hasMiniPackPlan ? new Date(userData.metaData.start_date_wf_minipack) : new Date(userData.metaData.start_date_wf_megapack);
       var daysForLevel2 = 30;
