@@ -11,7 +11,7 @@ window.addEventListener('load', function() {
     var userData = JSON.parse(localStorage.getItem('_ms-mem'));
     console.log('User data:', userData);
 
-    if (userData && userData.metaData && userData.metaData.start_date_wf_eco && userData.planConnections) {
+    if (userData && userData.metaData && userData.metaData.start_date_wf_pack && userData.planConnections) {
       var validPlanIds = ["pln_webflow-le-pack-3-fois--sshd024y", "pln_webflow-le-pack-ezhb0291"];
 
       var hasRequiredPlan = userData.planConnections.some(function(plan) {
@@ -23,7 +23,7 @@ window.addEventListener('load', function() {
       });
 
       if (hasRequiredPlan) {
-        var startDate = new Date(userData.metaData.start_date_wf_eco);
+        var startDate = new Date(userData.metaData.start_date_wf_pack);
         var daysForLevel2 = 30;
         var daysForLevel3 = 60;
         var now = new Date();
