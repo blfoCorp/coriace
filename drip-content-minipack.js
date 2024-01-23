@@ -61,8 +61,8 @@ window.addEventListener('load', function() {
         }
         // Définir le prix et l'URL du bouton pour le pack plan
         if (hasMegaPackPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "180€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://coriace.co/60";
+          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "249€";
+          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://coriace.co/249";
         }
       } else {
         // Définir le prix et l'URL du bouton pour le plan e-commerce
@@ -72,13 +72,13 @@ window.addEventListener('load', function() {
         }
         // Définir le prix et l'URL du bouton pour le pack plan
         if (hasMegaPackPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "360€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://coriace.co/120";
+          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "799€";
+          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://coriace.co/799";
         }
       }
 
       document.querySelectorAll('.course_lesson-item').forEach(function(item) {
-        var paidId = parseInt(hasMiniPackPlan ? item.getAttribute('data-paid-id') : item.getAttribute('data-pack-paid-id'), 10);
+        var paidId = parseInt(hasMiniPackPlan ? item.getAttribute('data-minipack-paid-id') : item.getAttribute('data-megapack-paid-id'), 10);
         var lessonMask = item.querySelector('.course_lesson-mask');
 
         if (paidId > accessLevel) {
