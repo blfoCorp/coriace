@@ -48,10 +48,10 @@ window.addEventListener('load', function() {
         if (daysSinceStart >= daysForLevel2) {
           if (courseTimeLeftCard2) courseTimeLeftCard2.style.display = 'none';
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "60€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-webflow-ecommerce-cms-60/etape/commande-webflow-ecommerce-cms-60/";
+          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://coriace.co/60";
         } else {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "120€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-webflow-ecommerce-cms-120/etape/commande-webflow-ecommerce-cms-120/";
+          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://coriace.co/120";
         }
 
         document.querySelectorAll('.course_lesson-item').forEach(function(item) {
