@@ -5,6 +5,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
     const member = response.data;
 
     if (member && Array.isArray(member.planConnections)) {
+        console.log('Membre connecté:', member);
         // ID des plans spécifiques et leurs configurations correspondantes
         const plansConfig = [
             {
