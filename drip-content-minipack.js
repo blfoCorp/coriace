@@ -63,6 +63,8 @@ window.addEventListener('load', function() {
         if (hasMegaPackPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "249€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://coriace.co/249";
+          if (courseTimeName1) courseTimeName1.textContent = "Mega Pack 1";
+          if (courseTimeName2) courseTimeName2.textContent = "Mega Pack 2";
         }
       } else {
         // Définir le prix et l'URL du bouton pour le plan e-commerce
@@ -74,6 +76,8 @@ window.addEventListener('load', function() {
         if (hasMegaPackPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "799€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://coriace.co/799";
+          if (courseTimeName1) courseTimeName1.textContent = "Mega Pack 1";
+          if (courseTimeName2) courseTimeName2.textContent = "Mega Pack 2";
         }
       }
 
