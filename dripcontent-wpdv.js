@@ -35,7 +35,14 @@ window.addEventListener('load', function() {
       var hasPackPlan = userData.planConnections.some(plan => plan.planId === "pln_webflow-le-pack-3-fois--sshd024y" && plan.status === "ACTIVE");
       var hasMegaPackPlan = userData.planConnections.some(plan => plan.planId === "pln_le-mega-pack-webflow-3-fois--tnkm02zj" && plan.status === "ACTIVE");
 
-      var startDate = hasWpdvPlan ? new Date(userData.metaData.start_date_wf_wpdv) : new Date(userData.metaData.start_date_wf_pack) : new Date(userData.metaData.start_date_wf_megapack);
+      var startDate;
+      if (hasWpdvPlan) {
+          startDate = new Date(userData.metaData.start_date_wf_wpdv);
+      } else if (hasPackPlan) {
+          startDate = new Date(userData.metaData.start_date_wf_pack);
+      } else if (hasMegaPackPlan) {
+          startDate = new Date(userData.metaData.start_date_wf_megapack);
+      }
       var daysForLevel2 = 30;
       var daysForLevel3 = 60;
       var daysSinceStart = Math.floor((new Date() - startDate) / (1000 * 60 * 60 * 24));
@@ -108,7 +115,14 @@ window.addEventListener('load', function() {
       }
 
       document.querySelectorAll('.course_lesson-item').forEach(function(item) {
-        var paidId = parseInt(hasWpdvPlan ? item.getAttribute('data-paid-id') : item.getAttribute('data-pack-paid-id') : item.getAttribute('data-megapack-paid-id'), 10);
+        var paidId;
+        if (hasWpdvPlan) {
+            paidId = parseInt(item.getAttribute('data-paid-id'), 10);
+        } else if (hasPackPlan) {
+            paidId = parseInt(item.getAttribute('data-pack-paid-id'), 10);
+        } else if (hasMegaPackPlan) {
+            paidId = parseInt(item.getAttribute('data-megapack-paid-id'), 10);
+        }
         var lessonMask = item.querySelector('.course_lesson-mask');
 
         if (paidId > accessLevel) {
