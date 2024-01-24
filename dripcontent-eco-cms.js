@@ -28,6 +28,8 @@ window.addEventListener('load', function() {
       return plan.planId === "pln_formation-webflow-e-commerce-cms-kb40awg" && plan.status === "ACTIVE";
       }) || userData.planConnections.some(plan => {
       return plan.planId === "pln_webflow-le-pack-ezhb0291" && plan.status === "ACTIVE";
+      }) || userData.planConnections.some(plan => {
+      return plan.planId === "pln_le-mega-pack-webflow-2ljs0t3b" && plan.status === "ACTIVE";
       });
       var hasEcomPlan = userData.planConnections.some(plan => plan.planId === "pln_formation-webflow-e-commerce-cms-3-fois--y110qun" && plan.status === "ACTIVE");
       var hasPackPlan = userData.planConnections.some(plan => plan.planId === "pln_webflow-le-pack-3-fois--sshd024y" && plan.status === "ACTIVE");
