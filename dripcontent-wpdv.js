@@ -69,7 +69,7 @@ window.addEventListener('load', function() {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "180€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://coriace.co/60";
           if (courseTimeName1) courseTimeName1.textContent = "Wf E-co.";
-          if (courseTimeName2) courseTimeName2.textContent = "Wf PDV.";
+          if (courseTimeName2) courseTimeName2.textContent = "Wf CMS.";
         }
       } else {
         // Définir le prix et l'URL du bouton pour le plan e-commerce
@@ -84,7 +84,7 @@ window.addEventListener('load', function() {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "360€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://coriace.co/120";
           if (courseTimeName1) courseTimeName1.textContent = "Wf E-co.";
-          if (courseTimeName2) courseTimeName2.textContent = "Wf PDV";
+          if (courseTimeName2) courseTimeName2.textContent = "Wf CMS";
         }
       }
 
