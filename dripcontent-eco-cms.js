@@ -36,7 +36,7 @@ window.addEventListener('load', function() {
       var hasMegaPackPlan = userData.planConnections.some(plan => plan.planId === "pln_le-mega-pack-webflow-3-fois--tnkm02zj" && plan.status === "ACTIVE");
 
       var startDate;
-      if (hasWpdvPlan) {
+      if (hasEcomPlan) {
           startDate = new Date(userData.metaData.start_date_wf_eco);
       } else if (hasPackPlan) {
           startDate = new Date(userData.metaData.start_date_wf_pack);
@@ -115,7 +115,7 @@ window.addEventListener('load', function() {
 
       document.querySelectorAll('.course_lesson-item').forEach(function(item) {
         var paidId;
-        if (hasWpdvPlan) {
+        if (hasEcomPlan) {
             paidId = parseInt(item.getAttribute('data-paid-id'), 10);
         } else if (hasPackPlan) {
             paidId = parseInt(item.getAttribute('data-pack-paid-id'), 10);
