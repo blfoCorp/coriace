@@ -52,31 +52,38 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
         ];
 
         plansConfig.forEach(planConfig => {
-          let hasPlan = false;
+            let hasPlan = false;
 
-          // Vérifier si planId est un tableau et itérer sur les IDs, sinon vérifier directement
-          if (Array.isArray(planConfig.planId)) {
-              hasPlan = planConfig.planId.some(id => 
-                  member.planConnections.some(plan => plan.planId === id)
-              );
-          } else {
-              hasPlan = member.planConnections.some(plan => plan.planId === planConfig.planId);
-          }
+            if (Array.isArray(planConfig.planId)) {
+                hasPlan = planConfig.planId.some(id => 
+                    member.planConnections.some(plan => plan.planId === id)
+                );
+            } else {
+                hasPlan = member.planConnections.some(plan => plan.planId === planConfig.planId);
+            }
 
-          if (hasPlan) {
-              const tabLink = document.querySelector(planConfig.tabLinkId);
-              const lockIcon = document.querySelector(planConfig.lockIconId);
-              if (tabLink) tabLink.href = planConfig.newHref;
-              if (lockIcon) lockIcon.style.display = 'none';
-          }
-      });
+            if (hasPlan) {
+                console.log('Plan trouvé:', planConfig.planId);
 
+                const tabLink = document.querySelector(planConfig.tabLinkId);
+                const lockIcon = document.querySelector(planConfig.lockIconId);
+                if (tabLink) {
+                    console.log('Mise à jour du lien:', planConfig.newHref);
+                    tabLink.href = planConfig.newHref;
+                }
+                if (lockIcon) {
+                    console.log('Masquer l\'icône de verrouillage');
+                    lockIcon.style.display = 'none';
+                }
+            }
+        });
     }
 }
 
-document.addEventListener("DOMContentLoaded", updateTabLinksAndHideElementsForSpecificPlans);
-
-/*---  FIN : DÉVEROUILLAGE FORMATION EN FONCTION DU PLAN DANS LA NAVIGATION ----*/
+document.addEventListener("DOMContentLoaded", () => {
+    console.log('La page est chargée. Exécution de la fonction.');
+    updateTabLinksAndHideElementsForSpecificPlans();
+});
 
 /*---  DÉBUT : REDIRECTION ET BLOCAGE EN CAS D'ÉCHEC DE PAIEMENT ----*/
 
