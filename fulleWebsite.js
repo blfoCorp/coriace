@@ -1,4 +1,3 @@
-<script>
 async function updateTabLinksAndHideElementsForSpecificPlans() {
     const response = await window.$memberstackDom.getCurrentMember();
     const member = response.data;
@@ -74,4 +73,3 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
 }
 
 document.addEventListener("DOMContentLoaded", updateTabLinksAndHideElementsForSpecificPlans);
-</script>
