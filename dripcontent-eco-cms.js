@@ -50,6 +50,8 @@ window.addEventListener('load', function() {
       var courseTimeLeftCard2 = document.getElementById('courseTimeLeftCard2');
       var courseTimeLeftPrice = document.getElementById('courseTimeLeftPrice');
       var courseTimeLeftButton = document.getElementById('courseTimeLeftButton');
+      var courseTimeName1 = document.getElementById('courseTimeName1');
+      var courseTimeName2 = document.getElementById('courseTimeName2');
 
       if (daysSinceStart >= daysForLevel2) {
         if (courseTimeLeftCard2) courseTimeLeftCard2.style.display = 'none';
