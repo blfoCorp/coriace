@@ -43,6 +43,7 @@ window.addEventListener('load', function() {
       var timeLeftSpanLevel3 = document.getElementById('courseTimeLeft3');
       var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
       var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
+     
 
       if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2.toString();
       if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3.toString();
@@ -50,7 +51,9 @@ window.addEventListener('load', function() {
       var courseTimeLeftCard2 = document.getElementById('courseTimeLeftCard2');
       var courseTimeLeftPrice = document.getElementById('courseTimeLeftPrice');
       var courseTimeLeftButton = document.getElementById('courseTimeLeftButton');
-
+      var courseTimeName1 = document.getElementById('courseTimeName1');
+      var courseTimeName2 = document.getElementById('courseTimeName2');
+      
       if (daysSinceStart >= daysForLevel2) {
         if (courseTimeLeftCard2) courseTimeLeftCard2.style.display = 'none';
         
@@ -63,6 +66,8 @@ window.addEventListener('load', function() {
         if (hasPackPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "180€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://coriace.co/60";
+          if (courseTimeName1) courseTimeName1.textContent = "Format. E-co.";
+          if (courseTimeName2) courseTimeName2.textContent = "Format. Webflow PDV.";
         }
       } else {
         // Définir le prix et l'URL du bouton pour le plan e-commerce
@@ -74,6 +79,8 @@ window.addEventListener('load', function() {
         if (hasPackPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "360€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://coriace.co/120";
+          if (courseTimeName1) courseTimeName1.textContent = "Format. E-co.";
+          if (courseTimeName2) courseTimeName2.textContent = "Format. Webflow PDV.";
         }
       }
 
