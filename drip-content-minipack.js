@@ -56,26 +56,26 @@ window.addEventListener('load', function() {
         
         // Définir le prix et l'URL du bouton pour le plan e-commerce
         if (hasMiniPackPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "129€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/129";
+          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "107,5€";
+          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mini-pack-webflow-107/etape/commande-mini-pack-webflow-107/";
         }
         // Définir le prix et l'URL du bouton pour le pack plan
         if (hasMegaPackPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "249€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://coriace.co/249";
+          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "332€";
+          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mega-pack-webflow-332/etape/commande-mega-pack-webflow-332/";
           if (courseTimeName1) courseTimeName1.textContent = "Mega Pack 1";
           if (courseTimeName2) courseTimeName2.textContent = "Mega Pack 2";
         }
       } else {
         // Définir le prix et l'URL du bouton pour le plan e-commerce
         if (hasMiniPackPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "299€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/299";
+          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "213€";
+          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mini-pack-webflow-213/etape/commande-mini-pack-webflow-213/";
         }
         // Définir le prix et l'URL du bouton pour le pack plan
         if (hasMegaPackPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "799€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://coriace.co/799";
+          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "664€";
+          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mega-pack-webflow-664/etape/commande-mega-pack-webflow-664/";
           if (courseTimeName1) courseTimeName1.textContent = "Mega Pack 1";
           if (courseTimeName2) courseTimeName2.textContent = "Mega Pack 2";
         }
