@@ -28,7 +28,7 @@ window.addEventListener('load', function() {
       return plan.planId === "pln_coriace-formation-webflow-page-de-vente-6b4m0150" && plan.status === "ACTIVE";
       }) || userData.planConnections.some(plan => {
       return plan.planId === "pln_webflow-le-pack-ezhb0291" && plan.status === "ACTIVE";
-      }); || userData.planConnections.some(plan => {
+      }) || userData.planConnections.some(plan => {
       return plan.planId === "pln_le-mega-pack-webflow-2ljs0t3b" && plan.status === "ACTIVE";
       });
       var hasWpdvPlan = userData.planConnections.some(plan => plan.planId === "pln_formation-webflow-page-de-vente-3-fois--ul110zw2" && plan.status === "ACTIVE");
