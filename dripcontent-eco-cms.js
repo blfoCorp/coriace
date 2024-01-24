@@ -20,6 +20,10 @@ window.addEventListener('load', function() {
         "pln_webflow-le-pack-3-fois--sshd024y",
         "pln_webflow-le-pack-ezhb0291"
       ];
+      var megaPackPlanIds = [
+        "pln_le-mega-pack-webflow-3-fois--tnkm02zj",
+        "pln_le-mega-pack-webflow-2ljs0t3b"
+      ];
       var hasSpecialPlan = userData.planConnections.some(plan => {
       return plan.planId === "pln_formation-webflow-e-commerce-cms-kb40awg" && plan.status === "ACTIVE";
       }) || userData.planConnections.some(plan => {
