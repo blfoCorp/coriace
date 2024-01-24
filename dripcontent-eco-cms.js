@@ -60,6 +60,8 @@ window.addEventListener('load', function() {
         if (hasEcomPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "60€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-webflow-ecommerce-cms-60/etape/commande-webflow-ecommerce-cms-60/";
+          if (courseTimeName1) courseTimeName1.textContent = "Niveau 1";
+          if (courseTimeName2) courseTimeName2.textContent = "Niveau 2";
         }
         // Définir le prix et l'URL du bouton pour le pack plan
         if (hasPackPlan) {
@@ -71,6 +73,8 @@ window.addEventListener('load', function() {
         if (hasEcomPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "120€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-webflow-ecommerce-cms-120/etape/commande-webflow-ecommerce-cms-120/";
+          if (courseTimeName1) courseTimeName1.textContent = "Niveau 1";
+          if (courseTimeName2) courseTimeName2.textContent = "Niveau 2";
         }
         // Définir le prix et l'URL du bouton pour le pack plan
         if (hasPackPlan) {
