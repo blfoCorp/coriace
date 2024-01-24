@@ -1,3 +1,4 @@
+/*---  DÉBUT : DÉVEROUILLAGE FORMATION EN FONCTION DU PLAN DANS LA NAVIGATION ----*/
 async function updateTabLinksAndHideElementsForSpecificPlans() {
     const response = await window.$memberstackDom.getCurrentMember();
     const member = response.data;
@@ -73,3 +74,86 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
 }
 
 document.addEventListener("DOMContentLoaded", updateTabLinksAndHideElementsForSpecificPlans);
+
+/*---  FIN : DÉVEROUILLAGE FORMATION EN FONCTION DU PLAN DANS LA NAVIGATION ----*/
+
+/*---  DÉBUT : REDIRECTION ET BLOCAGE EN CAS D'ÉCHEC DE PAIEMENT ----*/
+
+async function checkMembershipAndRedirect() {
+  const exclusionPage = "/app/actualisation-coordonnees-bancaires"; // Chemin de la page à exclure
+  const currentPagePath = window.location.pathname;
+
+  if (currentPagePath !== exclusionPage) {
+    const response = await window.$memberstackDom.getCurrentMember();
+    const member = response.data;
+
+    if (member && Array.isArray(member.planConnections)) {
+      const planId = "pln_payment-failed-q73t0e22";
+      const redirectUrl = "https://coriace-plateforme-v3.webflow.io" + exclusionPage;
+
+      const hasFailedPaymentPlan = member.planConnections.some(plan => plan.planId === planId);
+
+      if (hasFailedPaymentPlan) {
+        window.location.href = redirectUrl;
+      }
+    }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", checkMembershipAndRedirect);
+
+/*---  FIN : REDIRECTION ET BLOCAGE EN CAS D'ÉCHEC DE PAIEMENT ----*/
+
+/*---  DÉBUT : BLOCAGE CLIC DROIT ----*/
+
+// Bloquer le clic droit
+/*document.addEventListener('contextmenu', function (event) {
+  event.preventDefault();
+  alert("Curieux de connaître ce qui se cache derrière notre espace membre ? Découvre tout cela dans nos formations avancées 😉");
+});
+
+// Bloquer les raccourcis clavier
+document.addEventListener('keydown', function (event) {
+  // Bloquer les raccourcis courants pour accéder au panneau de développement
+  const isF12 = event.keyCode === 123;
+  const macShortcutJ = event.metaKey && event.altKey && event.keyCode === 74; // Cmd + Option + J
+  const winLinuxShortcutJ = event.ctrlKey && event.shiftKey && event.keyCode === 74; // Ctrl + Shift + J
+  const chromeShortcut = event.ctrlKey && event.shiftKey && event.keyCode === 73; // Ctrl + Shift + I
+  const macShortcutC = event.metaKey && event.altKey && event.keyCode === 67; // Cmd + Option + C
+  const winLinuxShortcutC = event.ctrlKey && event.altKey && event.keyCode === 67; // Ctrl + Alt + C
+  const macNewShortcutC = event.metaKey && event.shiftKey && event.keyCode === 67; // Cmd + Shift + C
+  const winLinuxNewShortcutC = event.ctrlKey && event.shiftKey && event.keyCode === 67; // Ctrl + Shift + C
+  const macNewShortcutJ = event.metaKey && event.shiftKey && event.keyCode === 74; // Cmd + Shift + J
+  const winLinuxNewShortcutJ = event.ctrlKey && event.shiftKey && event.keyCode === 74; // Ctrl + Shift + J
+
+  if (isF12 || macShortcutJ || winLinuxShortcutJ || chromeShortcut || macShortcutC || winLinuxShortcutC || macNewShortcutC || winLinuxNewShortcutC || macNewShortcutJ || winLinuxNewShortcutJ) {
+    event.preventDefault();
+    alert("Curieux de connaître ce qui se cache derrière notre espace membre ? Découvre tout cela dans nos formations avancées 😉");
+  }
+});*/
+
+/*---  FIN : BLOCAGE CLIC DROIT ----*/
+
+/*---  DÉBUT : AFFICHAGE CRÉDIT TOTAL DANS LA NAVIGATION DU MEMBRE ----*/
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Récupérer les données du membre depuis le Local Storage
+  const memberData = JSON.parse(localStorage.getItem('_ms-mem')); // Remplacez 'memberDataKey' par la clé réelle
+
+  // Initialiser la somme
+  let totalCredits = 0;
+
+  // Itérer sur les champs et additionner ceux qui commencent par "credit-" ou "super-assistance-"
+  Object.keys(memberData.customFields).forEach(key => {
+    if (key.startsWith('credit-') || key.startsWith('super-assistance-')) {
+      totalCredits += parseFloat(memberData.customFields[key]) || 0; // Utilise parseFloat si les crédits peuvent être des décimales
+    }
+  });
+
+  // Afficher la somme dans l'élément span (remplacer 'spanId' par l'id réel de votre élément span)
+  document.getElementById('creditTotal').textContent = totalCredits.toString();
+});
+
+/*---  FIN : AFFICHAGE CRÉDIT TOTAL DANS LA NAVIGATION DU MEMBRE ----*/
+
+
