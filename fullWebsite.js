@@ -1,9 +1,8 @@
 /*---  DÉBUT : DÉVEROUILLAGE FORMATION EN FONCTION DU PLAN DANS LA NAVIGATION ----*/
-console.log("Le script fullpage se charge correctement");
+
 async function updateTabLinksAndHideElementsForSpecificPlans() {
     const response = await window.$memberstackDom.getCurrentMember();
     const member = response.data;
-    console.log("Member data:", member); // Affiche les données de l'utilisateur
 
     if (member && Array.isArray(member.planConnections)) {
         // ID des plans spécifiques et leurs configurations correspondantes
@@ -53,40 +52,25 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
         ];
 
         plansConfig.forEach(planConfig => {
-                let hasPlan = false;
+          let hasPlan = false;
 
-                if (Array.isArray(planConfig.planId)) {
-                    hasPlan = planConfig.planId.some(id => 
-                        member.planConnections.some(plan => {
-                            const match = plan.planId === id;
-                            console.log(`Vérification pour ${id} dans planConfig.planId:`, match); // Log pour chaque ID de plan vérifié
-                            return match;
-                        })
-                    );
-                } else {
-                    hasPlan = member.planConnections.some(plan => {
-                        const match = plan.planId === planConfig.planId;
-                        console.log(`Vérification pour ${planConfig.planId}:`, match); // Log pour le planId unique
-                        return match;
-                    });
-                }
+          // Vérifier si planId est un tableau et itérer sur les IDs, sinon vérifier directement
+          if (Array.isArray(planConfig.planId)) {
+              hasPlan = planConfig.planId.some(id => 
+                  member.planConnections.some(plan => plan.planId === id)
+              );
+          } else {
+              hasPlan = member.planConnections.some(plan => plan.planId === planConfig.planId);
+          }
 
-                console.log(`Résultat de hasPlan pour ${planConfig.tabLinkId}:`, hasPlan); // Log pour le résultat de hasPlan
+          if (hasPlan) {
+              const tabLink = document.querySelector(planConfig.tabLinkId);
+              const lockIcon = document.querySelector(planConfig.lockIconId);
+              if (tabLink) tabLink.href = planConfig.newHref;
+              if (lockIcon) lockIcon.style.display = 'none';
+          }
+      });
 
-                if (hasPlan) {
-                    const tabLink = document.querySelector(planConfig.tabLinkId);
-                    const lockIcon = document.querySelector(planConfig.lockIconId);
-                    console.log(`Elément trouvé pour ${planConfig.tabLinkId}:`, tabLink); // Log pour l'élément tabLink
-                    console.log(`Elément trouvé pour ${planConfig.lockIconId}:`, lockIcon); // Log pour l'élément lockIcon
-
-                    if (tabLink) tabLink.href = planConfig.newHref;
-                    if (lockIcon) lockIcon.style.display = 'none';
-                }
-            });
-
-        }
-    } catch (error) {
-        console.error("Erreur lors de la récupération des données du membre:", error); // Log en cas d'erreur
     }
 }
 
