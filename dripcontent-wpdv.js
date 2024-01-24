@@ -61,26 +61,30 @@ window.addEventListener('load', function() {
         if (hasWpdvPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "60€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-webflow-page-de-vente-60/etape/commande-webflow-page-de-vente-60/";
+          if (courseTimeName1) courseTimeName1.textContent = "Niveau 1";
+          if (courseTimeName2) courseTimeName2.textContent = "Niveau 2";
         }
         // Définir le prix et l'URL du bouton pour le pack plan
         if (hasPackPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "180€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://coriace.co/60";
-          if (courseTimeName1) courseTimeName1.textContent = "Format. E-co.";
-          if (courseTimeName2) courseTimeName2.textContent = "Format. Webflow PDV.";
+          if (courseTimeName1) courseTimeName1.textContent = "Webflow E-co.";
+          if (courseTimeName2) courseTimeName2.textContent = "Webflow PDV.";
         }
       } else {
         // Définir le prix et l'URL du bouton pour le plan e-commerce
         if (hasWpdvPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "120€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-webflow-page-de-vente-120/etape/commande-webflow-page-de-vente-120/";
+          if (courseTimeName1) courseTimeName1.textContent = "Niveau 1";
+          if (courseTimeName2) courseTimeName2.textContent = "Niveau 2";
         }
         // Définir le prix et l'URL du bouton pour le pack plan
         if (hasPackPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "360€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://coriace.co/120";
-          if (courseTimeName1) courseTimeName1.textContent = "Format. E-co.";
-          if (courseTimeName2) courseTimeName2.textContent = "Format. Webflow PDV.";
+          if (courseTimeName1) courseTimeName1.textContent = "Webflow E-co.";
+          if (courseTimeName2) courseTimeName2.textContent = "Webflow PDV";
         }
       }
 
