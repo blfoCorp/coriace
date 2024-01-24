@@ -33,6 +33,7 @@ window.addEventListener('load', function() {
       });
       var hasEcomPlan = userData.planConnections.some(plan => plan.planId === "pln_formation-webflow-e-commerce-cms-3-fois--y110qun" && plan.status === "ACTIVE");
       var hasPackPlan = userData.planConnections.some(plan => plan.planId === "pln_webflow-le-pack-3-fois--sshd024y" && plan.status === "ACTIVE");
+      var hasMegaPackPlan = userData.planConnections.some(plan => plan.planId === "pln_le-mega-pack-webflow-3-fois--tnkm02zj" && plan.status === "ACTIVE");
 
       var startDate = hasEcomPlan ? new Date(userData.metaData.start_date_wf_eco) : new Date(userData.metaData.start_date_wf_pack);
       var daysForLevel2 = 30;
