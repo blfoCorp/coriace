@@ -1,6 +1,6 @@
 /*---  DÉBUT : DÉVEROUILLAGE FORMATION EN FONCTION DU PLAN DANS LA NAVIGATION ----*/
 console.log('Le script full page est chargé');
-async function updateTabLinksAndHideElementsForSpecificPlans() {
+function updateTabLinksAndHideElementsForSpecificPlans() {
     const response = await window.$memberstackDom.getCurrentMember();
     const member = response.data;
 
