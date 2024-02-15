@@ -150,6 +150,6 @@ if (!allItemsActive && courseNavigation) courseNavigation.style.display = 'none'
 else if (courseNavigation) courseNavigation.style.display = 'flex';
 
   checkMemberPlan();
-});
+};
 
 /*-- FIN : Drip Content paiement en plusieurs fois combiné --*/
