@@ -114,35 +114,35 @@ window.addEventListener('load', function() {
         }
       }
 
-      document.querySelectorAll('.course_lesson-item').forEach(function(item) {
-    // Ces lignes restent inchangées; elles déterminent le plan de l'utilisateur et l'ID payant associé.
-    var paidId;
-    if (hasWpdvPlan) {
-        paidId = parseInt(item.getAttribute('data-paid-id'), 10);
-    } else if (hasPackPlan) {
-        paidId = parseInt(item.getAttribute('data-pack-paid-id'), 10);
-    } else if (hasMegaPackPlan) {
-        paidId = parseInt(item.getAttribute('data-megapack-paid-id'), 10);
-    }
-    var lessonMask = item.querySelector('.course_lesson-mask');
-
-    // Ajoutez ici la vérification de hasSpecialPlan
-    // Si l'utilisateur a un accès spécial (complet), le masque de la leçon devrait toujours être masqué.
-    if (hasSpecialPlan) {
-        item.style.opacity = '1';
-        if (lessonMask) lessonMask.style.display = 'none';
-    } else {
-        // Si l'utilisateur n'a pas d'accès spécial, continuez avec la logique existante
-        // basée sur le niveau d'accès et les plans d'adhésion.
-        if (paidId > accessLevel) {
-            item.style.opacity = '0.5';
-            if (lessonMask) lessonMask.style.display = 'block';
-        } else {
-            item.style.opacity = '1';
-            if (lessonMask) lessonMask.style.display = 'none';
-        }
-    }
-});
+        document.querySelectorAll('.course_lesson-item').forEach(function(item) {
+      // Ces lignes restent inchangées; elles déterminent le plan de l'utilisateur et l'ID payant associé.
+      var paidId;
+      if (hasWpdvPlan) {
+          paidId = parseInt(item.getAttribute('data-paid-id'), 10);
+      } else if (hasPackPlan) {
+          paidId = parseInt(item.getAttribute('data-pack-paid-id'), 10);
+      } else if (hasMegaPackPlan) {
+          paidId = parseInt(item.getAttribute('data-megapack-paid-id'), 10);
+      }
+      var lessonMask = item.querySelector('.course_lesson-mask');
+  
+      // Ajoutez ici la vérification de hasSpecialPlan
+      // Si l'utilisateur a un accès spécial (complet), le masque de la leçon devrait toujours être masqué.
+      if (hasSpecialPlan) {
+          item.style.opacity = '1';
+          if (lessonMask) lessonMask.style.display = 'none';
+      } else {
+          // Si l'utilisateur n'a pas d'accès spécial, continuez avec la logique existante
+          // basée sur le niveau d'accès et les plans d'adhésion.
+          if (paidId > accessLevel) {
+              item.style.opacity = '0.5';
+              if (lessonMask) lessonMask.style.display = 'block';
+          } else {
+              item.style.opacity = '1';
+              if (lessonMask) lessonMask.style.display = 'none';
+          }
+      }
+  });
 
 var courseNavigation = document.getElementById('courseNavigation');
 var allItemsActive = accessLevel >= 3 || hasSpecialPlan;
