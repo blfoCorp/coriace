@@ -1,16 +1,16 @@
 /*-- DÉBUT : Drip Content paiement en plusieurs fois combiné --*/
 
-function calculateDaysLeft(startDate, daysToAdd) {
-  if (!startDate) {
-    console.error('La date de début est undefined.');
-    return 0; // Ou toute autre valeur par défaut que vous voulez retourner dans ce cas.
-  }
+window.addEventListener('load', function() {
+  function calculateDaysLeft(startDate, daysToAdd) {
+    if (!startDate) {
+      console.error('La date de début est undefined.');
+      return 0; // Ou toute autre valeur par défaut que vous voulez retourner dans ce cas.
+    }
   
-  var futureDate = new Date(startDate.getTime());
-  futureDate.setDate(futureDate.getDate() + daysToAdd);
-  return Math.max(Math.floor((futureDate - new Date()) / (1000 * 60 * 60 * 24)), 0);
-}
-
+    var futureDate = new Date(startDate.getTime());
+    futureDate.setDate(futureDate.getDate() + daysToAdd);
+    return Math.max(Math.floor((futureDate - new Date()) / (1000 * 60 * 60 * 24)), 0);
+  }
 
   function checkMemberPlan() {
     var userData = JSON.parse(localStorage.getItem('_ms-mem'));
