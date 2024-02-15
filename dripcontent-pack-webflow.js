@@ -1,4 +1,4 @@
-/*-- DÉBUT : Drip Content paiement en plusieurs fois --*/
+/*-- DÉBUT : Drip Content paiement en plusieurs fois combiné --*/
 
 window.addEventListener('load', function() {
   function calculateDaysLeft(startDate, daysToAdd) {
@@ -11,69 +11,99 @@ window.addEventListener('load', function() {
     var userData = JSON.parse(localStorage.getItem('_ms-mem'));
     console.log('User data:', userData);
 
-    if (userData && userData.metaData && userData.metaData.start_date_wf_pack && userData.planConnections) {
-      var validPlanIds = ["pln_webflow-le-pack-3-fois--sshd024y", "pln_webflow-le-pack-ezhb0291"];
-
-      var hasRequiredPlan = userData.planConnections.some(function(plan) {
-        return validPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
+    if (userData && userData.metaData && userData.planConnections) {
+      var miniPackPlanIds = [
+        "pln_le-mini-pack-webflow-3-fois--lsj50wev",
+        "pln_le-mini-pack-webflow-2kje0tkt"
+      ];
+      var megaPackPlanIds = [
+        "pln_le-mega-pack-webflow-3-fois--tnkm02zj",
+        "pln_le-mega-pack-webflow-2ljs0t3b"
+      ];
+      var hasSpecialPlan = userData.planConnections.some(plan => {
+        return plan.planId === "pln_le-mini-pack-webflow-2kje0tkt" && plan.status === "ACTIVE";
+      }) || userData.planConnections.some(plan => {
+        return plan.planId === "pln_le-mega-pack-webflow-2ljs0t3b" && plan.status === "ACTIVE";
       });
+      var hasMiniPackPlan = userData.planConnections.some(plan => plan.planId === "pln_le-mini-pack-webflow-3-fois--lsj50wev" && plan.status === "ACTIVE");
+      var hasMegaPackPlan = userData.planConnections.some(plan => plan.planId === "pln_le-mega-pack-webflow-3-fois--tnkm02zj" && plan.status === "ACTIVE");
 
-      var hasSpecialPlan = userData.planConnections.some(function(plan) {
-        return plan.planId === "pln_webflow-le-pack-ezhb0291" && plan.status === "ACTIVE";
-      });
+      var startDate = hasMiniPackPlan ? new Date(userData.metaData.start_date_wf_minipack) : new Date(userData.metaData.start_date_wf_megapack);
+      var daysForLevel2 = 30;
+      var daysForLevel3 = 60;
+      var daysSinceStart = Math.floor((new Date() - startDate) / (1000 * 60 * 60 * 24));
 
-      if (hasRequiredPlan) {
-        var startDate = new Date(userData.metaData.start_date_wf_pack);
-        var daysForLevel2 = 30;
-        var daysForLevel3 = 60;
-        var now = new Date();
-        var daysSinceStart = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+      var accessLevel = 1;
+      if (daysSinceStart >= daysForLevel2) { accessLevel = 2; }
+      if (daysSinceStart >= daysForLevel3) { accessLevel = 3; }
 
-        var accessLevel = 1;
-        if (daysSinceStart >= daysForLevel2) { accessLevel = 2; }
-        if (daysSinceStart >= daysForLevel3) { accessLevel = 3; }
+      var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
+      var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
+      var timeLeftSpanLevel2 = document.getElementById('courseTimeLeft2');
+      var timeLeftSpanLevel3 = document.getElementById('courseTimeLeft3');
+      var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
+      var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
 
-        var timeLeftSpanLevel2 = document.getElementById('courseTimeLeft2');
-        var timeLeftSpanLevel3 = document.getElementById('courseTimeLeft3');
-        var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
-        var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
+      if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2.toString();
+      if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3.toString();
 
-        if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2;
-        if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3;
+      var courseTimeLeftCard2 = document.getElementById('courseTimeLeftCard2');
+      var courseTimeLeftPrice = document.getElementById('courseTimeLeftPrice');
+      var courseTimeLeftButton = document.getElementById('courseTimeLeftButton');
+      var courseTimeName1 = document.getElementById('courseTimeName1');
+      var courseTimeName2 = document.getElementById('courseTimeName2');
 
-        var courseTimeLeftCard2 = document.getElementById('courseTimeLeftCard2');
-        var courseTimeLeftPrice = document.getElementById('courseTimeLeftPrice');
-        var courseTimeLeftButton = document.getElementById('courseTimeLeftButton');
-
-        if (daysSinceStart >= daysForLevel2) {
-          if (courseTimeLeftCard2) courseTimeLeftCard2.style.display = 'none';
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "60€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://coriace.co/60";
-        } else {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "120€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://coriace.co/120";
+      if (daysSinceStart >= daysForLevel2) {
+        if (courseTimeLeftCard2) courseTimeLeftCard2.style.display = 'none';
+        
+        // Définir le prix et l'URL du bouton pour le plan mini-pack
+        if (hasMiniPackPlan) {
+          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "107,5€";
+          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mini-pack-webflow-107/etape/commande-mini-pack-webflow-107/";
+          if (courseTimeName1) courseTimeName1.textContent = "Mini Pack 1";
+          if (courseTimeName2) courseTimeName2.textContent = "Mini Pack 2";
         }
-
-        document.querySelectorAll('.course_lesson-item').forEach(function(item) {
-          var paidId = parseInt(item.getAttribute('data-pack-paid-id'), 10);
-          var lessonMask = item.querySelector('.course_lesson-mask');
-
-          if (paidId > accessLevel || hasSpecialPlan) {
-            item.style.opacity = '1';
-            if (lessonMask) lessonMask.style.display = 'none';
-          } else {
-            item.style.opacity = '0.5';
-            if (lessonMask) lessonMask.style.display = 'block';
-          }
-        });
-
-        var courseNavigation = document.getElementById('courseNavigationEco');
-        var allItemsActive = accessLevel >= 3 || hasSpecialPlan;
-        if (!allItemsActive && courseNavigation) courseNavigation.style.display = 'none';
-        else if (courseNavigation) courseNavigation.style.display = 'flex';
+        // Définir le prix et l'URL du bouton pour le pack plan
+        if (hasMegaPackPlan) {
+          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "332€";
+          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mega-pack-webflow-332/etape/commande-mega-pack-webflow-332/";
+          if (courseTimeName1) courseTimeName1.textContent = "Mega Pack 1";
+          if (courseTimeName2) courseTimeName2.textContent = "Mega Pack 2";
+        }
       } else {
-        console.log("L'utilisateur n'est pas sur un des plans requis pour ce contenu.");
+        // Définir le prix et l'URL du bouton pour le plan mini-pack
+        if (hasMiniPackPlan) {
+          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "213€";
+          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mini-pack-webflow-213/etape/commande-mini-pack-webflow-213/";
+          if (courseTimeName1) courseTimeName1.textContent = "Mini Pack 1";
+          if (courseTimeName2) courseTimeName2.textContent = "Mini Pack 2";
+        }
+        // Définir le prix et l'URL du bouton pour le pack plan
+        if (hasMegaPackPlan) {
+          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "664€";
+          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mega-pack-webflow-664/etape/commande-mega-pack-webflow-664/";
+          if (courseTimeName1) courseTimeName1.textContent = "Mega Pack 1";
+          if (courseTimeName2) courseTimeName2.textContent = "Mega Pack 2";
+        }
       }
+
+      document.querySelectorAll('.course_lesson-item').forEach(function(item) {
+        var paidId = parseInt(hasMiniPackPlan ? item.getAttribute('data-minipack-paid-id') : item.getAttribute('data-megapack-paid-id'), 10);
+        var lessonMask = item.querySelector('.course_lesson-mask');
+
+        if (paidId > accessLevel || hasSpecialPlan) {
+          item.style.opacity = '1';
+          if (lessonMask) lessonMask.style.display = 'none';
+        } else {
+          item.style.opacity = '0.5';
+          if (lessonMask) lessonMask.style.display = 'block';
+        }
+      });
+
+      var courseNavigation = document.getElementById('courseNavigation');
+      var allItemsActive = accessLevel >= 3 || hasSpecialPlan;
+      if (!allItemsActive && courseNavigation) courseNavigation.style.display = 'none';
+      else if (courseNavigation) courseNavigation.style.display = 'flex';
     } else {
       console.log("Les informations du membre ne sont pas disponibles dans le localStorage ou la date de début est manquante.");
     }
@@ -82,4 +112,4 @@ window.addEventListener('load', function() {
   checkMemberPlan();
 });
 
-/*-- FIN : Drip Content paiement en plusieurs fois --*/
+/*-- FIN : Drip Content paiement en plusieurs fois combiné --*/
