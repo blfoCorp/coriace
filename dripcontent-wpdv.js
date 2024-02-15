@@ -25,11 +25,11 @@ window.addEventListener('load', function() {
         "pln_le-mega-pack-webflow-2ljs0t3b"
       ];
       var hasSpecialPlan = userData.planConnections.some(plan => {
-      return plan.planId === "pln_coriace-formation-webflow-page-de-vente-6b4m0150" && plan.status === "ACTIVE";
+        return plan.planId === "pln_coriace-formation-webflow-page-de-vente-6b4m0150" && plan.status === "ACTIVE";
       }) || userData.planConnections.some(plan => {
-      return plan.planId === "pln_webflow-le-pack-ezhb0291" && plan.status === "ACTIVE";
+        return plan.planId === "pln_webflow-le-pack-ezhb0291" && plan.status === "ACTIVE";
       }) || userData.planConnections.some(plan => {
-      return plan.planId === "pln_le-mega-pack-webflow-2ljs0t3b" && plan.status === "ACTIVE";
+        return plan.planId === "pln_le-mega-pack-webflow-2ljs0t3b" && plan.status === "ACTIVE";
       });
       var hasWpdvPlan = userData.planConnections.some(plan => plan.planId === "pln_formation-webflow-page-de-vente-3-fois--ul110zw2" && plan.status === "ACTIVE");
       var hasPackPlan = userData.planConnections.some(plan => plan.planId === "pln_webflow-le-pack-3-fois--sshd024y" && plan.status === "ACTIVE");
@@ -37,11 +37,11 @@ window.addEventListener('load', function() {
 
       var startDate;
       if (hasWpdvPlan) {
-          startDate = new Date(userData.metaData.start_date_wf_wpdv);
+        startDate = new Date(userData.metaData.start_date_wf_wpdv);
       } else if (hasPackPlan) {
-          startDate = new Date(userData.metaData.start_date_wf_pack);
+        startDate = new Date(userData.metaData.start_date_wf_pack);
       } else if (hasMegaPackPlan) {
-          startDate = new Date(userData.metaData.start_date_wf_megapack);
+        startDate = new Date(userData.metaData.start_date_wf_megapack);
       }
       var daysForLevel2 = 30;
       var daysForLevel3 = 60;
@@ -55,9 +55,6 @@ window.addEventListener('load', function() {
       var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
       var timeLeftSpanLevel2 = document.getElementById('courseTimeLeft2');
       var timeLeftSpanLevel3 = document.getElementById('courseTimeLeft3');
-      var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
-      var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
-     
 
       if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2.toString();
       if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3.toString();
@@ -67,18 +64,16 @@ window.addEventListener('load', function() {
       var courseTimeLeftButton = document.getElementById('courseTimeLeftButton');
       var courseTimeName1 = document.getElementById('courseTimeName1');
       var courseTimeName2 = document.getElementById('courseTimeName2');
-      
+
       if (daysSinceStart >= daysForLevel2) {
         if (courseTimeLeftCard2) courseTimeLeftCard2.style.display = 'none';
-        
-        // Définir le prix et l'URL du bouton pour le plan e-commerce
+
         if (hasWpdvPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "60€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-webflow-page-de-vente-60/etape/commande-webflow-page-de-vente-60/";
           if (courseTimeName1) courseTimeName1.textContent = "Niveau 1";
           if (courseTimeName2) courseTimeName2.textContent = "Niveau 2";
         }
-        // Définir le prix et l'URL du bouton pour le pack plan
         if (hasPackPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "180€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-pack-webflow-180/etape/commande-pack-webflow-180/";
@@ -92,14 +87,12 @@ window.addEventListener('load', function() {
           if (courseTimeName2) courseTimeName2.textContent = "Mega Pack 2";
         }
       } else {
-        // Définir le prix et l'URL du bouton pour le plan e-commerce
         if (hasWpdvPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "120€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-webflow-page-de-vente-120/etape/commande-webflow-page-de-vente-120/";
           if (courseTimeName1) courseTimeName1.textContent = "Niveau 1";
           if (courseTimeName2) courseTimeName2.textContent = "Niveau 2";
         }
-        // Définir le prix et l'URL du bouton pour le pack plan
         if (hasPackPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "360€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-pack-webflow-360/etape/commande-pack-webflow-360/";
@@ -114,42 +107,40 @@ window.addEventListener('load', function() {
         }
       }
 
-        document.querySelectorAll('.course_lesson-item').forEach(function(item) {
-      // Ces lignes restent inchangées; elles déterminent le plan de l'utilisateur et l'ID payant associé.
-      var paidId;
-      if (hasWpdvPlan) {
+      document.querySelectorAll('.course_lesson-item').forEach(function(item) {
+        var paidId;
+        if (hasWpdvPlan) {
           paidId = parseInt(item.getAttribute('data-paid-id'), 10);
-      } else if (hasPackPlan) {
+        } else if (hasPackPlan) {
           paidId = parseInt(item.getAttribute('data-pack-paid-id'), 10);
-      } else if (hasMegaPackPlan) {
+        } else if (hasMegaPackPlan) {
           paidId = parseInt(item.getAttribute('data-megapack-paid-id'), 10);
-      }
-      var lessonMask = item.querySelector('.course_lesson-mask');
-  
-      // Ajoutez ici la vérification de hasSpecialPlan
-      // Si l'utilisateur a un accès spécial (complet), le masque de la leçon devrait toujours être masqué.
-      if (hasSpecialPlan) {
+        }
+        var lessonMask = item.querySelector('.course_lesson-mask');
+
+        if (hasSpecialPlan) {
           item.style.opacity = '1';
           if (lessonMask) lessonMask.style.display = 'none';
-      } else {
-          // Si l'utilisateur n'a pas d'accès spécial, continuez avec la logique existante
-          // basée sur le niveau d'accès et les plans d'adhésion.
+        } else {
           if (paidId > accessLevel) {
-              item.style.opacity = '0.5';
-              if (lessonMask) lessonMask.style.display = 'block';
+            item.style.opacity = '0.5';
+            if (lessonMask) lessonMask.style.display = 'block';
           } else {
-              item.style.opacity = '1';
-              if (lessonMask) lessonMask.style.display = 'none';
+            item.style.opacity = '1';
+            if (lessonMask) lessonMask.style.display = 'none';
           }
-      }
-  });
+        }
+      });
 
-var courseNavigation = document.getElementById('courseNavigation');
-var allItemsActive = accessLevel >= 3 || hasSpecialPlan;
-if (!allItemsActive && courseNavigation) courseNavigation.style.display = 'none';
-else if (courseNavigation) courseNavigation.style.display = 'flex';
+      var courseNavigation = document.getElementById('courseNavigation');
+      var allItemsActive = accessLevel >= 3 || hasSpecialPlan;
+      if (!allItemsActive && courseNavigation) courseNavigation.style.display = 'none';
+      else if (courseNavigation) courseNavigation.style.display = 'flex';
+    }
+  }
 
+  // Appel de la fonction pour vérifier le plan d'adhésion
   checkMemberPlan();
-};
+});
 
 /*-- FIN : Drip Content paiement en plusieurs fois combiné --*/
