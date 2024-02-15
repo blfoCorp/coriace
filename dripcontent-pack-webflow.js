@@ -58,12 +58,12 @@ window.addEventListener('load', function() {
           var paidId = parseInt(item.getAttribute('data-pack-paid-id'), 10);
           var lessonMask = item.querySelector('.course_lesson-mask');
 
-          if (paidId > accessLevel && !hasSpecialPlan) {
-            item.style.opacity = '0.5';
-            if (lessonMask) lessonMask.style.display = 'block';
-          } else {
+          if (paidId > accessLevel || hasSpecialPlan) {
             item.style.opacity = '1';
             if (lessonMask) lessonMask.style.display = 'none';
+          } else {
+            item.style.opacity = '0.5';
+            if (lessonMask) lessonMask.style.display = 'block';
           }
         });
 
