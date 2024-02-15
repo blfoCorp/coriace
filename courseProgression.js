@@ -1,7 +1,11 @@
 /*-- DÉBUT : Progression de chaque formation en fonction de la durée des vidéos dans Vimeo --*/
 console.log('Le script GitHub est chargé.');
 const formations = {
-  "formation-wpdv": [
+   "formation-wf-initiation": [
+    "882485897", "882486068", "882485668"
+    ],
+  "formation-wpdv": 
+    [
     "765638967", "765646490", "765678273", "765470935", "765470788",
     "765470896", "765470977", "765471109", "766184062", "766091899",
     "765763265", "766041987", "766042083", "766112481", "766126896",
@@ -54,9 +58,6 @@ const formations = {
    "formation-cookies": [
     "828293530", "828292786", "828294615", "828294117", "786648899",
     "786648732", "786649146", "786649100"
-  ],
-   "formation-wf-initiation": [
-    "882485897", "882486068", "882485668"
   ]
  };
 
