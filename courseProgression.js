@@ -1,6 +1,11 @@
 /*-- DÉBUT : Progression de chaque formation en fonction de la durée des vidéos dans Vimeo --*/
 console.log('Le script GitHub est chargé.');
 const formations = {
+   "formation-fig-initiation": [
+    "847579423", "887619549", "847579363", "847579508", "847579467",
+    "847579556", "847579578", "847579752", "847579672", "847580262",
+    "847580183", "847579618", "847580083"
+    ],
    "formation-wf-initiation": [
     "882485897", "882486068", "882485668"
     ],
