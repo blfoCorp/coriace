@@ -66,7 +66,7 @@ const formations = {
   ]
  };
 
- const accessToken = 'c09f39f239fbdaf13857dd8f537d713d';
+const accessToken = 'c09f39f239fbdaf13857dd8f537d713d'; // Remplacez par votre vrai token d'accès
 
 function cleanJson(json) {
   while (json.data) {
@@ -75,12 +75,7 @@ function cleanJson(json) {
   return json;
 }
 
-async function fetchVimeoVideoDuration(videoId, videoDurationsCache, formationName) {
-
-  if (videoDurationsCache[videoId]) {
-    return videoDurationsCache[videoId];
-  }
-
+async function fetchVimeoVideoDuration(videoId, accessToken) {
   const url = `https://api.vimeo.com/videos/${videoId}`;
   try {
     const response = await fetch(url, {
@@ -94,50 +89,59 @@ async function fetchVimeoVideoDuration(videoId, videoDurationsCache, formationNa
     }
 
     const data = await response.json();
-
-    videoDurationsCache[videoId] = data.duration;
-    localStorage.setItem(`videoDurations-${formationName}`, JSON.stringify(videoDurationsCache));
     return data.duration;
   } catch (error) {
+    console.error("Erreur lors de la récupération de la durée de la vidéo : ", error);
     return 0;
   }
 }
 
-async function calculateFormationProgress(memberJson, formationVideos, formationName) {
-  let totalProgress = 0;
-  let totalTime = 0;
-
-  const videoDurationsCache = JSON.parse(localStorage.getItem(`videoDurations-${formationName}`)) || {};
+async function calculateAndSaveTotalFormationDuration(formationVideos, formationName, accessToken) {
+  let totalDuration = 0;
 
   for (const videoId of formationVideos) {
-    if (memberJson.lessons && memberJson.lessons[videoId]) {
-      totalProgress += memberJson.lessons[videoId].time;
-    }
-    totalTime += await fetchVimeoVideoDuration(videoId, videoDurationsCache, formationName);
+    const videoDuration = await fetchVimeoVideoDuration(videoId, accessToken);
+    totalDuration += videoDuration;
   }
 
-  return totalTime > 0 ? (totalProgress / totalTime) * 100 : 0;
+  // Sauvegarder la durée totale de la formation
+  localStorage.setItem(`totalDuration-${formationName}`, totalDuration.toString());
 }
 
-console.log('Déclenchement de updateProgressBars');
-document.addEventListener('updateProgressBars', async function() {
-  console.log('Updating progress bars...');
+async function updateProgressBars() {
   const member = await window.$memberstackDom.getCurrentMember();
   if (member) {
     let memberJson = await window.$memberstackDom.getMemberJSON();
     let cleanedJson = cleanJson(memberJson);
 
     for (const [formationName, videoIds] of Object.entries(formations)) {
-      const progress = await calculateFormationProgress(cleanedJson, videoIds, formationName);
+      // Vérifier si la durée totale de la formation a déjà été sauvegardée
+      if (!localStorage.getItem(`totalDuration-${formationName}`)) {
+        await calculateAndSaveTotalFormationDuration(videoIds, formationName, accessToken);
+      }
+
+      // Calculer la progression en utilisant la durée totale sauvegardée
+      const totalDuration = parseInt(localStorage.getItem(`totalDuration-${formationName}`), 10);
+      let totalProgress = 0;
+
+      for (const videoId of videoIds) {
+        if (cleanedJson.lessons && cleanedJson.lessons[videoId]) {
+          totalProgress += cleanedJson.lessons[videoId].time;
+        }
+      }
+
+      const progress = totalDuration > 0 ? (totalProgress / totalDuration) * 100 : 0;
       const formationProgressElement = document.querySelector(`#progress-${formationName}`);
       if (formationProgressElement) {
         formationProgressElement.style.width = `${progress}%`;
       }
     }
+    console.log('Progress bars updated.');
   }
-  console.log('Progress bars updated.');
-});
+}
 
-document.dispatchEvent(new Event('updateProgressBars'));
+document.addEventListener('DOMContentLoaded', function() {
+  updateProgressBars();
+});
 
 /*-- FIN : Progression de chaque formation en fonction de la durée des vidéos dans Vimeo --*/
