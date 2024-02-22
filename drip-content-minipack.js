@@ -47,7 +47,12 @@ window.addEventListener('load', function() {
         var hasMiniPackPlan = userData.planConnections.some(plan => miniPackPlanIds.includes(plan.planId) && plan.status === "ACTIVE");
         var hasMegaPackPlan = userData.planConnections.some(plan => megaPackPlanIds.includes(plan.planId) && plan.status === "ACTIVE");
   
-        var startDate = new Date(userData.metaData.start_date_wf_minipack || userData.metaData.start_date_wf_megapack);
+        var startDate;
+          if (hasMiniPackPlan) {
+            startDate = new Date(userData.metaData.start_date_wf_minipack);
+          } else if (hasMegaPackPlan) {
+            startDate = new Date(userData.metaData.start_date_wf_megapack);
+          }
         var daysForLevel2 = 30;
         var daysForLevel3 = 60;
         var daysSinceStart = Math.floor((new Date() - startDate) / (1000 * 60 * 60 * 24));
