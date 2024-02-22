@@ -62,7 +62,9 @@ window.addEventListener('load', function() {
         if (daysSinceStart >= daysForLevel3) { accessLevel = 3; }
   
         var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
+        console.log('Time left for level 2:', timeLeftForLevel2);
         var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
+        console.log('Time left for level 3:', timeLeftForLevel3);
         var timeLeftSpanLevel2 = document.getElementById('courseTimeLeft2');
         var timeLeftSpanLevel3 = document.getElementById('courseTimeLeft3');
   
