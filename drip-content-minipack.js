@@ -2,10 +2,10 @@
 
 window.addEventListener('load', function() {
   function calculateDaysLeft(startDate, daysToAdd) {
-  if (!startDate) {
-    console.error('La date de début est undefined.');
-    return 0; // Ou toute autre valeur par défaut que vous voulez retourner dans ce cas.
-  }
+    if (!startDate) {
+      console.error('La date de début est undefined.');
+      return 0; // Ou toute autre valeur par défaut que vous voulez retourner dans ce cas.
+    }
 
     var futureDate = new Date(startDate.getTime());
     futureDate.setDate(futureDate.getDate() + daysToAdd);
@@ -25,15 +25,27 @@ window.addEventListener('load', function() {
         "pln_le-mega-pack-webflow-3-fois--tnkm02zj",
         "pln_le-mega-pack-webflow-2ljs0t3b"
       ];
-      var hasSpecialPlan = userData.planConnections.some(plan => {
-      return plan.planId === "pln_le-mini-pack-webflow-2kje0tkt" && plan.status === "ACTIVE";
-      }) || userData.planConnections.some(plan => {
-      return plan.planId === "pln_le-mega-pack-webflow-2ljs0t3b" && plan.status === "ACTIVE";
-      });
-      var hasMiniPackPlan = userData.planConnections.some(plan => plan.planId === "pln_le-mini-pack-webflow-3-fois--lsj50wev" && plan.status === "ACTIVE");
-      var hasMegaPackPlan = userData.planConnections.some(plan => plan.planId === "pln_le-mega-pack-webflow-3-fois--tnkm02zj" && plan.status === "ACTIVE");
+      var individualPlanIds = [
+        "pln_coriace-client-first-d-butant-tv510vvg",
+        "pln_coriace-webflow-cookies-2t4s03hj",
+        "pln_coriace-webflow-th-orie-kb500c0t",
+        "pln_coriace-udesly-webflow-vers-shopify-tf510c18"
+      ];
 
-      var startDate = hasMiniPackPlan ? new Date(userData.metaData.start_date_wf_minipack) : new Date(userData.metaData.start_date_wf_megapack);
+      var hasSpecialPlan = userData.planConnections.some(plan => {
+        return miniPackPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
+      }) || userData.planConnections.some(plan => {
+        return megaPackPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
+      });
+
+      var hasIndividualPlan = userData.planConnections.some(plan => {
+        return individualPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
+      });
+
+      var hasMiniPackPlan = userData.planConnections.some(plan => miniPackPlanIds.includes(plan.planId) && plan.status === "ACTIVE");
+      var hasMegaPackPlan = userData.planConnections.some(plan => megaPackPlanIds.includes(plan.planId) && plan.status === "ACTIVE");
+
+      var startDate = new Date(userData.metaData.start_date_wf_minipack || userData.metaData.start_date_wf_megapack);
       var daysForLevel2 = 30;
       var daysForLevel3 = 60;
       var daysSinceStart = Math.floor((new Date() - startDate) / (1000 * 60 * 60 * 24));
@@ -46,8 +58,6 @@ window.addEventListener('load', function() {
       var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
       var timeLeftSpanLevel2 = document.getElementById('courseTimeLeft2');
       var timeLeftSpanLevel3 = document.getElementById('courseTimeLeft3');
-      var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
-      var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
 
       if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2.toString();
       if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3.toString();
@@ -56,41 +66,51 @@ window.addEventListener('load', function() {
       var courseTimeLeftPrice = document.getElementById('courseTimeLeftPrice');
       var courseTimeLeftButton = document.getElementById('courseTimeLeftButton');
 
-      if (daysSinceStart >= daysForLevel2) {
-        if (courseTimeLeftCard2) courseTimeLeftCard2.style.display = 'none';
-        
-        // Définir le prix et l'URL du bouton pour le plan e-commerce
-        if (hasMiniPackPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "52€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mini-pack-webflow-52/etape/commande-mini-pack-webflow-52/";
-        }
-        // Définir le prix et l'URL du bouton pour le pack plan
-        if (hasMegaPackPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "116€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mega-pack-webflow-116/etape/commande-mega-pack-webflow-116/";
-          if (courseTimeName1) courseTimeName1.textContent = "Mega Pack 1";
-          if (courseTimeName2) courseTimeName2.textContent = "Mega Pack 2";
-        }
+      // La logique pour ajuster le contenu et les liens en fonction des plans individuels et des packs
+      if (hasIndividualPlan) {
+        // Logique pour débloquer le contenu pour les utilisateurs avec des plans individuels
+        document.querySelectorAll('.course_lesson-item').forEach(function(item) {
+          // Supposons que chaque élément de leçon ait un attribut `data-plan-id` qui correspond à un plan individuel
+          var itemPlanId = item.getAttribute('data-plan-id');
+          if (individualPlanIds.includes(itemPlanId)) {
+            var lessonMask = item.querySelector('.course_lesson-mask');
+            item.style.opacity = '1';
+            if (lessonMask) lessonMask.style.display = 'none'; // Masquer le masque, indiquant que le contenu est débloqué
+          }
+        });
       } else {
-        // Définir le prix et l'URL du bouton pour le plan e-commerce
-        if (hasMiniPackPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "104€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mini-pack-webflow-104/etape/commande-mini-pack-webflow-104/";
-        }
-        // Définir le prix et l'URL du bouton pour le pack plan
-        if (hasMegaPackPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "232€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mega-pack-webflow-232/etape/commande-mega-pack-webflow-232/";
-          if (courseTimeName1) courseTimeName1.textContent = "Mega Pack 1";
-          if (courseTimeName2) courseTimeName2.textContent = "Mega Pack 2";
+        // Logique existante pour les packs
+        if (daysSinceStart >= daysForLevel2) {
+          if (courseTimeLeftCard2) courseTimeLeftCard2.style.display = 'none';
+          
+          if (hasMiniPackPlan) {
+            if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "52€";
+            if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mini-pack-webflow-52/etape/commande-mini-pack-webflow-52/";
+          }
+
+          if (hasMegaPackPlan) {
+            if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "116€";
+            if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mega-pack-webflow-116/etape/commande-mega-pack-webflow-116/";
+          }
+        } else {
+          // La logique pour le prix et les liens avant d'atteindre le niveau 2
+          if (hasMiniPackPlan) {
+            if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "104€";
+            if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mini-pack-webflow-104/etape/commande-mini-pack-webflow-104/";
+          }
+
+          if (hasMegaPackPlan) {
+            if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "232€";
+            if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mega-pack-webflow-232/etape/commande-mega-pack-webflow-232/";
+          }
         }
       }
 
       document.querySelectorAll('.course_lesson-item').forEach(function(item) {
-        var paidId = parseInt(hasMiniPackPlan ? item.getAttribute('data-minipack-paid-id') : item.getAttribute('data-megapack-paid-id'), 10);
+        var paidId = parseInt(item.getAttribute('data-paid-id'), 10); // Ajusté pour un attribut général 'data-paid-id'
         var lessonMask = item.querySelector('.course_lesson-mask');
 
-        if (paidId > accessLevel) {
+        if ((hasMiniPackPlan || hasMegaPackPlan) && paidId > accessLevel) {
           item.style.opacity = '0.5';
           if (lessonMask) lessonMask.style.display = 'block';
         } else {
@@ -100,7 +120,7 @@ window.addEventListener('load', function() {
       });
 
       var courseNavigation = document.getElementById('courseNavigation');
-      var allItemsActive = accessLevel >= 3 || hasSpecialPlan;
+      var allItemsActive = accessLevel >= 3 || hasSpecialPlan || hasIndividualPlan;
       if (!allItemsActive && courseNavigation) courseNavigation.style.display = 'none';
       else if (courseNavigation) courseNavigation.style.display = 'flex';
     } else {
