@@ -144,9 +144,7 @@ window.addEventListener('load', function() {
       } else if (courseNavigation) {
         console.log('Course navigation displayed.');
         courseNavigation.style.display = 'flex';
-}
-
-
+      }
   checkMemberPlan();
 });
 
