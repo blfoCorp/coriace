@@ -59,8 +59,6 @@ window.addEventListener('load', function() {
       var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
       var timeLeftSpanLevel2 = document.getElementById('courseTimeLeft2');
       var timeLeftSpanLevel3 = document.getElementById('courseTimeLeft3');
-      var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
-      var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
 
       if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2.toString();
       if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3.toString();
