@@ -44,11 +44,6 @@ window.addEventListener('load', function() {
       });
       console.log('Has individual plan:', hasIndividualPlan);
 
-
-      var hasIndividualPlan = userData.planConnections.some(plan => {
-        return individualPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
-      });
-
       var hasMiniPackPlan = userData.planConnections.some(plan => miniPackPlanIds.includes(plan.planId) && plan.status === "ACTIVE");
       var hasMegaPackPlan = userData.planConnections.some(plan => megaPackPlanIds.includes(plan.planId) && plan.status === "ACTIVE");
 
@@ -115,28 +110,42 @@ window.addEventListener('load', function() {
         }
       }
 
-      document.querySelectorAll('.course_lesson-item').forEach(function(item) {
-        var paidId = parseInt(item.getAttribute('data-paid-id'), 10);
-        console.log('Paid ID:', paidId, 'Access Level:', accessLevel);
+       document.querySelectorAll('.course_lesson-item').forEach(function(item) {
+        // Ajouter un log pour voir l'ID payé récupéré et le plan concerné
+        var paidId = parseInt(hasMiniPackPlan ? item.getAttribute('data-minipack-paid-id') : item.getAttribute('data-megapack-paid-id'), 10);
+        console.log('Processing lesson item, Paid ID:', paidId, 'Access Level:', accessLevel, 'MiniPack Plan:', hasMiniPackPlan, 'MegaPack Plan:', hasMegaPackPlan);
+      
         var lessonMask = item.querySelector('.course_lesson-mask');
-
-        if ((hasMiniPackPlan || hasMegaPackPlan) && paidId > accessLevel) {
+      
+        if (paidId > accessLevel) {
+          console.log('Content blocked, Paid ID:', paidId, '> Access Level:', accessLevel);
           item.style.opacity = '0.5';
-          if (lessonMask) lessonMask.style.display = 'block';
+          if (lessonMask) {
+            lessonMask.style.display = 'block';
+            console.log('Lesson mask displayed for item with Paid ID:', paidId);
+          }
         } else {
+          console.log('Content accessible, Paid ID:', paidId, '<= Access Level:', accessLevel);
           item.style.opacity = '1';
-          if (lessonMask) lessonMask.style.display = 'none';
+          if (lessonMask) {
+            lessonMask.style.display = 'none';
+            console.log('Lesson mask hidden for item with Paid ID:', paidId);
+          }
         }
       });
-
+      
       var courseNavigation = document.getElementById('courseNavigation');
-      var allItemsActive = accessLevel >= 3 || hasSpecialPlan || hasIndividualPlan;
-      if (!allItemsActive && courseNavigation) courseNavigation.style.display = 'none';
-      else if (courseNavigation) courseNavigation.style.display = 'flex';
-    } else {
-      console.log("Les informations du membre ne sont pas disponibles dans le localStorage ou la date de début est manquante.");
-    }
-  }
+      var allItemsActive = accessLevel >= 3 || hasSpecialPlan;
+      console.log('All items active:', allItemsActive, 'Access Level:', accessLevel, 'Special Plan:', hasSpecialPlan);
+      
+      if (!allItemsActive && courseNavigation) {
+        console.log('Course navigation hidden due to access level or lack of special plan.');
+        courseNavigation.style.display = 'none';
+      } else if (courseNavigation) {
+        console.log('Course navigation displayed.');
+        courseNavigation.style.display = 'flex';
+}
+
 
   checkMemberPlan();
 });
