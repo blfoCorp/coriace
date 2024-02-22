@@ -33,10 +33,17 @@ window.addEventListener('load', function() {
       ];
 
       var hasSpecialPlan = userData.planConnections.some(plan => {
-        return miniPackPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
+      return miniPackPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
       }) || userData.planConnections.some(plan => {
         return megaPackPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
       });
+      console.log('Has special plan:', hasSpecialPlan);
+      
+      var hasIndividualPlan = userData.planConnections.some(plan => {
+        return individualPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
+      });
+      console.log('Has individual plan:', hasIndividualPlan);
+
 
       var hasIndividualPlan = userData.planConnections.some(plan => {
         return individualPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
@@ -68,17 +75,19 @@ window.addEventListener('load', function() {
 
       // La logique pour ajuster le contenu et les liens en fonction des plans individuels et des packs
       if (hasIndividualPlan) {
-        // Logique pour débloquer le contenu pour les utilisateurs avec des plans individuels
+        console.log('Adjusting content for individual plan...');
         document.querySelectorAll('.course_lesson-item').forEach(function(item) {
-          // Supposons que chaque élément de leçon ait un attribut `data-plan-id` qui correspond à un plan individuel
           var itemPlanId = item.getAttribute('data-plan-id');
+          console.log('Checking item with plan ID:', itemPlanId);
           if (individualPlanIds.includes(itemPlanId)) {
+            console.log('Item matches an individual plan, adjusting display...');
             var lessonMask = item.querySelector('.course_lesson-mask');
             item.style.opacity = '1';
             if (lessonMask) lessonMask.style.display = 'none'; // Masquer le masque, indiquant que le contenu est débloqué
           }
         });
       } else {
+      console.log('Adjusting content for packs plan...');
         // Logique existante pour les packs
         if (daysSinceStart >= daysForLevel2) {
           if (courseTimeLeftCard2) courseTimeLeftCard2.style.display = 'none';
@@ -107,7 +116,8 @@ window.addEventListener('load', function() {
       }
 
       document.querySelectorAll('.course_lesson-item').forEach(function(item) {
-        var paidId = parseInt(item.getAttribute('data-paid-id'), 10); // Ajusté pour un attribut général 'data-paid-id'
+        var paidId = parseInt(item.getAttribute('data-paid-id'), 10);
+        console.log('Paid ID:', paidId, 'Access Level:', accessLevel);
         var lessonMask = item.querySelector('.course_lesson-mask');
 
         if ((hasMiniPackPlan || hasMegaPackPlan) && paidId > accessLevel) {
