@@ -68,22 +68,7 @@ window.addEventListener('load', function() {
         var courseTimeLeftPrice = document.getElementById('courseTimeLeftPrice');
         var courseTimeLeftButton = document.getElementById('courseTimeLeftButton');
   
-        // La logique pour ajuster le contenu et les liens en fonction des plans individuels et des packs
-        if (hasIndividualPlan) {
-          console.log('Adjusting content for individual plan...');
-          document.querySelectorAll('.course_lesson-item').forEach(function(item) {
-            var itemPlanId = item.getAttribute('data-plan-id');
-            console.log('Checking item with plan ID:', itemPlanId);
-            if (individualPlanIds.includes(itemPlanId)) {
-              console.log('Item matches an individual plan, adjusting display...');
-              var lessonMask = item.querySelector('.course_lesson-mask');
-              item.style.opacity = '1';
-              if (lessonMask) lessonMask.style.display = 'none'; // Masquer le masque, indiquant que le contenu est débloqué
-            }
-          });
-        } else {
-        console.log('Adjusting content for packs plan...');
-          // Logique existante pour les packs
+        
           if (daysSinceStart >= daysForLevel2) {
             if (courseTimeLeftCard2) courseTimeLeftCard2.style.display = 'none';
             
@@ -108,30 +93,34 @@ window.addEventListener('load', function() {
               if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mega-pack-webflow-232/etape/commande-mega-pack-webflow-232/";
             }
           }
-        }
   
-         document.querySelectorAll('.course_lesson-item').forEach(function(item) {
-          // Ajouter un log pour voir l'ID payé récupéré et le plan concerné
-          var paidId = parseInt(hasMiniPackPlan ? item.getAttribute('data-minipack-paid-id') : item.getAttribute('data-megapack-paid-id'), 10);
-          console.log('Processing lesson item, Paid ID:', paidId, 'Access Level:', accessLevel, 'MiniPack Plan:', hasMiniPackPlan, 'MegaPack Plan:', hasMegaPackPlan);
-        
-          var lessonMask = item.querySelector('.course_lesson-mask');
-        
-          if (paidId > accessLevel) {
-            console.log('Content blocked, Paid ID:', paidId, '> Access Level:', accessLevel);
-            item.style.opacity = '0.5';
-            if (lessonMask) {
-              lessonMask.style.display = 'block';
-              console.log('Lesson mask displayed for item with Paid ID:', paidId);
-            }
-          } else {
-            console.log('Content accessible, Paid ID:', paidId, '<= Access Level:', accessLevel);
+        // Ajustement du contenu pour tous les items de cours
+        document.querySelectorAll('.course_lesson-item').forEach(function(item) {
+            // Vérification pour les plans individuels
+            var itemPlanId = item.getAttribute('data-plan-id');
+            if (hasIndividualPlan && individualPlanIds.includes(itemPlanId)) {
+            console.log('Item matches an individual plan, adjusting display...');
+            var lessonMask = item.querySelector('.course_lesson-mask');
             item.style.opacity = '1';
-            if (lessonMask) {
-              lessonMask.style.display = 'none';
-              console.log('Lesson mask hidden for item with Paid ID:', paidId);
+            if (lessonMask) lessonMask.style.display = 'none';
             }
-          }
+            // Vérification pour les packs en fonction de l'access level
+            else if (!hasIndividualPlan && (hasMiniPackPlan || hasMegaPackPlan)) {
+            var paidIdAttribute = hasMiniPackPlan ? 'data-minipack-paid-id' : 'data-megapack-paid-id';
+            var paidId = parseInt(item.getAttribute(paidIdAttribute), 10);
+            console.log('Processing lesson item, Paid ID:', paidId, 'Access Level:', accessLevel);
+            var lessonMask = item.querySelector('.course_lesson-mask');
+
+            if (paidId > accessLevel) {
+                console.log('Content blocked, Paid ID:', paidId, '> Access Level:', accessLevel);
+                item.style.opacity = '0.5';
+                if (lessonMask) lessonMask.style.display = 'block';
+            } else {
+                console.log('Content accessible, Paid ID:', paidId, '<= Access Level:', accessLevel);
+                item.style.opacity = '1';
+                if (lessonMask) lessonMask.style.display = 'none';
+            }
+            }
         });
         
         var courseNavigation = document.getElementById('courseNavigation');
