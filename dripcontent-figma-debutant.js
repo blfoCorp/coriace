@@ -48,18 +48,18 @@ window.addEventListener('load', function() {
         // Ici, vous ajustez les informations en fonction des niveaux d'accès
         // Par exemple, changer le prix et l'URL pour le niveau 2
         if (hasFigmaAZBeginnerPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "Prix spécial Niveau 2";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.example.com/figma-niveau-2";
-          if (courseTimeName1) courseTimeName1.textContent = "Figma Débutant";
-          if (courseTimeName2) courseTimeName2.textContent = "Figma Avancé";
+          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "60";
+          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-figma-debutant-reste-a-regler-60/etape/commande-figma-debutant-reste-a-regler-60/";
+          if (courseTimeName1) courseTimeName1.textContent = "lessons suivantes";
+          if (courseTimeName2) courseTimeName2.textContent = "lessons suivantes";
         }
       } else {
         // Paramètres par défaut pour le niveau 1
         if (hasFigmaAZBeginnerPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "Prix standard Niveau 1";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.example.com/figma-niveau-1";
-          if (courseTimeName1) courseTimeName1.textContent = "Figma Débutant";
-          if (courseTimeName2) courseTimeName2.textContent = "Préparez-vous pour le niveau 2!";
+          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "30";
+          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-figma-debutant-reste-a-regler-30/etape/commande-figma-debutant-reste-a-regler-30/";
+          if (courseTimeName1) courseTimeName1.textContent = "lessons suivantes";
+          if (courseTimeName2) courseTimeName2.textContent = "lessons suivantes";
         }
       }
   
