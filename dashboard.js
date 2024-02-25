@@ -200,7 +200,7 @@ const citations = [
     "Je peux pas, j'ai no-code."
 ];
 
-// Fonction pour obtenir un nombre aléatoire basé sur la date du jour
+// ----- CODE POUR AFFICHER LE NOMBRE TOTAL DE LEÇONS VISIONNÉES ------//
 function genererIndexAleatoire() {
     const aujourdHui = new Date();
     const graine = aujourdHui.getFullYear() * 10000 + (aujourdHui.getMonth() + 1) * 100 + aujourdHui.getDate();
@@ -216,3 +216,33 @@ function afficherCitation() {
 
 // Appel de la fonction afficherCitation() quand la page est chargée
 document.addEventListener('DOMContentLoaded', afficherCitation);
+
+// Fonction pour compter les vidéos visionnées et mettre à jour l'affichage
+async function updateVideoCountDisplay() {
+  const totalVideos = 458; // Le nombre total de vidéos
+  const member = await window.$memberstackDom.getCurrentMember();
+  
+  if (member) {
+    let memberJson = await window.$memberstackDom.getMemberJSON();
+    let cleanedJson = cleanJson(memberJson);
+
+    let videosWatched = 0; // Compteur pour les vidéos visionnées
+    if (cleanedJson && cleanedJson.lessons) {
+      Object.values(cleanedJson.lessons).forEach(lesson => {
+        if (lesson.time && lesson.time > 0) {
+          videosWatched++; // Incrémenter le compteur si la vidéo a été visionnée
+        }
+      });
+    }
+
+    // Afficher le compte de vidéos visionnées
+    const videosWatchedDisplay = document.querySelector('#videosWatchedDisplay'); // Supposer qu'il y a un élément avec cet ID
+    if (videosWatchedDisplay) {
+      videosWatchedDisplay.textContent = `${videosWatched}`;
+    }
+  }
+}
+
+// Appeler cette fonction pour mettre à jour l'affichage quand nécessaire
+updateVideoCountDisplay();
+
