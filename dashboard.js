@@ -174,7 +174,7 @@ const citations = [
     "Je peux pas, j'ai no-code."
 ];
 
-// ----- CODE POUR AFFICHER LE NOMBRE TOTAL DE LEÇONS VISIONNÉES ------//
+
 function genererIndexAleatoire() {
     const aujourdHui = new Date();
     const graine = aujourdHui.getFullYear() * 10000 + (aujourdHui.getMonth() + 1) * 100 + aujourdHui.getDate();
@@ -188,7 +188,7 @@ function afficherCitation() {
     document.getElementById('citationDuJour').innerText = citations[index];
 }
 
-// Appel de la fonction afficherCitation() quand la page est chargée
+// ----- CODE POUR AFFICHER LE NOMBRE TOTAL DE LEÇONS VISIONNÉES ------//
 document.addEventListener('DOMContentLoaded', afficherCitation);
 
 // Fonction pour compter les vidéos visionnées et mettre à jour l'affichage
