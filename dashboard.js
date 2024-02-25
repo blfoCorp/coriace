@@ -50,32 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// ----- FONCTION POUR SAUVEGARDER L'IDENTIFIANT AFFILIÉ DANS LES COOKIES ------//
-(function() {
-    function getCookie(name) {
-        let value = "; " + document.cookie;
-        let parts = value.split("; " + name + "=");
-        if (parts.length === 2) return parts.pop().split(";").shift();
-    }
-
-    let affiliateId = getCookie('aff_ref');
-
-    if (affiliateId) {
-        document.body.addEventListener('click', function(e) {
-            let target = e.target.closest('a');
-
-            if (target && target.hostname.endsWith('order.coriace.co')) {
-                e.preventDefault();
-                let newHref = target.href;
-                
-                newHref += newHref.indexOf('?') > -1 ? '&ref=' + encodeURIComponent(affiliateId) : '?ref=' + encodeURIComponent(affiliateId);
-
-                window.location.href = newHref;
-            }
-        }, false);
-    }
-})();
-
 
 
 // ----- FONCTION POUR AFFICHER LES DERNIÈRES LEÇONS DANS LE DASHBOARD ------//
