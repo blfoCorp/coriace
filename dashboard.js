@@ -184,3 +184,35 @@ async function loadLastThreeLessons() {
 document.addEventListener("DOMContentLoaded", function() {
   loadLastThreeLessons();
 });
+
+// ----- FONCTION POUR AFFICHER UNE CITATION ALÉATOIRE CHAQUE JOUR ------//
+const citations = [
+    "Le no-code est la démocratisation du développement ; il donne une voix à ceux qui n'ont jamais osé coder.",
+    "Dans l'ère du no-code, la seule erreur de syntaxe est de penser qu'on en a besoin pour créer quelque chose de grand.",
+    "Le no-code n'élimine pas les développeurs, il les multiplie.",
+    "Adopter le no-code, c'est comme apprendre une nouvelle langue sans mots : soudain, ce sont les idées qui parlent",
+    "Le no-code transforme les barrières techniques en tremplins créatifs.",
+    "Si le code est poésie, alors le no-code est un slam : accessible, expressif, et sans règles strictes.",
+    "Avec le no-code, chaque utilisateur est un artiste et chaque application, une œuvre d'art.",
+    "Le no-code ne simplifie pas seulement le développement ; il invite à repenser ce qui est possible.",
+    "Être no-code, c'est croire que la meilleure ligne de code est celle qu'on n'a pas à écrire.",
+    "Le no-code est le vent qui gonfle les voiles de l'innovation, permettant à chaque idée de naviguer librement sur les océans du digital.",
+    "Je peux pas, j'ai no-code."
+];
+
+// Fonction pour obtenir un nombre aléatoire basé sur la date du jour
+function genererIndexAleatoire() {
+    const aujourdHui = new Date();
+    const graine = aujourdHui.getFullYear() * 10000 + (aujourdHui.getMonth() + 1) * 100 + aujourdHui.getDate();
+    const rng = new Math.seedrandom(graine); // Utilisation de seedrandom pour générer un nombre aléatoire basé sur une graine
+    return Math.floor(rng() * citations.length);
+}
+
+// Fonction pour afficher la citation
+function afficherCitation() {
+    const index = genererIndexAleatoire();
+    document.getElementById('citationDuJour').innerText = citations[index];
+}
+
+// Appel de la fonction afficherCitation() quand la page est chargée
+document.addEventListener('DOMContentLoaded', afficherCitation);
