@@ -3,8 +3,15 @@ function isMobile() {
     return window.innerWidth < 991;
 }
 
+// Variable pour contrôler l'initialisation du menu
+let isMenuSetup = false;
+
 // Les fonctions et les gestionnaires d'événements seront définis à l'intérieur de cette fonction
 function setupMenu() {
+    // Empêche la réinitialisation des gestionnaires d'événements
+    if (isMenuSetup) return;
+    isMenuSetup = true;
+
     const menu = document.getElementById('menu');
     const submenus = document.querySelectorAll('.mm_submenu');
 
@@ -83,7 +90,9 @@ document.addEventListener('DOMContentLoaded', setupMenu);
 
 // Réajustez si la fenêtre est redimensionnée
 window.addEventListener('resize', function() {
-    if (isMobile()) {
-        setupMenu();
+    // Réinitialise isMenuSetup à false si on passe de mobile à desktop et inversement
+    if (!isMobile() || isMenuSetup) {
+        isMenuSetup = false;
     }
+    setupMenu();
 });
