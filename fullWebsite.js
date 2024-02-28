@@ -1,4 +1,3 @@
-<script>
 // Vérifie si la largeur de la fenêtre est inférieure à 991px
 function isMobile() {
     return window.innerWidth < 991;
@@ -88,4 +87,3 @@ window.addEventListener('resize', function() {
         setupMenu();
     }
 });
-</script>
