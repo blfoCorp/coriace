@@ -47,16 +47,16 @@ window.addEventListener('load', function() {
       if (daysSinceStart >= daysForLevel2) {
         if (courseTimeLeftCard2) courseTimeLeftCard2.style.display = 'none';
         if (hasFigmaAZBeginnerPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "60";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-figma-debutant-reste-a-regler-60/etape/commande-figma-debutant-reste-a-regler-60/";
+          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "30";
+          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-figma-debutant-reste-a-regler-30/etape/commande-figma-debutant-reste-a-regler-30/";
           if (courseTimeName1) courseTimeName1.textContent = "lessons suivantes";
           if (courseTimeName2) courseTimeName2.textContent = "lessons suivantes";
         }
       } else {
         // Paramètres par défaut pour le niveau 1
         if (hasFigmaAZBeginnerPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "30";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-figma-debutant-reste-a-regler-30/etape/commande-figma-debutant-reste-a-regler-30/";
+          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "60";
+          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-figma-debutant-reste-a-regler-60/etape/commande-figma-debutant-reste-a-regler-60/";
           if (courseTimeName1) courseTimeName1.textContent = "lessons suivantes";
           if (courseTimeName2) courseTimeName2.textContent = "lessons suivantes";
         }
