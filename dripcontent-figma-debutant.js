@@ -45,8 +45,7 @@ window.addEventListener('load', function() {
       var courseTimeName2 = document.getElementById('courseTimeName2');
   
       if (daysSinceStart >= daysForLevel2) {
-        // Ici, vous ajustez les informations en fonction des niveaux d'accès
-        // Par exemple, changer le prix et l'URL pour le niveau 2
+        if (courseTimeLeftCard2) courseTimeLeftCard2.style.display = 'none';
         if (hasFigmaAZBeginnerPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "60";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-figma-debutant-reste-a-regler-60/etape/commande-figma-debutant-reste-a-regler-60/";
