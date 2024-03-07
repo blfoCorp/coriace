@@ -100,7 +100,7 @@ window.addEventListener('resize', function() {
 
 
 
-// Fonction pour mettre à jour le code promo ou masquer l'élément si non trouvé
+// Fonction pour mettre à jour le code promo pour l'utilisateur et afficher l'élément si nécessaire
 function updatePromoCode() {
   // Récupérer la valeur JSON stockée dans le localStorage
   var memberData = localStorage.getItem('_ms-mem');
@@ -110,28 +110,27 @@ function updatePromoCode() {
     try {
       var memberObj = JSON.parse(memberData);
       
-      // Sélectionner l'élément de promo code et les éléments de promo popin
-      var promoElements = document.querySelectorAll('.promo-popin_code');
-      var promoPopinElement = document.querySelector('.promo-code_popin');
-      
       // Vérifier si l'objet 'metaData' et la clé 'coupon_name' existent
       if (memberObj && memberObj.metaData && memberObj.metaData.coupon_name) {
+        // Sélectionner tous les éléments avec la classe 'promo-popin_code'
+        var promoElements = document.querySelectorAll('.promo-popin_code');
+        // Sélectionner l'élément parent à afficher
+        var promoPopinElement = document.querySelector('.promo-code_popin');
+
         // Mettre à jour le contenu de chaque élément avec la valeur de 'coupon_name'
         promoElements.forEach(function(element) {
           element.textContent = memberObj.metaData.coupon_name;
         });
-      } else {
-        // Si 'coupon_name' n'est pas trouvé, masquer l'élément 'promo-code_popin'
+
+        // Afficher l'élément en flex si 'coupon_name' est présent
         if (promoPopinElement) {
-          promoPopinElement.style.display = 'none';
+          promoPopinElement.style.display = 'flex';
+          promoPopinElement.style.flexDirection = 'column';
         }
-        console.error('La clé "coupon_name" est introuvable dans les données "metaData" du membre.');
       }
     } catch (e) {
       console.error('Erreur lors de l\'analyse des données du membre:', e);
     }
-  } else {
-    console.error('Aucune donnée membre trouvée dans le localStorage.');
   }
 }
 
