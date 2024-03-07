@@ -96,3 +96,39 @@ window.addEventListener('resize', function() {
     }
     setupMenu();
 });
+
+
+
+
+// Fonction pour mettre à jour le code promo pour l'utilisateur
+function updatePromoCode() {
+  // Récupérer la valeur JSON stockée dans le localStorage
+  var memberData = localStorage.getItem('_ms-mem');
+  
+  if (memberData) {
+    // Parser la donnée JSON pour la transformer en objet JavaScript
+    try {
+      var memberObj = JSON.parse(memberData);
+      
+      // Vérifier si la clé 'coupon_name' existe dans l'objet
+      if (memberObj && memberObj.coupon_name) {
+        // Sélectionner tous les éléments avec la classe 'promo-popin_code'
+        var promoElements = document.querySelectorAll('.promo-popin_code');
+        
+        // Mettre à jour le contenu de chaque élément avec la valeur de 'coupon_name'
+        promoElements.forEach(function(element) {
+          element.textContent = memberObj.coupon_name;
+        });
+      } else {
+        console.error('La clé "coupon_name" est introuvable dans les données du membre.');
+      }
+    } catch (e) {
+      console.error('Erreur lors de l\'analyse des données du membre:', e);
+    }
+  } else {
+    console.error('Aucune donnée membre trouvée dans le localStorage.');
+  }
+}
+
+// Attacher la fonction updatePromoCode à l'événement onload de la fenêtre
+window.onload = updatePromoCode;
