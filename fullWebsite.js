@@ -100,7 +100,7 @@ window.addEventListener('resize', function() {
 
 
 
-// Fonction pour mettre à jour le code promo pour l'utilisateur
+// Fonction pour mettre à jour le code promo ou masquer l'élément si non trouvé
 function updatePromoCode() {
   // Récupérer la valeur JSON stockée dans le localStorage
   var memberData = localStorage.getItem('_ms-mem');
@@ -110,16 +110,21 @@ function updatePromoCode() {
     try {
       var memberObj = JSON.parse(memberData);
       
+      // Sélectionner l'élément de promo code et les éléments de promo popin
+      var promoElements = document.querySelectorAll('.promo-popin_code');
+      var promoPopinElement = document.querySelector('.promo-code_popin');
+      
       // Vérifier si l'objet 'metaData' et la clé 'coupon_name' existent
       if (memberObj && memberObj.metaData && memberObj.metaData.coupon_name) {
-        // Sélectionner tous les éléments avec la classe 'promo-popin_code'
-        var promoElements = document.querySelectorAll('.promo-popin_code');
-        
         // Mettre à jour le contenu de chaque élément avec la valeur de 'coupon_name'
         promoElements.forEach(function(element) {
           element.textContent = memberObj.metaData.coupon_name;
         });
       } else {
+        // Si 'coupon_name' n'est pas trouvé, masquer l'élément 'promo-code_popin'
+        if (promoPopinElement) {
+          promoPopinElement.style.display = 'none';
+        }
         console.error('La clé "coupon_name" est introuvable dans les données "metaData" du membre.');
       }
     } catch (e) {
