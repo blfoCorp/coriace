@@ -110,17 +110,17 @@ function updatePromoCode() {
     try {
       var memberObj = JSON.parse(memberData);
       
-      // Vérifier si la clé 'coupon_name' existe dans l'objet
-      if (memberObj && memberObj.coupon_name) {
+      // Vérifier si l'objet 'metaData' et la clé 'coupon_name' existent
+      if (memberObj && memberObj.metaData && memberObj.metaData.coupon_name) {
         // Sélectionner tous les éléments avec la classe 'promo-popin_code'
         var promoElements = document.querySelectorAll('.promo-popin_code');
         
         // Mettre à jour le contenu de chaque élément avec la valeur de 'coupon_name'
         promoElements.forEach(function(element) {
-          element.textContent = memberObj.coupon_name;
+          element.textContent = memberObj.metaData.coupon_name;
         });
       } else {
-        console.error('La clé "coupon_name" est introuvable dans les données du membre.');
+        console.error('La clé "coupon_name" est introuvable dans les données "metaData" du membre.');
       }
     } catch (e) {
       console.error('Erreur lors de l\'analyse des données du membre:', e);
