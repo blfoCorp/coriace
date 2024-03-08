@@ -220,3 +220,71 @@ async function updateVideoCountDisplay() {
 // Appeler cette fonction pour mettre à jour l'affichage quand nécessaire
 updateVideoCountDisplay();
 
+
+// ----- CODE POUR AFFICHER LE TOTAL DE CRÉDIT WEBFLOW ET FIGMA ------//
+document.addEventListener('DOMContentLoaded', function() {
+
+  const memberData = JSON.parse(localStorage.getItem('_ms-mem')); // Assurez-vous que la clé est correcte
+
+  let totalCreditsWebflow = 0;
+  let totalCreditsFigma = 0;
+
+  if (memberData && memberData.customFields) {
+
+    // Calcul pour les crédits Webflow
+    let superAssistanceWebflow = memberData.customFields['super-assistance-webflow'];
+    if (superAssistanceWebflow && superAssistanceWebflow !== 'video') {
+      totalCreditsWebflow += parseFloat(superAssistanceWebflow) || 0;
+    } else {
+      // Masquer l'élément si superAssistanceWebflow n'est pas supérieur à 0
+      document.getElementById('superAssistanceWebflowInput').style.display = 'none';
+    }
+    if (memberData.customFields['credit-assistance-webflow']) {
+      totalCreditsWebflow += parseFloat(memberData.customFields['credit-assistance-webflow']) || 0;
+    }
+
+    // Calcul pour les crédits Figma
+    let superAssistanceFigma = memberData.customFields['super-assistance-figma'];
+    if (superAssistanceFigma && superAssistanceFigma !== 'video') {
+      totalCreditsFigma += parseFloat(superAssistanceFigma) || 0;
+    } else {
+      // Masquer l'élément si superAssistanceFigma n'est pas supérieur à 0
+      document.getElementById('superAssistanceFigmaInput').style.display = 'none';
+    }
+    if (memberData.customFields['credit-assistance-figma']) {
+      totalCreditsFigma += parseFloat(memberData.customFields['credit-assistance-figma']) || 0;
+    }
+
+    // Afficher les crédits totaux pour Webflow et Figma
+    updateTotalCreditsDisplay('creditWebflowTotal', totalCreditsWebflow);
+    updateTotalCreditsDisplay('creditFigmaTotal', totalCreditsFigma);
+
+    // Désactiver les formulaires et appliquer le style en fonction des crédits disponibles
+    disableFormBasedOnCredits('webflow', totalCreditsWebflow);
+    disableFormBasedOnCredits('figma', totalCreditsFigma);
+  } else {
+    console.log('Aucune donnée customFields trouvée ou membreData est nul.');
+  }
+});
+
+function disableFormBasedOnCredits(formType, credits) {
+  const form = document.querySelector(`[data-form="${formType}"]`);
+  if (form) {
+    const inputs = form.querySelectorAll('input, select, textarea, button');
+    inputs.forEach(input => {
+      input.disabled = credits <= 0;
+      if (input.tagName.toLowerCase() === 'button' || input.type === 'submit') {
+        input.classList.toggle('is-disable', credits <= 0);
+      }
+    });
+  }
+}
+
+function updateTotalCreditsDisplay(elementId, credits) {
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.textContent = credits.toString();
+  }
+}
+
+</script>
