@@ -99,20 +99,20 @@ window.addEventListener('resize', function() {
 
 
 
-
+// Fonction pour démarrer un timer de 24 heures
 function startCouponTimer() {
-  // Récupérer la date et l'heure de début du compteur ou les définir si non présentes
+  // Récupérer ou initialiser la date et l'heure de début du timer
   var startTime = localStorage.getItem('coupon_start_time');
   if (!startTime) {
     startTime = new Date().getTime();
     localStorage.setItem('coupon_start_time', startTime);
   }
   
-  // Fonction pour mettre à jour le compteur
+  // Fonction pour mettre à jour le timer
   function updateTimer() {
     var currentTime = new Date().getTime();
     var elapsedTime = currentTime - startTime;
-    var remainingTime = 24*60*60*1000 - elapsedTime; // 24 heures en millisecondes
+    var remainingTime = 24 * 60 * 60 * 1000 - elapsedTime; // 24 heures en millisecondes
 
     if (remainingTime >= 0) {
       // Calculer heures, minutes, secondes
@@ -120,37 +120,51 @@ function startCouponTimer() {
       var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
       var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
       
-      // Afficher le compteur
+      // Afficher le timer
       var timerDisplay = document.querySelector('.promo-timer');
       if (timerDisplay) {
-        timerDisplay.textContent = hours + 'h ' + minutes + 'm ' + seconds + 's ';
+        timerDisplay.textContent = `${hours}h ${minutes}m ${seconds}s`;
       }
     } else {
-      // Si le compteur a atteint 0, effacer l'intervalle et le startTime du localStorage
+      // Le timer a expiré
       clearInterval(timerInterval);
       localStorage.removeItem('coupon_start_time');
-      // Masquer l'élément timer si nécessaire ou effectuer d'autres actions
+      // Masquer l'élément .promo-code_popin si nécessaire
+      var promoPopinElement = document.querySelector('.promo-code_popin');
+      if (promoPopinElement) {
+        promoPopinElement.style.display = 'none';
+      }
     }
   }
 
-  // Mettre à jour le compteur toutes les secondes
+  // Mettre à jour le timer toutes les secondes
   var timerInterval = setInterval(updateTimer, 1000);
-  
-  // Appeler immédiatement updateTimer pour initialiser l'affichage
+  // Initialiser l'affichage du timer
   updateTimer();
 }
 
-// Modifier la fonction updatePromoCode pour inclure le démarrage du timer
+// Fonction pour mettre à jour le code promo et afficher l'élément si nécessaire
 function updatePromoCode() {
   var memberData = localStorage.getItem('_ms-mem');
   
   if (memberData) {
     try {
       var memberObj = JSON.parse(memberData);
+      
       if (memberObj && memberObj.metaData && memberObj.metaData.coupon_name) {
-        // ... mise à jour de promo-popin_code comme avant ...
-        // Démarrer le timer lorsque 'coupon_name' est présent
-        startCouponTimer();
+        var promoElements = document.querySelectorAll('.promo-popin_code');
+        var promoPopinElement = document.querySelector('.promo-code_popin');
+        
+        promoElements.forEach(function(element) {
+          element.textContent = memberObj.metaData.coupon_name;
+        });
+
+        // Si 'coupon_name' est présent, afficher l'élément et démarrer le timer
+        if (promoPopinElement) {
+          promoPopinElement.style.display = 'flex';
+          promoPopinElement.style.flexDirection = 'column';
+          startCouponTimer();
+        }
       } else {
         console.error('La clé "coupon_name" est introuvable dans les données "metaData" du membre.');
       }
