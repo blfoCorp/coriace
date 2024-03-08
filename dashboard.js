@@ -286,5 +286,3 @@ function updateTotalCreditsDisplay(elementId, credits) {
     element.textContent = credits.toString();
   }
 }
-
-</script>
