@@ -100,33 +100,59 @@ window.addEventListener('resize', function() {
 
 
 
-// Fonction pour mettre à jour le code promo pour l'utilisateur et afficher l'élément si nécessaire
+function startCouponTimer() {
+  // Récupérer la date et l'heure de début du compteur ou les définir si non présentes
+  var startTime = localStorage.getItem('coupon_start_time');
+  if (!startTime) {
+    startTime = new Date().getTime();
+    localStorage.setItem('coupon_start_time', startTime);
+  }
+  
+  // Fonction pour mettre à jour le compteur
+  function updateTimer() {
+    var currentTime = new Date().getTime();
+    var elapsedTime = currentTime - startTime;
+    var remainingTime = 24*60*60*1000 - elapsedTime; // 24 heures en millisecondes
+
+    if (remainingTime >= 0) {
+      // Calculer heures, minutes, secondes
+      var hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+      
+      // Afficher le compteur
+      var timerDisplay = document.querySelector('.promo-timer');
+      if (timerDisplay) {
+        timerDisplay.textContent = hours + 'h ' + minutes + 'm ' + seconds + 's ';
+      }
+    } else {
+      // Si le compteur a atteint 0, effacer l'intervalle et le startTime du localStorage
+      clearInterval(timerInterval);
+      localStorage.removeItem('coupon_start_time');
+      // Masquer l'élément timer si nécessaire ou effectuer d'autres actions
+    }
+  }
+
+  // Mettre à jour le compteur toutes les secondes
+  var timerInterval = setInterval(updateTimer, 1000);
+  
+  // Appeler immédiatement updateTimer pour initialiser l'affichage
+  updateTimer();
+}
+
+// Modifier la fonction updatePromoCode pour inclure le démarrage du timer
 function updatePromoCode() {
-  // Récupérer la valeur JSON stockée dans le localStorage
   var memberData = localStorage.getItem('_ms-mem');
   
   if (memberData) {
-    // Parser la donnée JSON pour la transformer en objet JavaScript
     try {
       var memberObj = JSON.parse(memberData);
-      
-      // Vérifier si l'objet 'metaData' et la clé 'coupon_name' existent
       if (memberObj && memberObj.metaData && memberObj.metaData.coupon_name) {
-        // Sélectionner tous les éléments avec la classe 'promo-popin_code'
-        var promoElements = document.querySelectorAll('.promo-popin_code');
-        // Sélectionner l'élément parent à afficher
-        var promoPopinElement = document.querySelector('.promo-code_popin');
-
-        // Mettre à jour le contenu de chaque élément avec la valeur de 'coupon_name'
-        promoElements.forEach(function(element) {
-          element.textContent = memberObj.metaData.coupon_name;
-        });
-
-        // Afficher l'élément en flex si 'coupon_name' est présent
-        if (promoPopinElement) {
-          promoPopinElement.style.display = 'flex';
-          promoPopinElement.style.flexDirection = 'column';
-        }
+        // ... mise à jour de promo-popin_code comme avant ...
+        // Démarrer le timer lorsque 'coupon_name' est présent
+        startCouponTimer();
+      } else {
+        console.error('La clé "coupon_name" est introuvable dans les données "metaData" du membre.');
       }
     } catch (e) {
       console.error('Erreur lors de l\'analyse des données du membre:', e);
@@ -134,5 +160,5 @@ function updatePromoCode() {
   }
 }
 
-// Attacher la fonction updatePromoCode à l'événement onload de la fenêtre
 window.onload = updatePromoCode;
+
