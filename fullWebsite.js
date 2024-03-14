@@ -1,3 +1,5 @@
+
+/* -------- GESTION DU MENU BURGER EN MOBILE -------- */
 // Vérifie si la largeur de la fenêtre est inférieure à 991px
 function isMobile() {
     return window.innerWidth < 991;
@@ -98,7 +100,7 @@ window.addEventListener('resize', function() {
 });
 
 
-
+/* -------- AFFICHAGE DU CODE DE PROMOTION À L'INSCRIPTION -------- */
 // Fonction pour démarrer un timer de 24 heures
 function startCouponTimer() {
   // Récupérer ou initialiser la date et l'heure de début du timer
@@ -175,4 +177,46 @@ function updatePromoCode() {
 }
 
 window.onload = updatePromoCode;
+
+/* -------- DÉTECTION DES VISITES LIEN AFFILIÉ + ENVOIE DES DONNÉES DANS MAKE -------- */
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const affiliateId = urlParams.get('ref');
+    if (affiliateId) {
+        // Obtenez la date et l'heure actuelles en ISO 8601
+        const visitDate = new Date().toISOString();
+        
+        // L'URL de votre Webhook Make
+        const webhookUrl = 'https://hook.eu1.make.com/7kq7nssrvgwcwkfwyxbw31wjj55kgj2d';
+        
+        // Préparez les données à envoyer au Webhook
+        const data = {
+            affiliate_id: affiliateId,
+            url: document.location.href,
+            referrer: document.referrer,
+            visit_date: visitDate // Ajout de la date et l'heure de la visite
+        };
+
+        // Envoyez les données au Webhook Make
+        fetch(webhookUrl, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(responseData => {
+            console.log('Données envoyées au Webhook :', responseData);
+        })
+        .catch(error => {
+            console.error('Erreur lors de l’envoi des données au Webhook :', error);
+        });
+    }
+});
 
