@@ -104,7 +104,7 @@ async function loadLastThreeLessons() {
         img.src = lesson.image || defaultImage;
         img.alt = lesson.name ? "Miniature de la leçon" : "Image par défaut";
 
-        name.textContent = lesson.name ? htmlDecode(lesson.name) : "Aucune leçon visionnée";
+        name.textContent = lesson.name ? htmlDecode(lesson.name) : "Visionnez votre première leçon !";
 
         if (link && lesson.url) {
           link.href = lesson.url;
@@ -142,7 +142,7 @@ async function loadLastThreeLessons() {
 
         img.src = defaultImage;
         img.alt = "Image par défaut";
-        name.textContent = "Aucune leçon visionnée";
+        name.textContent = "Visionnez votre première leçon !";
         if (link) {
           link.href = "#";
           link.style.pointerEvents = "none";
