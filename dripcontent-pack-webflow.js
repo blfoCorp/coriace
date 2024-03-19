@@ -44,19 +44,18 @@ window.addEventListener('load', function() {
 
       var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
       var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
-      var timeLeftSpanLevel2 = document.getElementById('courseTimeLeft2');
-      var timeLeftSpanLevel3 = document.getElementById('courseTimeLeft3');
-      var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
-      var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
-
+      var timeLeftSpanLevel2 = document.querySelector('[data-drip-content="courseTimeLeft2"]');
+      var timeLeftSpanLevel3 = document.querySelector('[data-drip-content="courseTimeLeft3"]');
+      
       if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2.toString();
       if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3.toString();
+      
+      var courseTimeLeftCard2 = document.querySelector('[data-drip-content="courseTimeLeftCard2"]');
+      var courseTimeLeftPrice = document.querySelector('[data-drip-content="courseTimeLeftPrice"]');
+      var courseTimeLeftButton = document.querySelector('[data-drip-content="courseTimeLeftButton"]');
+      var courseTimeName1 = document.querySelector('[data-drip-content="courseTimeName1"]');
+      var courseTimeName2 = document.querySelector('[data-drip-content="courseTimeName2"]');
 
-      var courseTimeLeftCard2 = document.getElementById('courseTimeLeftCard2');
-      var courseTimeLeftPrice = document.getElementById('courseTimeLeftPrice');
-      var courseTimeLeftButton = document.getElementById('courseTimeLeftButton');
-      var courseTimeName1 = document.getElementById('courseTimeName1');
-      var courseTimeName2 = document.getElementById('courseTimeName2');
 
       if (daysSinceStart >= daysForLevel2) {
         if (courseTimeLeftCard2) courseTimeLeftCard2.style.display = 'none';
