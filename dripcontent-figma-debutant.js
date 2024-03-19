@@ -38,27 +38,27 @@ window.addEventListener('load', function() {
       document.getElementById('courseTimeLeft2').textContent = timeLeftForLevel2.toString();
       document.getElementById('courseTimeLeft3').textContent = timeLeftForLevel3.toString();
   
-      // Gestion des informations et du contenu accessible selon le niveau
-      var courseTimeLeftPrice = document.getElementById('courseTimeLeftPrice');
-      var courseTimeLeftButton = document.getElementById('courseTimeLeftButton');
-      var courseTimeName1 = document.getElementById('courseTimeName1');
-      var courseTimeName2 = document.getElementById('courseTimeName2');
+      var courseTimeLeftPrice = document.querySelector('[data-drip-content="courseTimeLeftPrice"]');
+      var courseTimeLeftButton = document.querySelector('[data-drip-content="courseTimeLeftButton"]');
+      var courseTimeName1 = document.querySelector('[data-drip-content="courseTimeName1"]');
+      var courseTimeName2 = document.querySelector('[data-drip-content="courseTimeName2"]');
+
   
       if (daysSinceStart >= daysForLevel2) {
         if (courseTimeLeftCard2) courseTimeLeftCard2.style.display = 'none';
         if (hasFigmaAZBeginnerPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "30";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-figma-debutant-reste-a-regler-30/etape/commande-figma-debutant-reste-a-regler-30/";
-          if (courseTimeName1) courseTimeName1.textContent = "lessons suivantes";
-          if (courseTimeName2) courseTimeName2.textContent = "lessons suivantes";
+          if (courseTimeName1) courseTimeName1.textContent = "Leçons suivantes";
+          if (courseTimeName2) courseTimeName2.textContent = "Leçons suivantes";
         }
       } else {
         // Paramètres par défaut pour le niveau 1
         if (hasFigmaAZBeginnerPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "60";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-figma-debutant-reste-a-regler-60/etape/commande-figma-debutant-reste-a-regler-60/";
-          if (courseTimeName1) courseTimeName1.textContent = "lessons suivantes";
-          if (courseTimeName2) courseTimeName2.textContent = "lessons suivantes";
+          if (courseTimeName1) courseTimeName1.textContent = "Leçons suivantes";
+          if (courseTimeName2) courseTimeName2.textContent = "Leçons suivantes";
         }
       }
   
