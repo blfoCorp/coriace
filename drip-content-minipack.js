@@ -83,22 +83,30 @@ window.addEventListener('load', function() {
             if (hasMiniPackPlan) {
               if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "52€";
               if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mini-pack-webflow-52/etape/commande-mini-pack-webflow-52/";
+              if (courseTimeName1) courseTimeName1.textContent = "Partie 2";
+              if (courseTimeName2) courseTimeName2.textContent = "Partie 3";
             }
   
             if (hasMegaPackPlan) {
               if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "116€";
               if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mega-pack-webflow-116/etape/commande-mega-pack-webflow-116/";
+              if (courseTimeName1) courseTimeName1.textContent = "Partie 2";
+              if (courseTimeName2) courseTimeName2.textContent = "Partie 3";
             }
           } else {
             // La logique pour le prix et les liens avant d'atteindre le niveau 2
             if (hasMiniPackPlan) {
               if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "104€";
               if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mini-pack-webflow-104/etape/commande-mini-pack-webflow-104/";
+              if (courseTimeName1) courseTimeName1.textContent = "Partie 2";
+              if (courseTimeName2) courseTimeName2.textContent = "Partie 3";
             }
   
             if (hasMegaPackPlan) {
               if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "232€";
               if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mega-pack-webflow-232/etape/commande-mega-pack-webflow-232/";
+              if (courseTimeName1) courseTimeName1.textContent = "Partie 2";
+              if (courseTimeName2) courseTimeName2.textContent = "Partie 3";
             }
           }
   
