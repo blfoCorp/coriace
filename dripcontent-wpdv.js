@@ -89,8 +89,8 @@ window.addEventListener('load', function() {
         if (hasMegaPackPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "116€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mega-pack-webflow-116/etape/commande-mega-pack-webflow-116/";
-          if (courseTimeName1) courseTimeName1.textContent = "Mega Pack 1";
-          if (courseTimeName2) courseTimeName2.textContent = "Mega Pack 2";
+          if (courseTimeName1) courseTimeName1.textContent = "Partie 2";
+          if (courseTimeName2) courseTimeName2.textContent = "Partie 3";
         }
       } else {
         if (hasWpdvPlan) {
@@ -108,8 +108,8 @@ window.addEventListener('load', function() {
         if (hasMegaPackPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "232€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mega-pack-webflow-232/etape/commande-mega-pack-webflow-232/";
-          if (courseTimeName1) courseTimeName1.textContent = "Mega Pack 1";
-          if (courseTimeName2) courseTimeName2.textContent = "Mega Pack 2";
+          if (courseTimeName1) courseTimeName1.textContent = "Partie 2";
+          if (courseTimeName2) courseTimeName2.textContent = "Partie 3";
         }
       }
 
