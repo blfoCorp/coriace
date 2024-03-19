@@ -74,6 +74,8 @@ window.addEventListener('load', function() {
         var courseTimeLeftCard2 = document.querySelector('[data-drip-content="courseTimeLeftCard2"]');
         var courseTimeLeftPrice = document.querySelector('[data-drip-content="courseTimeLeftPrice"]');
         var courseTimeLeftButton = document.querySelector('[data-drip-content="courseTimeLeftButton"]');
+        var courseTimeName1 = document.querySelector('[data-drip-content="courseTimeName1"]');
+        var courseTimeName2 = document.querySelector('[data-drip-content="courseTimeName2"]');
 
   
         
