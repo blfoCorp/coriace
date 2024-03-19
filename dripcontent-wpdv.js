@@ -77,8 +77,8 @@ window.addEventListener('load', function() {
         if (hasWpdvPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "60€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-webflow-page-de-vente-60/etape/commande-webflow-page-de-vente-60/";
-          if (courseTimeName1) courseTimeName1.textContent = "Niveau 1";
-          if (courseTimeName2) courseTimeName2.textContent = "Niveau 2";
+          if (courseTimeName1) courseTimeName1.textContent = "Niveau 2";
+          if (courseTimeName2) courseTimeName2.textContent = "Niveau 3";
         }
         if (hasPackPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "84€";
@@ -96,8 +96,8 @@ window.addEventListener('load', function() {
         if (hasWpdvPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "120€";
           if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-webflow-page-de-vente-120/etape/commande-webflow-page-de-vente-120/";
-          if (courseTimeName1) courseTimeName1.textContent = "Niveau 1";
-          if (courseTimeName2) courseTimeName2.textContent = "Niveau 2";
+          if (courseTimeName1) courseTimeName1.textContent = "Niveau 2";
+          if (courseTimeName2) courseTimeName2.textContent = "Niveau 3";
         }
         if (hasPackPlan) {
           if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "168€";
