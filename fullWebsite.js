@@ -220,3 +220,180 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+
+/*---  DÉBUT : DÉVEROUILLAGE FORMATION EN FONCTION DU PLAN DANS LA NAVIGATION ----*/
+console.log('Le script full page est chargé');
+async function updateTabLinksAndHideElementsForSpecificPlans() {
+    const response = await window.$memberstackDom.getCurrentMember();
+    const member = response.data;
+
+    if (member && Array.isArray(member.planConnections)) {
+        console.log('Membre connecté:', member);
+        // ID des plans spécifiques et leurs configurations correspondantes
+        const plansConfig = [
+            {
+                planId: [
+                    "pln_coriace-formation-webflow-page-de-vente-6b4m0150",
+                    "pln_formation-webflow-page-de-vente-3-fois--ul110zw2",
+                    "pln_webflow-le-pack-ezhb0291",
+                    "pln_webflow-le-pack-3-fois--sshd024y",
+                    "pln_le-mega-pack-webflow-2ljs0t3b",
+                    "pln_le-mega-pack-webflow-3-fois--tnkm02zj"
+                ],
+                dataTabLink: 'wpdvTabs',
+                newHref: '/app/formation-membre/webflow-page-de-vente',
+                dataLockIcon: 'wpdvLockIcn',
+                dataStartButton: 'wpdvStartButton',
+                dataHideButton: 'wpdvHideButton'
+            },
+            {
+                planId: [
+                    "pln_formation-webflow-e-commerce-cms-kb40awg",
+                    "pln_formation-webflow-e-commerce-cms-3-fois--y110qun",
+                    "pln_webflow-le-pack-ezhb0291",
+                    "pln_webflow-le-pack-3-fois--sshd024y",
+                    "pln_le-mega-pack-webflow-2ljs0t3b",
+                    "pln_le-mega-pack-webflow-3-fois--tnkm02zj"
+                ],
+                dataTabLink: 'wecoTabs',
+                newHref: '/app/formation-membre/webflow-ecommerce',
+                dataLockIcon: 'wecoLockIcn',
+                dataStartButton: 'wecoStartButton',
+                dataHideButton: 'wecoHideButton'
+            },
+            {
+                planId: "pln_coriace-formation-webflow-cms-9a4w0cs2",
+                dataTabLink: 'wcmsTabs',
+                newHref: '/app/formation-membre/webflow-cms',
+                dataLockIcon: 'wcmsLockIcn',
+                dataStartButton: 'wcmsStartButton',
+                dataHideButton: 'wcmsHideButton'
+            },
+            {
+                planId: [
+                    "pln_coriace-webflow-th-orie-kb500c0t",
+                    "pln_le-mini-pack-webflow-3-fois--lsj50wev",
+                    "pln_le-mini-pack-webflow-2kje0tkt",
+                    "pln_le-mega-pack-webflow-2ljs0t3b",
+                    "pln_le-mega-pack-webflow-3-fois--tnkm02zj"
+                ],
+                dataTabLink: 'wtheorieTabs',
+                newHref: '/modules-mini-formations-webflow/webflow-theorie',
+                dataLockIcon: 'wtheorieLockIcn',
+                dataStartButton: 'wtheorieStartButton',
+                dataHideButton: 'wtheorieHideButton'
+            },
+            {
+                planId: [
+                    "pln_coriace-udesly-webflow-vers-shopify-tf510c18",
+                    "pln_le-mini-pack-webflow-3-fois--lsj50wev",
+                    "pln_le-mini-pack-webflow-2kje0tkt",
+                    "pln_le-mega-pack-webflow-2ljs0t3b",
+                    "pln_le-mega-pack-webflow-3-fois--tnkm02zj"
+                ],
+                dataTabLink: 'udeslyShopiTabs',
+                newHref: '/modules-mini-formations-webflow/udesly-webfow-vers-shopify',
+                dataLockIcon: 'udeslyShopiLockIcn',
+                dataStartButton: 'udeslyShopifyStartButton',
+                dataHideButton: 'udeslyShopifyHideButton'
+            },
+            {
+                planId: [
+                    "pln_coriace-webflow-cookies-2t4s03hj",
+                    "pln_le-mini-pack-webflow-3-fois--lsj50wev",
+                    "pln_le-mini-pack-webflow-2kje0tkt",
+                    "pln_le-mega-pack-webflow-2ljs0t3b",
+                    "pln_le-mega-pack-webflow-3-fois--tnkm02zj"
+                ],
+                dataTabLink: 'cookiesTabs',
+                newHref: '/modules-mini-formations-webflow/les-cookies',
+                dataLockIcon: 'cookiesLockIcn',
+                dataStartButton: 'cookiesStartButton',
+                dataHideButton: 'cookiesHideButton'
+            },
+            {
+                planId: [
+                    "pln_coriace-client-first-d-butant-tv510vvg",
+                    "pln_le-mini-pack-webflow-3-fois--lsj50wev",
+                    "pln_le-mini-pack-webflow-2kje0tkt",
+                    "pln_le-mega-pack-webflow-2ljs0t3b",
+                    "pln_le-mega-pack-webflow-3-fois--tnkm02zj"
+                ],
+                dataTabLink: 'clientFirstTabs',
+                newHref: '/modules-mini-formations-webflow/client-first',
+                dataLockIcon: 'clientFirstLockIcn',
+                dataStartButton: 'clientFirstStartButton',
+                dataHideButton: 'clientFirstHideButton'
+            },
+            {
+                planId: [
+                    "pln_coriace-figma-d-butant-3t560v1t"
+                ],
+                dataTabLink: 'figDebutantTabs',
+                newHref: '/app/formation-membre/webflow-client-first',
+                dataLockIcon: 'figDebutantLockIcn',
+                dataStartButton: 'figDebutantStartButton',
+                dataHideButton: 'figDebutantHideButton'
+            },
+            {
+                planId: [
+                    "pln_webflow-le-pack-ezhb0291",
+                    "pln_webflow-le-pack-3-fois--sshd024y"
+                ],
+                dataHideButton: 'packWebflowHideButton'
+            },
+            {
+                planId: [
+                    "pln_le-mini-pack-webflow-2kje0tkt",
+                    "pln_le-mini-pack-webflow-3-fois--lsj50wev"
+                ],
+                dataHideButton: 'minipackWebflowHideButton'
+            },
+            {
+                planId: [
+                    "pln_le-mega-pack-webflow-2ljs0t3b",
+                    "pln_le-mega-pack-webflow-3-fois--tnkm02zj"
+                ],
+                dataHideButton: 'megapackWebflowHideButton'
+            },
+             {
+                planId: [
+                    "pln_webflow-cr-er-un-portfolio-g5a4042f" 
+                ],
+                dataTabLink: 'wfportfolioNiv1Tabs',
+                dataLockIcon: 'wfportfolioNiv1LockIcn',
+                newHref: '/modules-formation-thematique/webflow-creer-son-portfolio'
+            }
+        ];
+        
+
+        plansConfig.forEach(planConfig => {
+            let hasPlan = Array.isArray(planConfig.planId) && planConfig.planId.some(id => 
+                member.planConnections.some(plan => plan.planId === id)
+            );
+
+            if (hasPlan) {
+                document.querySelectorAll(`[data-tab-link="${planConfig.dataTabLink}"]`).forEach(element => {
+                    element.href = planConfig.newHref;
+                });
+
+                document.querySelectorAll(`[data-lock-icon="${planConfig.dataLockIcon}"]`).forEach(element => {
+                    element.style.display = 'none';
+                });
+
+                document.querySelectorAll(`[data-start-button="${planConfig.dataStartButton}"]`).forEach(button => {
+                    button.href = planConfig.newHref; 
+                    button.textContent = 'Démarrer';
+                });
+
+                document.querySelectorAll(`[data-hide-button="${planConfig.dataHideButton}"]`).forEach(element => {
+                    element.style.display = 'none';
+                });
+            }
+        });
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    updateTabLinksAndHideElementsForSpecificPlans();
+});
