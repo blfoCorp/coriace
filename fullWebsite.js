@@ -372,7 +372,9 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 dataTabLink: 'wfPlusButton',
                 dataLockIcon: 'wfPlusLockIcn',
                 dataStartButton: 'wfPlusStartButton',
-                dataHideButton: 'wfPlusHideButton'
+                dataHideButton: 'wfPlusHideButton',
+                newHref: '/app/webflow-plus'
+                
             }
         ];
         
