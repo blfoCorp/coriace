@@ -28,13 +28,22 @@ window.addEventListener('load', function() {
         "pln_le-mega-pack-webflow-3-fois--tnkm02zj",
         "pln_le-mega-pack-webflow-2ljs0t3b"
       ];
-      var hasSpecialPlan = userData.planConnections.some(plan => {
-        return plan.planId === "pln_formation-webflow-e-commerce-cms-kb40awg" && plan.status === "ACTIVE";
-      }) || userData.planConnections.some(plan => {
-        return plan.planId === "pln_webflow-le-pack-ezhb0291" && plan.status === "ACTIVE";
-      }) || userData.planConnections.some(plan => {
-        return plan.planId === "pln_le-mega-pack-webflow-2ljs0t3b" && plan.status === "ACTIVE";
-      });
+      var specialPlanIds = [
+        "pln_formation-webflow-e-commerce-cms-kb40awg",
+        "pln_webflow-le-pack-ezhb0291",
+        "pln_le-mega-pack-webflow-2ljs0t3b",
+        "pln_formation-simple-trimestriel-7rj80985",
+        "pln_formation-simple-semestriel-tnh604fc",
+        "pln_formation-simple-annuel-gyh704ly",
+        "pln_formation-accompagn-e-trimestriel-fih804b7",
+        "pln_formation-accompagn-e-semestriel-7ij9096p",
+        "pln_formation-accompagn-e-annuel-b6ha045g",
+        "pln_formation-et-assistance-trimestriel-plja09y7",
+        "pln_formation-et-assistance-semestriel-vohd04oh",
+        "pln_formation-et-assistance-annuel-wkhe043e"
+      ];
+  
+      var hasSpecialPlan = userData.planConnections.some(plan => specialPlanIds.includes(plan.planId) && plan.status === "ACTIVE");
       var hasEcomPlan = userData.planConnections.some(plan => plan.planId === "pln_formation-webflow-e-commerce-cms-3-fois--y110qun" && plan.status === "ACTIVE");
       var hasPackPlan = userData.planConnections.some(plan => plan.planId === "pln_webflow-le-pack-3-fois--sshd024y" && plan.status === "ACTIVE");
       var hasMegaPackPlan = userData.planConnections.some(plan => plan.planId === "pln_le-mega-pack-webflow-3-fois--tnkm02zj" && plan.status === "ACTIVE");
