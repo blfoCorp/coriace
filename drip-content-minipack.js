@@ -18,18 +18,27 @@ window.addEventListener('load', function() {
   
       if (userData && userData.metaData && userData.planConnections) {
         var miniPackPlanIds = [
-          "pln_le-mini-pack-webflow-3-fois--lsj50wev",
-          "pln_le-mini-pack-webflow-2kje0tkt"
+          "pln_le-mini-pack-webflow-3-fois--lsj50wev"
         ];
         var megaPackPlanIds = [
-          "pln_le-mega-pack-webflow-3-fois--tnkm02zj",
-          "pln_le-mega-pack-webflow-2ljs0t3b"
+          "pln_le-mega-pack-webflow-3-fois--tnkm02zj"
         ];
         var individualPlanIds = [
           "pln_coriace-client-first-d-butant-tv510vvg",
           "pln_coriace-webflow-cookies-2t4s03hj",
           "pln_coriace-webflow-th-orie-kb500c0t",
-          "pln_coriace-udesly-webflow-vers-shopify-tf510c18"
+          "pln_coriace-udesly-webflow-vers-shopify-tf510c18",
+          "pln_le-mini-pack-webflow-2kje0tkt",
+          "pln_le-mega-pack-webflow-2ljs0t3b",
+          "pln_formation-simple-trimestriel-7rj80985",
+          "pln_formation-simple-semestriel-tnh604fc",
+          "pln_formation-simple-annuel-gyh704ly",
+          "pln_formation-accompagn-e-trimestriel-fih804b7",
+          "pln_formation-accompagn-e-semestriel-7ij9096p",
+          "pln_formation-accompagn-e-annuel-b6ha045g",
+          "pln_formation-et-assistance-trimestriel-plja09y7",
+          "pln_formation-et-assistance-semestriel-vohd04oh",
+          "pln_formation-et-assistance-annuel-wkhe043e"
         ];
   
         var hasSpecialPlan = userData.planConnections.some(plan => {
