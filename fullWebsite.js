@@ -369,11 +369,9 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                     "pln_webflow-plus-semestriel--84gw090e",
                     "pln_webflow-plus-annuel--uffp04jd"
                 ],
-                dataTabLink: 'wfPlusButton',
                 dataLockIcon: 'wfPlusLockIcn',
                 dataStartButton: 'wfPlusStartButton',
                 dataHideButton: 'wfPlusHideButton',
-                newHref: '/app/webflow-plus'
                 
             }
         ];
