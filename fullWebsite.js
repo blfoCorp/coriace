@@ -237,7 +237,16 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                     "pln_webflow-le-pack-ezhb0291",
                     "pln_webflow-le-pack-3-fois--sshd024y",
                     "pln_le-mega-pack-webflow-2ljs0t3b",
-                    "pln_le-mega-pack-webflow-3-fois--tnkm02zj"
+                    "pln_le-mega-pack-webflow-3-fois--tnkm02zj",
+                    "pln_formation-simple-trimestriel-7rj80985",
+                    "pln_formation-simple-semestriel-tnh604fc",
+                    "pln_formation-simple-annuel-gyh704ly",
+                    "pln_formation-accompagn-e-trimestriel-fih804b7",
+                    "pln_formation-accompagn-e-semestriel-7ij9096p",
+                    "pln_formation-accompagn-e-annuel-b6ha045g",
+                    "pln_formation-et-assistance-trimestriel-plja09y7",
+                    "pln_formation-et-assistance-semestriel-vohd04oh",
+                    "pln_formation-et-assistance-annuel-wkhe043e"
                 ],
                 dataTabLink: 'wpdvTabs',
                 newHref: '/app/formation-membre/webflow-page-de-vente',
@@ -252,7 +261,16 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                     "pln_webflow-le-pack-ezhb0291",
                     "pln_webflow-le-pack-3-fois--sshd024y",
                     "pln_le-mega-pack-webflow-2ljs0t3b",
-                    "pln_le-mega-pack-webflow-3-fois--tnkm02zj"
+                    "pln_le-mega-pack-webflow-3-fois--tnkm02zj",
+                    "pln_formation-simple-trimestriel-7rj80985",
+                    "pln_formation-simple-semestriel-tnh604fc",
+                    "pln_formation-simple-annuel-gyh704ly",
+                    "pln_formation-accompagn-e-trimestriel-fih804b7",
+                    "pln_formation-accompagn-e-semestriel-7ij9096p",
+                    "pln_formation-accompagn-e-annuel-b6ha045g",
+                    "pln_formation-et-assistance-trimestriel-plja09y7",
+                    "pln_formation-et-assistance-semestriel-vohd04oh",
+                    "pln_formation-et-assistance-annuel-wkhe043e"
                 ],
                 dataTabLink: 'wecoTabs',
                 newHref: '/app/formation-membre/webflow-ecommerce',
@@ -274,7 +292,16 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                     "pln_le-mini-pack-webflow-3-fois--lsj50wev",
                     "pln_le-mini-pack-webflow-2kje0tkt",
                     "pln_le-mega-pack-webflow-2ljs0t3b",
-                    "pln_le-mega-pack-webflow-3-fois--tnkm02zj"
+                    "pln_le-mega-pack-webflow-3-fois--tnkm02zj",
+                    "pln_formation-simple-trimestriel-7rj80985",
+                    "pln_formation-simple-semestriel-tnh604fc",
+                    "pln_formation-simple-annuel-gyh704ly",
+                    "pln_formation-accompagn-e-trimestriel-fih804b7",
+                    "pln_formation-accompagn-e-semestriel-7ij9096p",
+                    "pln_formation-accompagn-e-annuel-b6ha045g",
+                    "pln_formation-et-assistance-trimestriel-plja09y7",
+                    "pln_formation-et-assistance-semestriel-vohd04oh",
+                    "pln_formation-et-assistance-annuel-wkhe043e"
                 ],
                 dataTabLink: 'wtheorieTabs',
                 newHref: '/modules-mini-formations-webflow/webflow-theorie',
@@ -288,7 +315,16 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                     "pln_le-mini-pack-webflow-3-fois--lsj50wev",
                     "pln_le-mini-pack-webflow-2kje0tkt",
                     "pln_le-mega-pack-webflow-2ljs0t3b",
-                    "pln_le-mega-pack-webflow-3-fois--tnkm02zj"
+                    "pln_le-mega-pack-webflow-3-fois--tnkm02zj",
+                    "pln_formation-simple-trimestriel-7rj80985",
+                    "pln_formation-simple-semestriel-tnh604fc",
+                    "pln_formation-simple-annuel-gyh704ly",
+                    "pln_formation-accompagn-e-trimestriel-fih804b7",
+                    "pln_formation-accompagn-e-semestriel-7ij9096p",
+                    "pln_formation-accompagn-e-annuel-b6ha045g",
+                    "pln_formation-et-assistance-trimestriel-plja09y7",
+                    "pln_formation-et-assistance-semestriel-vohd04oh",
+                    "pln_formation-et-assistance-annuel-wkhe043e"
                 ],
                 dataTabLink: 'udeslyShopiTabs',
                 newHref: '/modules-mini-formations-webflow/udesly-webfow-vers-shopify',
@@ -302,7 +338,16 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                     "pln_le-mini-pack-webflow-3-fois--lsj50wev",
                     "pln_le-mini-pack-webflow-2kje0tkt",
                     "pln_le-mega-pack-webflow-2ljs0t3b",
-                    "pln_le-mega-pack-webflow-3-fois--tnkm02zj"
+                    "pln_le-mega-pack-webflow-3-fois--tnkm02zj",
+                    "pln_formation-simple-trimestriel-7rj80985",
+                    "pln_formation-simple-semestriel-tnh604fc",
+                    "pln_formation-simple-annuel-gyh704ly",
+                    "pln_formation-accompagn-e-trimestriel-fih804b7",
+                    "pln_formation-accompagn-e-semestriel-7ij9096p",
+                    "pln_formation-accompagn-e-annuel-b6ha045g",
+                    "pln_formation-et-assistance-trimestriel-plja09y7",
+                    "pln_formation-et-assistance-semestriel-vohd04oh",
+                    "pln_formation-et-assistance-annuel-wkhe043e"
                 ],
                 dataTabLink: 'cookiesTabs',
                 newHref: '/modules-mini-formations-webflow/les-cookies',
@@ -316,7 +361,16 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                     "pln_le-mini-pack-webflow-3-fois--lsj50wev",
                     "pln_le-mini-pack-webflow-2kje0tkt",
                     "pln_le-mega-pack-webflow-2ljs0t3b",
-                    "pln_le-mega-pack-webflow-3-fois--tnkm02zj"
+                    "pln_le-mega-pack-webflow-3-fois--tnkm02zj",
+                    "pln_formation-simple-trimestriel-7rj80985",
+                    "pln_formation-simple-semestriel-tnh604fc",
+                    "pln_formation-simple-annuel-gyh704ly",
+                    "pln_formation-accompagn-e-trimestriel-fih804b7",
+                    "pln_formation-accompagn-e-semestriel-7ij9096p",
+                    "pln_formation-accompagn-e-annuel-b6ha045g",
+                    "pln_formation-et-assistance-trimestriel-plja09y7",
+                    "pln_formation-et-assistance-semestriel-vohd04oh",
+                    "pln_formation-et-assistance-annuel-wkhe043e"
                 ],
                 dataTabLink: 'clientFirstTabs',
                 newHref: '/modules-mini-formations-webflow/client-first',
@@ -326,7 +380,8 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
             },
             {
                 planId: [
-                    "pln_coriace-figma-d-butant-3t560v1t"
+                    "pln_coriace-figma-d-butant-3t560v1t",
+                    "pln_figma-a-z-d-butant-3-fois--m019l0i64"
                 ],
                 dataTabLink: 'figDebutantTabs',
                 newHref: '/app/formation-membre/webflow-client-first',
@@ -367,7 +422,16 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 planId: [
                     "pln_coriace-webflow-plus-cb540c14",
                     "pln_webflow-plus-semestriel--84gw090e",
-                    "pln_webflow-plus-annuel--uffp04jd"
+                    "pln_webflow-plus-annuel--uffp04jd",
+                    "pln_formation-simple-trimestriel-7rj80985",
+                    "pln_formation-simple-semestriel-tnh604fc",
+                    "pln_formation-simple-annuel-gyh704ly",
+                    "pln_formation-accompagn-e-trimestriel-fih804b7",
+                    "pln_formation-accompagn-e-semestriel-7ij9096p",
+                    "pln_formation-accompagn-e-annuel-b6ha045g",
+                    "pln_formation-et-assistance-trimestriel-plja09y7",
+                    "pln_formation-et-assistance-semestriel-vohd04oh",
+                    "pln_formation-et-assistance-annuel-wkhe043e"
                 ],
                 dataLockIcon: 'wfPlusLockIcn',
                 dataStartButton: 'wfPlusStartButton',
