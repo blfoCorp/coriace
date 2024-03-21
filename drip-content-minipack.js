@@ -15,7 +15,7 @@ window.addEventListener('load', function() {
     function checkMemberPlan() {
       var userData = JSON.parse(localStorage.getItem('_ms-mem'));
       console.log('User data:', userData);
-    
+  
       if (userData && userData.metaData && userData.planConnections) {
         var miniPackPlanIds = [
           "pln_le-mini-pack-webflow-3-fois--lsj50wev",
@@ -29,10 +29,7 @@ window.addEventListener('load', function() {
           "pln_coriace-client-first-d-butant-tv510vvg",
           "pln_coriace-webflow-cookies-2t4s03hj",
           "pln_coriace-webflow-th-orie-kb500c0t",
-          "pln_coriace-udesly-webflow-vers-shopify-tf510c18"
-        ];
-        // Nouveaux ID de plans ajoutés à une liste spécifique
-        var newSpecialPlanIds = [
+          "pln_coriace-udesly-webflow-vers-shopify-tf510c18",
           "pln_formation-simple-trimestriel-7rj80985",
           "pln_formation-simple-semestriel-tnh604fc",
           "pln_formation-simple-annuel-gyh704ly",
@@ -43,21 +40,19 @@ window.addEventListener('load', function() {
           "pln_formation-et-assistance-semestriel-vohd04oh",
           "pln_formation-et-assistance-annuel-wkhe043e"
         ];
-    
+  
         var hasSpecialPlan = userData.planConnections.some(plan => {
-          return miniPackPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
+        return miniPackPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
         }) || userData.planConnections.some(plan => {
           return megaPackPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
-        }) || userData.planConnections.some(plan => {
-          return newSpecialPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
         });
         console.log('Has special plan:', hasSpecialPlan);
-    
+        
         var hasIndividualPlan = userData.planConnections.some(plan => {
           return individualPlanIds.includes(plan.planId) && plan.status === "ACTIVE";
         });
         console.log('Has individual plan:', hasIndividualPlan);
-    
+  
         var hasMiniPackPlan = userData.planConnections.some(plan => miniPackPlanIds.includes(plan.planId) && plan.status === "ACTIVE");
         var hasMegaPackPlan = userData.planConnections.some(plan => megaPackPlanIds.includes(plan.planId) && plan.status === "ACTIVE");
   
