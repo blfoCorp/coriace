@@ -362,6 +362,17 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 dataTabLink: 'wfportfolioNiv1Tabs',
                 dataLockIcon: 'wfportfolioNiv1LockIcn',
                 newHref: '/modules-formation-thematique/webflow-creer-son-portfolio'
+            },
+            {
+                planId: [
+                    "pln_coriace-webflow-plus-cb540c14",
+                    "pln_webflow-plus-semestriel--84gw090e",
+                    "pln_webflow-plus-annuel--uffp04jd"
+                ],
+                dataTabLink: 'wfPlusButton',
+                dataLockIcon: 'wfPlusLockIcn',
+                dataStartButton: 'wfPlusStartButton',
+                dataHideButton: 'wfPlusHideButton'
             }
         ];
         
