@@ -155,7 +155,7 @@ function updatePromoCode() {
       
       if (memberObj && memberObj.metaData && memberObj.metaData.coupon_name) {
         var promoElements = document.querySelectorAll('.promo-popin_code');
-        var promoPopinElement = document.querySelector('.promo-code_popin');
+        var promoPopinElement = document.querySelector('.promo-code_wrapper');
         
         promoElements.forEach(function(element) {
           element.textContent = memberObj.metaData.coupon_name;
