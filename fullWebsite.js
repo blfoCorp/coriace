@@ -132,7 +132,7 @@ function startCouponTimer() {
       clearInterval(timerInterval);
       localStorage.removeItem('coupon_start_time');
       // Masquer l'élément .promo-code_popin si nécessaire
-      var promoPopinElement = document.querySelector('.promo-code_popin');
+      var promoPopinElement = document.querySelector('.promo-code_wrapper');
       if (promoPopinElement) {
         promoPopinElement.style.display = 'none';
       }
