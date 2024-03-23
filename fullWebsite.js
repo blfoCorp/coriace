@@ -422,30 +422,43 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
         ];
         
 
+            // Au début de votre fonction, définissez l'attribut personnalisé que vous utiliserez pour sélectionner l'élément.
+        const attributeSelector = '[data-co-member="buy-btn"]';
+        
+        let hasSpecificPlan = false; // Flag pour vérifier si l'utilisateur a un plan spécifique
+        
         plansConfig.forEach(planConfig => {
-            let hasPlan = Array.isArray(planConfig.planId) && planConfig.planId.some(id => 
-                member.planConnections.some(plan => plan.planId === id)
-            );
-
+            const hasPlan = Array.isArray(planConfig.planId) ?
+                planConfig.planId.some(id => userPlanIds.includes(id)) :
+                userPlanIds.includes(planConfig.planId);
+        
             if (hasPlan) {
                 document.querySelectorAll(`[data-tab-link="${planConfig.dataTabLink}"]`).forEach(element => {
                     element.href = planConfig.newHref;
                 });
-
+        
                 document.querySelectorAll(`[data-lock-icon="${planConfig.dataLockIcon}"]`).forEach(element => {
                     element.style.display = 'none';
                 });
-
+        
                 document.querySelectorAll(`[data-start-button="${planConfig.dataStartButton}"]`).forEach(button => {
                     button.href = planConfig.newHref; 
                     button.textContent = 'Démarrer';
                 });
-
+        
                 document.querySelectorAll(`[data-hide-button="${planConfig.dataHideButton}"]`).forEach(element => {
                     element.style.display = 'none';
                 });
+                
+                // Mettez à jour le drapeau si l'utilisateur a au moins un des plans spécifiés.
+                hasSpecificPlan = true;
             }
         });
+        
+        // Afficher l'élément spécifique si l'utilisateur a un plan spécifié
+        if (hasSpecificPlan) {
+            document.querySelector(attributeSelector).style.display = 'block'; // Ou toute autre logique d'affichage
+        }
     }
 }
 
