@@ -64,62 +64,120 @@ window.addEventListener('load', function() {
       if (daysSinceStart >= daysForLevel2) { accessLevel = 2; }
       if (daysSinceStart >= daysForLevel3) { accessLevel = 3; }
 
-     var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
-     var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
-     var timeLeftSpanLevel2 = document.querySelector('[data-drip-content="courseTimeLeft2"]');
-     var timeLeftSpanLevel3 = document.querySelector('[data-drip-content="courseTimeLeft3"]');
-    
-     if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2.toString();
-     if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3.toString();
-    
-     var courseTimeLeftCard2 = document.querySelector('[data-drip-content="courseTimeLeftCard2"]');
-     var courseTimeLeftPrice = document.querySelector('[data-drip-content="courseTimeLeftPrice"]');
-     var courseTimeLeftButton = document.querySelector('[data-drip-content="courseTimeLeftButton"]');
-     var courseTimeName1 = document.querySelector('[data-drip-content="courseTimeName1"]');
-     var courseTimeName2 = document.querySelector('[data-drip-content="courseTimeName2"]');
-
-
+     // Calcul du temps restant pour chaque niveau
+      var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
+      var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
+      
+      // Mise à jour du temps restant pour les niveaux 2 et 3
+      document.querySelectorAll('[data-drip-content="courseTimeLeft2"]').forEach(function(span) {
+        span.textContent = timeLeftForLevel2.toString();
+      });
+      document.querySelectorAll('[data-drip-content="courseTimeLeft3"]').forEach(function(span) {
+        span.textContent = timeLeftForLevel3.toString();
+      });
+      
+      // Sélection des éléments pour les cartes, prix, boutons et noms des cours
+      var courseTimeLeftCard2 = document.querySelectorAll('[data-drip-content="courseTimeLeftCard2"]');
+      var courseTimeLeftPrice = document.querySelectorAll('[data-drip-content="courseTimeLeftPrice"]');
+      var courseTimeLeftButton = document.querySelectorAll('[data-drip-content="courseTimeLeftButton"]');
+      var courseTimeName1 = document.querySelectorAll('[data-drip-content="courseTimeName1"]');
+      var courseTimeName2 = document.querySelectorAll('[data-drip-content="courseTimeName2"]');
+      
       if (daysSinceStart >= daysForLevel2) {
-        if (courseTimeLeftCard2) courseTimeLeftCard2.style.display = 'none';
-
+        // Masquer les cartes pour le niveau 2 si applicable
+        courseTimeLeftCard2.forEach(function(card) {
+          card.style.display = 'none';
+        });
+      
+        // Mise à jour des informations basées sur le plan de l'utilisateur
         if (hasWpdvPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "60€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-webflow-page-de-vente-60/etape/commande-webflow-page-de-vente-60/";
-          if (courseTimeName1) courseTimeName1.textContent = "Niveau 2";
-          if (courseTimeName2) courseTimeName2.textContent = "Niveau 3";
-        }
-        if (hasPackPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "84€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-pack-webflow-84/etape/commande-pack-webflow-84/";
-          if (courseTimeName1) courseTimeName1.textContent = "Wf E-co.";
-          if (courseTimeName2) courseTimeName2.textContent = "Wf CMS.";
-        }
-        if (hasMegaPackPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "116€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mega-pack-webflow-116/etape/commande-mega-pack-webflow-116/";
-          if (courseTimeName1) courseTimeName1.textContent = "Partie 2";
-          if (courseTimeName2) courseTimeName2.textContent = "Partie 3";
+          courseTimeLeftPrice.forEach(function(price) {
+            price.textContent = "60€";
+          });
+          courseTimeLeftButton.forEach(function(button) {
+            button.href = "https://order.coriace.co/formation/commande-webflow-page-de-vente-60/etape/commande-webflow-page-de-vente-60/";
+          });
+          courseTimeName1.forEach(function(name) {
+            name.textContent = "Niveau 2";
+          });
+          courseTimeName2.forEach(function(name) {
+            name.textContent = "Niveau 3";
+          });
+        } else if (hasPackPlan) {
+          courseTimeLeftPrice.forEach(function(price) {
+            price.textContent = "84€";
+          });
+          courseTimeLeftButton.forEach(function(button) {
+            button.href = "https://order.coriace.co/formation/commande-pack-webflow-84/etape/commande-pack-webflow-84/";
+          });
+          courseTimeName1.forEach(function(name) {
+            name.textContent = "Wf E-co.";
+          });
+          courseTimeName2.forEach(function(name) {
+            name.textContent = "Wf CMS.";
+          });
+        } else if (hasMegaPackPlan) {
+          courseTimeLeftPrice.forEach(function(price) {
+            price.textContent = "116€";
+          });
+          courseTimeLeftButton.forEach(function(button) {
+            button.href = "https://order.coriace.co/formation/commande-mega-pack-webflow-116/etape/commande-mega-pack-webflow-116/";
+          });
+          courseTimeName1.forEach(function(name) {
+            name.textContent = "Partie 2";
+          });
+          courseTimeName2.forEach(function(name) {
+            name.textContent = "Partie 3";
+          });
         }
       } else {
-        if (hasWpdvPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "120€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-webflow-page-de-vente-120/etape/commande-webflow-page-de-vente-120/";
-          if (courseTimeName1) courseTimeName1.textContent = "Niveau 2";
-          if (courseTimeName2) courseTimeName2.textContent = "Niveau 3";
+          // Si l'utilisateur a le plan Wpdv mais n'est pas encore au niveau 2
+          if (hasWpdvPlan) {
+            courseTimeLeftPrice.forEach(function(price) {
+              price.textContent = "120€";
+            });
+            courseTimeLeftButton.forEach(function(button) {
+              button.href = "https://order.coriace.co/formation/commande-webflow-page-de-vente-120/etape/commande-webflow-page-de-vente-120/";
+            });
+            courseTimeName1.forEach(function(name) {
+              name.textContent = "Niveau 2";
+            });
+            courseTimeName2.forEach(function(name) {
+              name.textContent = "Niveau 3";
+            });
+          }
+          // Si l'utilisateur a le plan Pack
+          if (hasPackPlan) {
+            courseTimeLeftPrice.forEach(function(price) {
+              price.textContent = "168€";
+            });
+            courseTimeLeftButton.forEach(function(button) {
+              button.href = "https://order.coriace.co/formation/commande-pack-webflow-168/etape/commande-pack-webflow-168/";
+            });
+            courseTimeName1.forEach(function(name) {
+              name.textContent = "Wf E-co.";
+            });
+            courseTimeName2.forEach(function(name) {
+              name.textContent = "Wf CMS";
+            });
+          }
+          // Si l'utilisateur a le plan MegaPack
+          if (hasMegaPackPlan) {
+            courseTimeLeftPrice.forEach(function(price) {
+              price.textContent = "232€";
+            });
+            courseTimeLeftButton.forEach(function(button) {
+              button.href = "https://order.coriace.co/formation/commande-mega-pack-webflow-232/etape/commande-mega-pack-webflow-232/";
+            });
+            courseTimeName1.forEach(function(name) {
+              name.textContent = "Partie 2";
+            });
+            courseTimeName2.forEach(function(name) {
+              name.textContent = "Partie 3";
+            });
+          }
         }
-        if (hasPackPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "168€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-pack-webflow-168/etape/commande-pack-webflow-168/";
-          if (courseTimeName1) courseTimeName1.textContent = "Wf E-co.";
-          if (courseTimeName2) courseTimeName2.textContent = "Wf CMS";
-        }
-        if (hasMegaPackPlan) {
-          if (courseTimeLeftPrice) courseTimeLeftPrice.textContent = "232€";
-          if (courseTimeLeftButton) courseTimeLeftButton.href = "https://order.coriace.co/formation/commande-mega-pack-webflow-232/etape/commande-mega-pack-webflow-232/";
-          if (courseTimeName1) courseTimeName1.textContent = "Partie 2";
-          if (courseTimeName2) courseTimeName2.textContent = "Partie 3";
-        }
-      }
+
 
       document.querySelectorAll('.course_lesson-item').forEach(function(item) {
         var paidId;
