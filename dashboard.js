@@ -161,17 +161,44 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // ----- FONCTION POUR AFFICHER UNE CITATION ALÉATOIRE CHAQUE JOUR ------//
 const citations = [
-    "Le no-code est la démocratisation du développement ; il donne une voix à ceux qui n'ont jamais osé coder.",
-    "Dans l'ère du no-code, la seule erreur de syntaxe est de penser qu'on en a besoin pour créer quelque chose de grand.",
-    "Le no-code n'élimine pas les développeurs, il les multiplie.",
-    "Adopter le no-code, c'est comme apprendre une nouvelle langue sans mots : soudain, ce sont les idées qui parlent",
-    "Le no-code transforme les barrières techniques en tremplins créatifs.",
-    "Si le code est poésie, alors le no-code est un slam : accessible, expressif, et sans règles strictes.",
-    "Avec le no-code, chaque utilisateur est un artiste et chaque application, une œuvre d'art.",
-    "Le no-code ne simplifie pas seulement le développement ; il invite à repenser ce qui est possible.",
-    "Être no-code, c'est croire que la meilleure ligne de code est celle qu'on n'a pas à écrire.",
-    "Le no-code est le vent qui gonfle les voiles de l'innovation, permettant à chaque idée de naviguer librement sur les océans du digital.",
-    "Je peux pas, j'ai no-code."
+    "Seuls les plus coriaces osent braver les tempêtes pour atteindre le rivage de leurs rêves. N'abandonne jamais."
+    "Le chemin du succès est semé d'obstacles, mais c'est notre esprit coriace qui nous propulse vers l'avant."
+    "Rappelle-toi que les moments les plus coriaces forgent les caractères les plus résilients. Poursuis ta quête avec courage."
+    "Dans la danse avec les défis, c'est l'âme coriace qui mène la valse vers la victoire."
+    "Fais de ta volonté coriace ton plus fidèle allié dans la réalisation de tes projets les plus audacieux."
+    "L'adversité révèle les esprits coriaces ; sois celui qui, face aux tempêtes, bâtit des ponts vers ses rêves."
+    "Un cœur coriace est un trésor inestimable ; il transforme chaque obstacle en marchepied vers les étoiles."
+    "Soyez coriace dans votre quête de succès ; les fleurs les plus rares poussent dans les terrains les plus arides."
+    "L'histoire se souvient des plus coriaces, de ceux qui ont transformé les déserts en oasis de réussite."
+    "Le monde appartient aux coriaces, à ceux qui croient en leurs rêves même quand le vent souffle en contre."
+    "Être entrepreneur, c'est être coriace avec un sourire d'acier. Même quand ton café est froid, ton pitch doit rester chaud."
+    "La vie d'entrepreneur ? Un marathon en chaussettes sur un tapis de legos. Coriace, mais quelle aventure !"
+    "Un entrepreneur coriace sait que derrière chaque 'non', se cache un 'oui' qui s'est perdu. Continue de chercher !"
+    "La recette de l'entrepreneur coriace ? Une cuillère de ténacité, un zeste de folie et une pincée d'humour pour assaisonner les échecs."
+    "Si la route de l'entrepreneuriat était douce, tout le monde serait coriace. Célébrons donc nos épines, elles nous rendent uniques."
+    "Dans le grand livre de l'entrepreneuriat, les plus belles histoires sont celles des coriaces qui ont appris à danser sous la pluie."
+    "Rappelle-toi, un bon entrepreneur est coriace. Il mange des problèmes au petit déjeuner et des solutions au dîner."
+    "L'entrepreneuriat, c'est l'art d'être assez coriace pour dire 'au revoir' au confort et 'bonjour' à l'aventure de ta vie."
+    "Chaque jour est une toile blanche ; sois coriace, peins-la avec les couleurs de ton âme."
+    "La vie est coriace, mais toi aussi. Rappelle-toi que chaque pas, même le plus petit, est un progrès."
+    "Dans la forge de la vie quotidienne, c'est notre détermination coriace qui nous sculpte en chefs-d'œuvre."
+    "Sois coriace dans ta quête de croissance personnelle ; chaque difficulté est une leçon déguisée en défi."
+    "Face aux tempêtes de la vie, montre-toi plus coriace que les vagues ; apprends à danser sous la pluie."
+    "Cultive une volonté coriace ; elle te portera à travers les jours gris jusqu'aux matins dorés de succès."
+    "La vie ne te donne pas toujours ce que tu veux, mais si tu es coriace, elle finit par te révéler ce dont tu as besoin."
+    "Sois coriace, pas juste pour tenir bon dans la tempête, mais pour pouvoir te redresser plus fort après qu'elle passe."
+    "Un esprit coriace trouve de la lumière même dans les ombres les plus sombres. Illumine ta vie avec persévérance."
+    "La vie est un puzzle parfois coriace, mais chaque pièce a sa place. Patience et persévérance assembleront le tableau."
+    "Au travail, sois coriace face aux défis ; chaque obstacle surmonté est un tremplin vers ton succès."
+    "Les tâches les plus coriaces polissent les compétences les plus précieuses. Embrasse-les comme des opportunités de briller."
+    "Un esprit coriace transforme les défis du travail en escaliers vers les sommets de l'accomplissement."
+    "Face à un projet coriace, rappelle-toi : la persévérance est la clé qui ouvre les portes de l'innovation et de la réussite."
+    "Le travail peut être coriace, mais ton esprit l'est encore plus. Ne sous-estime jamais ta capacité à surmonter."
+    "Dans l'arène du travail, les plus coriaces ne sont pas ceux qui ne tombent jamais, mais ceux qui se relèvent à chaque fois."
+    "Les jours au travail sont parfois coriaces, mais chaque défi est une étincelle qui allume la flamme de la créativité."
+    "Soyez coriace dans votre engagement ; les graines de l'effort germent dans les sols les plus durs."
+    "Un objectif coriace demande une détermination encore plus coriace. Équipe-toi de patience et poursuis ta route."
+    "Le secret pour avancer est de commencer, et pour continuer, d'être coriace. Le travail acharné mène invariablement au succès."
 ];
 
 
