@@ -422,47 +422,50 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
         ];
         
 
-            // Au début de votre fonction, définissez l'attribut personnalisé que vous utiliserez pour sélectionner l'élément.
+        async function updateTabLinksAndHideElementsForSpecificPlans() {
+    // Récupérer l'objet membre courant depuis Memberstack
+    const response = await window.$memberstackDom.getCurrentMember();
+    const member = response.data;
+
+    // Vérifier si le membre est défini et a des plans de connexion
+    if (member && Array.isArray(member.planConnections)) {
+        // Extraire les IDs de plan du membre
+        const userPlanIds = member.planConnections.map(connection => connection.planId);
+        
+        // Définir l'attribut personnalisé pour sélectionner l'élément
         const attributeSelector = '[data-co-member="buy-btn"]';
         
-        let hasSpecificPlan = false; // Flag pour vérifier si l'utilisateur a un plan spécifique
+        // Initialiser le drapeau indiquant si l'utilisateur a un plan spécifique
+        let hasSpecificPlan = false;
         
+        // Parcourir chaque configuration de plan
         plansConfig.forEach(planConfig => {
+            // Vérifier si l'utilisateur a un des plans spécifiés
             const hasPlan = Array.isArray(planConfig.planId) ?
-                planConfig.planId.some(id => userPlanIds.includes(id)) :
+                planConfig.planId.some(planId => userPlanIds.includes(planId)) :
                 userPlanIds.includes(planConfig.planId);
-        
+            
+            // Si l'utilisateur a le plan, effectuer les modifications nécessaires sur les éléments du DOM
             if (hasPlan) {
-                document.querySelectorAll(`[data-tab-link="${planConfig.dataTabLink}"]`).forEach(element => {
-                    element.href = planConfig.newHref;
-                });
-        
-                document.querySelectorAll(`[data-lock-icon="${planConfig.dataLockIcon}"]`).forEach(element => {
-                    element.style.display = 'none';
-                });
-        
-                document.querySelectorAll(`[data-start-button="${planConfig.dataStartButton}"]`).forEach(button => {
-                    button.href = planConfig.newHref; 
-                    button.textContent = 'Démarrer';
-                });
-        
-                document.querySelectorAll(`[data-hide-button="${planConfig.dataHideButton}"]`).forEach(element => {
-                    element.style.display = 'none';
-                });
-                
-                // Mettez à jour le drapeau si l'utilisateur a au moins un des plans spécifiés.
+                // Mise à jour des liens, icônes, boutons, etc.
+                // ...
+
+                // Indiquer qu'un élément spécifique doit être affiché
                 hasSpecificPlan = true;
             }
         });
-        
-       if (hasSpecificPlan) {
-        const elementToShow = document.querySelector(attributeSelector);
-        if (elementToShow) { // Vérifiez si l'élément existe
-            elementToShow.style.display = 'block'; // Ou toute autre logique d'affichage
+
+        // Si l'utilisateur a un plan spécifié, afficher l'élément avec l'attribut personnalisé
+        if (hasSpecificPlan) {
+            const elementToShow = document.querySelector(attributeSelector);
+            if (elementToShow) {
+                elementToShow.style.display = 'block';
+            }
         }
     }
 }
 
+// Attacher la fonction au chargement du contenu DOM
 document.addEventListener("DOMContentLoaded", () => {
     updateTabLinksAndHideElementsForSpecificPlans();
 });
