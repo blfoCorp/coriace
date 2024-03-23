@@ -103,35 +103,29 @@ window.addEventListener('resize', function() {
 /* -------- AFFICHAGE DU CODE DE PROMOTION À L'INSCRIPTION -------- */
 // Fonction pour démarrer un timer de 24 heures
 function startCouponTimer() {
-  // Récupérer ou initialiser la date et l'heure de début du timer
   var startTime = localStorage.getItem('coupon_start_time');
   if (!startTime) {
     startTime = new Date().getTime();
     localStorage.setItem('coupon_start_time', startTime);
   }
-  
-  // Fonction pour mettre à jour le timer
+
   function updateTimer() {
     var currentTime = new Date().getTime();
     var elapsedTime = currentTime - startTime;
-    var remainingTime = 24 * 60 * 60 * 1000 - elapsedTime; // 24 heures en millisecondes
+    var remainingTime = 24 * 60 * 60 * 1000 - elapsedTime;
 
     if (remainingTime >= 0) {
-      // Calculer heures, minutes, secondes
       var hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
       var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-      
-      // Afficher le timer
+
       var timerDisplay = document.querySelector('.promo-timer');
       if (timerDisplay) {
         timerDisplay.textContent = `${hours}h ${minutes}m ${seconds}s`;
       }
     } else {
-      // Le timer a expiré
       clearInterval(timerInterval);
       localStorage.removeItem('coupon_start_time');
-      // Masquer l'élément .promo-code_popin si nécessaire
       var promoPopinElement = document.querySelector('.promo-code_wrapper');
       if (promoPopinElement) {
         promoPopinElement.style.display = 'none';
@@ -139,13 +133,10 @@ function startCouponTimer() {
     }
   }
 
-  // Mettre à jour le timer toutes les secondes
   var timerInterval = setInterval(updateTimer, 1000);
-  // Initialiser l'affichage du timer
   updateTimer();
 }
 
-// Fonction pour mettre à jour le code promo et afficher l'élément si nécessaire
 function updatePromoCode() {
   var memberData = localStorage.getItem('_ms-mem');
   
@@ -161,22 +152,19 @@ function updatePromoCode() {
           element.textContent = memberObj.metaData.coupon_name;
         });
 
-        // Si 'coupon_name' est présent, afficher l'élément et démarrer le timer
         if (promoPopinElement) {
           promoPopinElement.style.display = 'flex';
-          promoPopinElement.style.flexDirection = 'column';
           startCouponTimer();
         }
-      } else {
-        console.error('La clé "coupon_name" est introuvable dans les données "metaData" du membre.');
       }
     } catch (e) {
-      console.error('Erreur lors de l\'analyse des données du membre:', e);
+      // Gérer l'erreur de parse JSON
     }
   }
 }
 
 window.onload = updatePromoCode;
+
 
 /* -------- DÉTECTION DES VISITES LIEN AFFILIÉ + ENVOIE DES DONNÉES DANS MAKE -------- */
 document.addEventListener('DOMContentLoaded', function() {
@@ -227,8 +215,6 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
     const member = response.data;
 
     if (member && Array.isArray(member.planConnections)) {
-        console.log('Membre connecté:', member);
-        // ID des plans spécifiques et leurs configurations correspondantes
         const plansConfig = [
             {
                 planId: [
@@ -473,4 +459,51 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
 
 document.addEventListener("DOMContentLoaded", () => {
     updateTabLinksAndHideElementsForSpecificPlans();
+});
+
+/*---  DÉBUT : ÉTAT DU LABEL MEMBRE CLUB CORIACE DANS LA NAVIGATION ----*/
+document.addEventListener('DOMContentLoaded', function() {
+    // Fonction pour vérifier si le plan spécifié existe et est actif
+    function hasActivePlan(planConnections, targetPlanId) {
+        return planConnections.some(function(plan) {
+            return plan.planId === targetPlanId && plan.active;
+        });
+    }
+
+    // Fonction pour ajouter une classe à tous les éléments correspondants
+    function addClassToElements(selector, className) {
+        var elements = document.querySelectorAll(selector);
+        elements.forEach(function(element) {
+            element.classList.add(className);
+        });
+    }
+
+    // Fonction pour changer le style display de tous les éléments correspondants
+    function setDisplayToElements(selector, displayStyle) {
+        var elements = document.querySelectorAll(selector);
+        elements.forEach(function(element) {
+            element.style.display = displayStyle;
+        });
+    }
+
+    // Lire les données de l'utilisateur à partir du localStorage
+    var memberDataString = localStorage.getItem('_ms-mem');
+    if (memberDataString) {
+        // Parser la chaîne JSON pour obtenir l'objet membre
+        var memberData = JSON.parse(memberDataString);
+
+        // L'ID du plan à vérifier
+        var planId = "pln_club-coriace-qwxe0arq";
+        var hasPlan = hasActivePlan(memberData.planConnections, planId);
+
+        // Vérification et action en fonction de la présence du plan
+        if (hasPlan) {
+            setDisplayToElements('.vertcial-nav_club-mem-icn-active', 'block');
+            setDisplayToElements('.vertcial-nav_club-mem-icn-inactive', 'none');
+        } else {
+            setDisplayToElements('.vertcial-nav_club-mem-icn-active', 'none');
+            setDisplayToElements('.vertcial-nav_club-mem-icn-inactive', 'block');
+            addClassToElements('.vertical-nav_club-member-label', 'is-inactive');
+        }
+    }
 });
