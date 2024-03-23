@@ -154,6 +154,7 @@ function updatePromoCode() {
 
         if (promoPopinElement) {
           promoPopinElement.style.display = 'flex';
+          promoPopinElement.style.flexDirection = 'column';
           startCouponTimer();
         }
       }
