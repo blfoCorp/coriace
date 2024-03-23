@@ -455,58 +455,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /*---  DÉBUT : ÉTAT DU LABEL MEMBRE CLUB CORIACE DANS LA NAVIGATION ----*/
 document.addEventListener('DOMContentLoaded', function() {
-    // Fonction pour vérifier si le plan spécifié existe et est actif
+    // Vérifie si le plan spécifié existe et est actif
     function hasActivePlan(planConnections, targetPlanId) {
         return planConnections.some(function(plan) {
             return plan.planId === targetPlanId && plan.active;
         });
     }
 
-    // Fonction pour changer le texte de tous les éléments correspondants
+    // Change le texte de tous les éléments correspondants
     function setTextToElements(selector, text) {
-        var elements = document.querySelectorAll(selector);
-        elements.forEach(function(element) {
+        document.querySelectorAll(selector).forEach(function(element) {
             element.textContent = text;
         });
     }
 
-    // Fonction pour ajouter une classe à tous les éléments correspondants
+    // Ajoute une classe à tous les éléments correspondants
     function addClassToElements(selector, className) {
-        var elements = document.querySelectorAll(selector);
-        elements.forEach(function(element) {
+        document.querySelectorAll(selector).forEach(function(element) {
             element.classList.add(className);
         });
     }
 
-    // Fonction pour changer le style display de tous les éléments correspondants
-    function setDisplayToElements(selector, displayStyle) {
-        var elements = document.querySelectorAll(selector);
-        elements.forEach(function(element) {
-            element.style.display = displayStyle;
-        });
-    }
-
-    // Lire les données de l'utilisateur à partir du localStorage
+    // Lit les données de l'utilisateur depuis localStorage
     var memberDataString = localStorage.getItem('_ms-mem');
     if (memberDataString) {
-        // Parser la chaîne JSON pour obtenir l'objet membre
         var memberData = JSON.parse(memberDataString);
-
-        // L'ID du plan à vérifier
         var planId = "pln_club-coriace-qwxe0arq";
         var hasPlan = hasActivePlan(memberData.planConnections, planId);
 
-        // Vérification et action en fonction de la présence du plan
         if (hasPlan) {
             setTextToElements('.vertical-nav_member-label-text', 'Membre du Club');
-            setDisplayToElements('.vertcial-nav_club-mem-icn-active', 'block');
-            setDisplayToElements('.vertcial-nav_club-mem-icn-inactive', 'none');
         } else {
             setTextToElements('.vertical-nav_member-label-text', 'Non Membre du Club');
-            setDisplayToElements('.vertcial-nav_club-mem-icn-active', 'none');
-            setDisplayToElements('.vertcial-nav_club-mem-icn-inactive', 'block');
             addClassToElements('.vertical-nav_club-member-label', 'is-inactive');
         }
     }
 });
-
