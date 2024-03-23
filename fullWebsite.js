@@ -441,9 +441,22 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
             
             // Si l'utilisateur a le plan, effectuer les modifications nécessaires sur les éléments du DOM
             if (hasPlan) {
-                // Mise à jour des liens, icônes, boutons, etc.
-                // ...
+                document.querySelectorAll(`[data-tab-link="${planConfig.dataTabLink}"]`).forEach(element => {
+                    element.href = planConfig.newHref;
+                });
 
+                document.querySelectorAll(`[data-lock-icon="${planConfig.dataLockIcon}"]`).forEach(element => {
+                    element.style.display = 'none';
+                });
+
+                document.querySelectorAll(`[data-start-button="${planConfig.dataStartButton}"]`).forEach(button => {
+                    button.href = planConfig.newHref; 
+                    button.textContent = 'Démarrer';
+                });
+
+                document.querySelectorAll(`[data-hide-button="${planConfig.dataHideButton}"]`).forEach(element => {
+                    element.style.display = 'none';
+                });
                 // Indiquer qu'un élément spécifique doit être affiché
                 hasSpecificPlan = true;
             }
