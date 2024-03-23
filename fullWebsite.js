@@ -207,6 +207,10 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
     const member = response.data;
 
     if (member && Array.isArray(member.planConnections)) {
+        // Extraire les IDs de plan du membre
+        const userPlanIds = member.planConnections.map(connection => connection.planId);
+        
+        // Configuration des plans (c'est un tableau d'objets)
         const plansConfig = [
             {
                 planId: [
@@ -422,16 +426,6 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
         ];
         
 
-        async function updateTabLinksAndHideElementsForSpecificPlans() {
-    // Récupérer l'objet membre courant depuis Memberstack
-    const response = await window.$memberstackDom.getCurrentMember();
-    const member = response.data;
-
-    // Vérifier si le membre est défini et a des plans de connexion
-    if (member && Array.isArray(member.planConnections)) {
-        // Extraire les IDs de plan du membre
-        const userPlanIds = member.planConnections.map(connection => connection.planId);
-        
         // Définir l'attribut personnalisé pour sélectionner l'élément
         const attributeSelector = '[data-co-member="buy-btn"]';
         
