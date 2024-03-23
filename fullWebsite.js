@@ -455,9 +455,10 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
             }
         });
         
-        // Afficher l'élément spécifique si l'utilisateur a un plan spécifié
-        if (hasSpecificPlan) {
-            document.querySelector(attributeSelector).style.display = 'block'; // Ou toute autre logique d'affichage
+       if (hasSpecificPlan) {
+        const elementToShow = document.querySelector(attributeSelector);
+        if (elementToShow) { // Vérifiez si l'élément existe
+            elementToShow.style.display = 'block'; // Ou toute autre logique d'affichage
         }
     }
 }
