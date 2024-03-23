@@ -78,6 +78,7 @@ window.addEventListener('load', function() {
       
       // Sélection des éléments pour les cartes, prix, boutons et noms des cours
       var courseTimeLeftCard2 = document.querySelectorAll('[data-drip-content="courseTimeLeftCard2"]');
+      var courseTimeLeftCard3 = document.querySelectorAll('[data-drip-content="courseTimeLeftCard3"]');
       var courseTimeLeftPrice = document.querySelectorAll('[data-drip-content="courseTimeLeftPrice"]');
       var courseTimeLeftButton = document.querySelectorAll('[data-drip-content="courseTimeLeftButton"]');
       var courseTimeName1 = document.querySelectorAll('[data-drip-content="courseTimeName1"]');
