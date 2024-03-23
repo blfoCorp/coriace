@@ -93,7 +93,7 @@ window.addEventListener('load', function() {
         // Mise à jour des informations basées sur le plan de l'utilisateur
         if (hasWpdvPlan) {
           courseTimeLeftPrice.forEach(function(price) {
-            price.textContent = "60€";
+          price.textContent = "60€";
           });
           courseTimeLeftButton.forEach(function(button) {
             button.href = "https://order.coriace.co/formation/commande-webflow-page-de-vente-60/etape/commande-webflow-page-de-vente-60/";
