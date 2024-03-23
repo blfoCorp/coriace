@@ -462,6 +462,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Fonction pour changer le texte de tous les éléments correspondants
+    function setTextToElements(selector, text) {
+        var elements = document.querySelectorAll(selector);
+        elements.forEach(function(element) {
+            element.textContent = text;
+        });
+    }
+
     // Fonction pour ajouter une classe à tous les éléments correspondants
     function addClassToElements(selector, className) {
         var elements = document.querySelectorAll(selector);
@@ -490,12 +498,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Vérification et action en fonction de la présence du plan
         if (hasPlan) {
+            setTextToElements('.vertical-nav_member-label-text', 'Membre du Club');
             setDisplayToElements('.vertcial-nav_club-mem-icn-active', 'block');
             setDisplayToElements('.vertcial-nav_club-mem-icn-inactive', 'none');
         } else {
+            setTextToElements('.vertical-nav_member-label-text', 'Non Membre du Club');
             setDisplayToElements('.vertcial-nav_club-mem-icn-active', 'none');
             setDisplayToElements('.vertcial-nav_club-mem-icn-inactive', 'block');
             addClassToElements('.vertical-nav_club-member-label', 'is-inactive');
         }
     }
 });
+
