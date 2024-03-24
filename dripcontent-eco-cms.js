@@ -87,14 +87,7 @@ window.addEventListener('load', function() {
       var echeancePayment2 = document.querySelectorAll('[data-drip-content="echeancePayment2"]');
       var echeancePayment3 = document.querySelectorAll('[data-drip-content="echeancePayment3"]');
       
-     // Masquage initial pour tous les utilisateurs ayant un wpdvPlan, packPlan, ou megaPackPlan
-      if (hasMegaPackPlan) {
-        if (daysSinceStart >= daysForLevel2) {
-              courseTimeLeftCard1.forEach(card => card.style.display = 'none');
-              courseTimeLeftCard2.forEach(card => card.style.display = 'none');
-              courseTimeLeftCard3.forEach(card => card.style.display = 'none');
-          }
-      } else if (hasPackPlan) {
+      if (hasPackPlan || hasMegaPackPlan) {
          if (daysSinceStart >= daysForLevel2) {
               courseTimeLeftCard1.forEach(card => card.style.display = 'none');
               courseTimeLeftCard2.forEach(card => card.style.display = 'none');
