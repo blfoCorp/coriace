@@ -74,6 +74,8 @@ window.addEventListener('load', function() {
         console.log('Time left for level 2:', timeLeftForLevel2);
         var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
         console.log('Time left for level 3:', timeLeftForLevel3);
+
+        var courseTimeLeftCard1 = document.querySelectorAll('[data-drip-content="courseTimeLeftCard1"]');
         var timeLeftSpanLevel2 = document.querySelector('[data-drip-content="courseTimeLeft2"]');
         var timeLeftSpanLevel3 = document.querySelector('[data-drip-content="courseTimeLeft3"]');
   
