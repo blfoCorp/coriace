@@ -39,8 +39,8 @@ function showTabContent(tabId) {
 function setActiveTabButton(activeButton) {
   // Enlève la classe 'active' de tous les boutons d'onglet
   document.querySelectorAll(".lesson-mod_level").forEach(button => {
-    button.classList.remove("active");
+    button.classList.remove("w--current");
   });
   // Ajoute la classe 'active' au bouton actuellement sélectionné
-  activeButton.classList.add("active");
+  activeButton.classList.add("w--current");
 }
