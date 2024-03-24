@@ -87,7 +87,7 @@ window.addEventListener('load', function() {
       var echeancePayment3 = document.querySelectorAll('[data-drip-content="echeancePayment3"]');
       
       // Fonction pour mettre à jour le contenu en fonction du plan
-      var updateContent = function(priceText, buttonText, buttonHref, name1Text, name2Text) {
+      var updateContent = function(priceText, buttonText, buttonHref, name1Text, name2Text, paymentTime2, paymentTime3) {
         courseTimeLeftPrice.forEach(function(price) {
           price.textContent = priceText;
         });
@@ -100,6 +100,12 @@ window.addEventListener('load', function() {
         courseTimeName2.forEach(function(name) {
           name.textContent = name2Text;
         });
+        echeancePayment2.forEach(function(name) {
+          name.textContent = paymentTime2;
+        });
+        echeancePayment3.forEach(function(name) {
+          name.textContent = paymentTime3;
+        });
       };
       
       if (daysSinceStart >= daysForLevel2) {
@@ -108,7 +114,7 @@ window.addEventListener('load', function() {
         });
       
         if (hasWpdvPlan) {
-          updateContent("60€", "Commande Webflow Page de Vente 60€", "https://order.coriace.co/formation/commande-webflow-page-de-vente-60/etape/commande-webflow-page-de-vente-60/", "Niveau 2", "Niveau 3");
+          updateContent("60€", "Commande Webflow Page de Vente 60€", "https://order.coriace.co/formation/commande-webflow-page-de-vente-60/etape/commande-webflow-page-de-vente-60/", "Niveau 2", "Niveau 3", "2ème échéance", "3ème échéance");
         } else if (hasPackPlan) {
           updateContent("84€", "Commande Pack Webflow 84€", "https://order.coriace.co/formation/commande-pack-webflow-84/etape/commande-pack-webflow-84/", "Wf E-co.", "Wf CMS.");
         } else if (hasMegaPackPlan) {
@@ -116,7 +122,7 @@ window.addEventListener('load', function() {
         }
       } else {
         if (hasWpdvPlan) {
-          updateContent("120€", "Commande Webflow Page de Vente 120€", "https://order.coriace.co/formation/commande-webflow-page-de-vente-120/etape/commande-webflow-page-de-vente-120/", "Niveau 2", "Niveau 3");
+          updateContent("120€", "Commande Webflow Page de Vente 120€", "https://order.coriace.co/formation/commande-webflow-page-de-vente-120/etape/commande-webflow-page-de-vente-120/", "Niveau 2", "Niveau 3", "2ème échéance", "3ème échéance");
         }
         if (hasPackPlan) {
           updateContent("168€", "Commande Pack Webflow 168€", "https://order.coriace.co/formation/commande-pack-webflow-168/etape/commande-pack-webflow-168/", "Wf E-co.", "Wf CMS");
