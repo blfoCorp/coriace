@@ -146,7 +146,12 @@ window.addEventListener('load', function() {
           updateContent("232€", "Commande Mega Pack Webflow 232€", "https://order.coriace.co/formation/commande-mega-pack-webflow-232/etape/commande-mega-pack-webflow-232/", "Partie 2", "Partie 3");
         }
       }
-
+      
+      if (daysSinceStart >= daysForLevel3) {
+          courseTimeLeftCard3.forEach(function(card) {
+            card.style.display = 'none';
+          });
+        }
 
        if (hasSpecialPlan) {
           courseTimeLeftCard2.forEach(function(card) {
