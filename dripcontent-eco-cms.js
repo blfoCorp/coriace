@@ -118,7 +118,7 @@ window.addEventListener('load', function() {
           updateContent("60€", "Commande E-commerce CMS 60€", "https://order.coriace.co/formation/commande-webflow-ecommerce-cms-60/etape/commande-webflow-ecommerce-cms-60/", "Wf E-co.", "Wf CMS", "2ème échéance", "3ème échéance");
         }
         if (hasPackPlan) {
-          updateContent("84€", "Commande Pack Webflow 84€", "https://order.coriace.co/formation/commande-pack-webflow-84/etape/commande-pack-webflow-84/", "Wf E-co.", "Wf CMS", "2ème échéance", "2ème échéance");
+          updateContent("84€", "Commande Pack Webflow 84€", "https://order.coriace.co/formation/commande-pack-webflow-84/etape/commande-pack-webflow-84/", "Wf E-co.", "Wf CMS", "2ème échéance", "3ème échéance");
         }
         if (hasMegaPackPlan) {
           updateContent("116€", "Commande Mega Pack Webflow 116€", "https://order.coriace.co/formation/commande-mega-pack-webflow-116/etape/commande-mega-pack-webflow-116/", "Partie 2", "Partie 3", "2ème échéance", "2ème échéance");
@@ -129,7 +129,7 @@ window.addEventListener('load', function() {
           updateContent("120€", "Commande Webflow E-commerce CMS 120€", "https://order.coriace.co/formation/commande-webflow-ecommerce-cms-120/etape/commande-webflow-ecommerce-cms-120/", "Wf E-co.", "Wf CMS", "2ème échéance", "3ème échéance");
         }
         if (hasPackPlan) {
-          updateContent("168€", "Commande Pack Webflow 168€", "https://order.coriace.co/formation/commande-pack-webflow-168/etape/commande-pack-webflow-168/", "Wf E-co.", "Wf CMS", "2ème échéance", "2ème échéance");
+          updateContent("168€", "Commande Pack Webflow 168€", "https://order.coriace.co/formation/commande-pack-webflow-168/etape/commande-pack-webflow-168/", "Wf E-co.", "Wf CMS", "2ème échéance", "3ème échéance");
         }
         if (hasMegaPackPlan) {
           updateContent("232€", "Commande Mega Pack Webflow 232€", "https://order.coriace.co/formation/commande-mega-pack-webflow-232/etape/commande-mega-pack-webflow-232/", "Partie 2", "Partie 3", "2ème échéance", "2ème échéance");
