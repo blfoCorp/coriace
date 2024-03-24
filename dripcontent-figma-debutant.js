@@ -34,14 +34,10 @@ window.addEventListener('load', function() {
   
       var timeLeftForLevel2 = calculateDaysLeft(startDate, daysForLevel2);
       var timeLeftForLevel3 = calculateDaysLeft(startDate, daysForLevel3);
-  
-      // Mise à jour du temps restant pour les niveaux 2 et 3
-      document.querySelector('[data-drip-content="courseTimeLeft2"]').forEach(function(span) {
-        span.textContent = timeLeftForLevel2.toString();
-      });
-      document.querySelector('[data-drip-content="courseTimeLeft3"]').forEach(function(span) {
-        span.textContent = timeLeftForLevel3.toString();
-      });
+
+      document.querySelector('[data-drip-content="courseTimeLeft2"]').textContent = timeLeftForLevel2.toString();
+      document.querySelector('[data-drip-content="courseTimeLeft3"]').textContent = timeLeftForLevel3.toString();
+
   
       var courseTimeLeftPrice = document.querySelector('[data-drip-content="courseTimeLeftPrice"]');
       var courseTimeLeftButton = document.querySelector('[data-drip-content="courseTimeLeftButton"]');
