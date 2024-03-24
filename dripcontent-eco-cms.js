@@ -89,14 +89,15 @@ window.addEventListener('load', function() {
       
      // Masquage initial pour tous les utilisateurs ayant un wpdvPlan, packPlan, ou megaPackPlan
       if (hasMegaPackPlan) {
-          // Pour megaPackPlan, masquer immédiatement toutes les cartes car le contenu est entièrement accessible
-          courseTimeLeftCard1.forEach(card => card.style.display = 'none');
-          courseTimeLeftCard2.forEach(card => card.style.display = 'none');
-          courseTimeLeftCard3.forEach(card => card.style.display = 'none');
+        if (daysSinceStart >= daysForLevel2) {
+              courseTimeLeftCard1.forEach(card => card.style.display = 'none');
+              courseTimeLeftCard2.forEach(card => card.style.display = 'none');
+              courseTimeLeftCard3.forEach(card => card.style.display = 'none');
+          }
       } else if (hasPackPlan) {
          if (daysSinceStart >= daysForLevel2) {
               courseTimeLeftCard1.forEach(card => card.style.display = 'none');
-             courseTimeLeftCard2.forEach(card => card.style.display = 'none');
+              courseTimeLeftCard2.forEach(card => card.style.display = 'none');
           }
           if (daysSinceStart >= daysForLevel3) {
               courseTimeLeftCard3.forEach(card => card.style.display = 'none');
