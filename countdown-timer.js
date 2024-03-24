@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Affichez le résultat dans chaque élément avec l'attribut 'data-co-member="preSellTimer"'.
       countdownElements.forEach(function(element) {
-        element.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+        element.innerHTML = days + "j " + hours + "h " + minutes + "m " + seconds + "s ";
       });
 
       // Si le compte à rebours est terminé, écrivez un texte dans chaque élément.
