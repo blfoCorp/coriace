@@ -87,18 +87,23 @@ window.addEventListener('load', function() {
       var echeancePayment2 = document.querySelectorAll('[data-drip-content="echeancePayment2"]');
       var echeancePayment3 = document.querySelectorAll('[data-drip-content="echeancePayment3"]');
       
-      if (hasEcomPlan) {
-        // Masquer immédiatement pour ecomPlan
-        courseTimeLeftCard1.forEach(function(card) {
-          card.style.display = 'none';
-        });
-      } else if (hasPackPlan || hasMegaPackPlan) {
-        // Masquer après 30 jours pour packPlan et megaPackPlan
-        if (daysSinceStart >= daysForLevel2) { // Utilise daysForLevel2 qui est défini à 30 jours
-          courseTimeLeftCard1.forEach(function(card) {
-            card.style.display = 'none';
-          });
-        }
+      // Masquage initial pour tous les utilisateurs ayant un wpdvPlan, packPlan, ou megaPackPlan
+      if (hasPackPlan || hasMegaPackPlan) {
+          // Pour packPlan et megaPackPlan, masquer immédiatement toutes les cartes car le contenu est entièrement accessible
+          courseTimeLeftCard1.forEach(card => card.style.display = 'none');
+          courseTimeLeftCard2.forEach(card => card.style.display = 'none');
+          courseTimeLeftCard3.forEach(card => card.style.display = 'none');
+      } else if (hasEcomPlan) {
+          // Pour wpdvPlan, masquer la première carte immédiatement et les autres progressivement
+          courseTimeLeftCard1.forEach(card => card.style.display = 'none');
+          
+          // Condition pour le masquage progressif, basée sur le temps depuis la date de début
+          if (daysSinceStart >= daysForLevel2) {
+              courseTimeLeftCard2.forEach(card => card.style.display = 'none');
+          }
+          if (daysSinceStart >= daysForLevel3) {
+              courseTimeLeftCard3.forEach(card => card.style.display = 'none');
+          }
       }
       // Fonction pour mettre à jour le contenu en fonction du plan
       var updateContent = function(priceText, buttonText, buttonHref, name1Text, name2Text, paymentTime2, paymentTime3) {
