@@ -78,8 +78,13 @@ window.addEventListener('load', function() {
         var timeLeftSpanLevel2 = document.querySelector('[data-drip-content="courseTimeLeft2"]');
         var timeLeftSpanLevel3 = document.querySelector('[data-drip-content="courseTimeLeft3"]');
   
-        if (timeLeftSpanLevel2) timeLeftSpanLevel2.textContent = timeLeftForLevel2.toString();
-        if (timeLeftSpanLevel3) timeLeftSpanLevel3.textContent = timeLeftForLevel3.toString();
+        document.querySelectorAll('[data-drip-content="courseTimeLeft2"]').forEach(function(span) {
+            span.textContent = timeLeftForLevel2.toString();
+        });
+        document.querySelectorAll('[data-drip-content="courseTimeLeft3"]').forEach(function(span) {
+            span.textContent = timeLeftForLevel3.toString();
+        });
+
           
         var courseTimeLeftCard1 = document.querySelectorAll('[data-drip-content="courseTimeLeftCard1"]');
         var courseTimeLeftCard2 = document.querySelectorAll('[data-drip-content="courseTimeLeftCard2"]');
