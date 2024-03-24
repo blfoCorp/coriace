@@ -366,7 +366,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                     "pln_figma-a-z-d-butant-3-fois--m019l0i64"
                 ],
                 dataTabLink: 'figDebutantTabs',
-                newHref: '/app/formation-membre/webflow-client-first',
+                newHref: '/app/formation-membre/figma-debutant',
                 dataLockIcon: 'figDebutantLockIcn',
                 dataStartButton: 'figDebutantStartButton',
                 dataHideButton: 'figDebutantHideButton'
