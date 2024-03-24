@@ -178,6 +178,9 @@ window.addEventListener('load', function() {
         courseTimeLeftCard3.forEach(function(card) {
           card.style.display = 'none';
         });
+        courseTimeLeftCard1.forEach(function(card) {
+          card.style.display = 'none';
+        });
       }
       document.querySelectorAll('.course_lesson-item').forEach(function(item) {
         var paidId;
