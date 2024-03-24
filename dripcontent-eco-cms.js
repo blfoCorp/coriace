@@ -107,6 +107,7 @@ window.addEventListener('load', function() {
           name.textContent = paymentTime3;
         });
       };
+
       
       if (daysSinceStart >= daysForLevel2) {
         // Masquer les cartes pour le niveau 2
@@ -136,6 +137,11 @@ window.addEventListener('load', function() {
         }
       }
       
+      if (daysSinceStart >= daysForLevel3) {
+        courseTimeLeftCard3.forEach(function(card) {
+          card.style.display = 'none';
+        });
+      }
       
       if (hasSpecialPlan) {
         courseTimeLeftCard2.forEach(function(card) {
