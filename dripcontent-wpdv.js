@@ -84,100 +84,46 @@ window.addEventListener('load', function() {
       var courseTimeName1 = document.querySelectorAll('[data-drip-content="courseTimeName1"]');
       var courseTimeName2 = document.querySelectorAll('[data-drip-content="courseTimeName2"]');
       
+      // Fonction pour mettre à jour le contenu en fonction du plan
+      var updateContent = function(priceText, buttonText, buttonHref, name1Text, name2Text) {
+        courseTimeLeftPrice.forEach(function(price) {
+          price.textContent = priceText;
+        });
+        courseTimeLeftButton.forEach(function(button) {
+          button.href = buttonHref;
+        });
+        courseTimeName1.forEach(function(name) {
+          name.textContent = name1Text;
+        });
+        courseTimeName2.forEach(function(name) {
+          name.textContent = name2Text;
+        });
+      };
+      
       if (daysSinceStart >= daysForLevel2) {
-        // Masquer les cartes pour le niveau 2 si applicable
         courseTimeLeftCard2.forEach(function(card) {
           card.style.display = 'none';
         });
       
-        // Mise à jour des informations basées sur le plan de l'utilisateur
         if (hasWpdvPlan) {
-          courseTimeLeftPrice.forEach(function(price) {
-          price.textContent = "60€";
-          });
-          courseTimeLeftButton.forEach(function(button) {
-            button.href = "https://order.coriace.co/formation/commande-webflow-page-de-vente-60/etape/commande-webflow-page-de-vente-60/";
-          });
-          courseTimeName1.forEach(function(name) {
-            name.textContent = "Niveau 2";
-          });
-          courseTimeName2.forEach(function(name) {
-            name.textContent = "Niveau 3";
-          });
+          updateContent("60€", "Commande Webflow Page de Vente 60€", "https://order.coriace.co/formation/commande-webflow-page-de-vente-60/etape/commande-webflow-page-de-vente-60/", "Niveau 2", "Niveau 3");
         } else if (hasPackPlan) {
-          courseTimeLeftPrice.forEach(function(price) {
-            price.textContent = "84€";
-          });
-          courseTimeLeftButton.forEach(function(button) {
-            button.href = "https://order.coriace.co/formation/commande-pack-webflow-84/etape/commande-pack-webflow-84/";
-          });
-          courseTimeName1.forEach(function(name) {
-            name.textContent = "Wf E-co.";
-          });
-          courseTimeName2.forEach(function(name) {
-            name.textContent = "Wf CMS.";
-          });
+          updateContent("84€", "Commande Pack Webflow 84€", "https://order.coriace.co/formation/commande-pack-webflow-84/etape/commande-pack-webflow-84/", "Wf E-co.", "Wf CMS.");
         } else if (hasMegaPackPlan) {
-          courseTimeLeftPrice.forEach(function(price) {
-            price.textContent = "116€";
-          });
-          courseTimeLeftButton.forEach(function(button) {
-            button.href = "https://order.coriace.co/formation/commande-mega-pack-webflow-116/etape/commande-mega-pack-webflow-116/";
-          });
-          courseTimeName1.forEach(function(name) {
-            name.textContent = "Partie 2";
-          });
-          courseTimeName2.forEach(function(name) {
-            name.textContent = "Partie 3";
-          });
+          updateContent("116€", "Commande Mega Pack Webflow 116€", "https://order.coriace.co/formation/commande-mega-pack-webflow-116/etape/commande-mega-pack-webflow-116/", "Partie 2", "Partie 3");
         }
       } else {
-          // Si l'utilisateur a le plan Wpdv mais n'est pas encore au niveau 2
-          if (hasWpdvPlan) {
-            courseTimeLeftPrice.forEach(function(price) {
-              price.textContent = "120€";
-            });
-            courseTimeLeftButton.forEach(function(button) {
-              button.href = "https://order.coriace.co/formation/commande-webflow-page-de-vente-120/etape/commande-webflow-page-de-vente-120/";
-            });
-            courseTimeName1.forEach(function(name) {
-              name.textContent = "Niveau 2";
-            });
-            courseTimeName2.forEach(function(name) {
-              name.textContent = "Niveau 3";
-            });
-          }
-          // Si l'utilisateur a le plan Pack
-          if (hasPackPlan) {
-            courseTimeLeftPrice.forEach(function(price) {
-              price.textContent = "168€";
-            });
-            courseTimeLeftButton.forEach(function(button) {
-              button.href = "https://order.coriace.co/formation/commande-pack-webflow-168/etape/commande-pack-webflow-168/";
-            });
-            courseTimeName1.forEach(function(name) {
-              name.textContent = "Wf E-co.";
-            });
-            courseTimeName2.forEach(function(name) {
-              name.textContent = "Wf CMS";
-            });
-          }
-          // Si l'utilisateur a le plan MegaPack
-          if (hasMegaPackPlan) {
-            courseTimeLeftPrice.forEach(function(price) {
-              price.textContent = "232€";
-            });
-            courseTimeLeftButton.forEach(function(button) {
-              button.href = "https://order.coriace.co/formation/commande-mega-pack-webflow-232/etape/commande-mega-pack-webflow-232/";
-            });
-            courseTimeName1.forEach(function(name) {
-              name.textContent = "Partie 2";
-            });
-            courseTimeName2.forEach(function(name) {
-              name.textContent = "Partie 3";
-            });
-          }
+        if (hasWpdvPlan) {
+          updateContent("120€", "Commande Webflow Page de Vente 120€", "https://order.coriace.co/formation/commande-webflow-page-de-vente-120/etape/commande-webflow-page-de-vente-120/", "Niveau 2", "Niveau 3");
         }
+        if (hasPackPlan) {
+          updateContent("168€", "Commande Pack Webflow 168€", "https://order.coriace.co/formation/commande-pack-webflow-168/etape/commande-pack-webflow-168/", "Wf E-co.", "Wf CMS");
+        }
+        if (hasMegaPackPlan) {
+          updateContent("232€", "Commande Mega Pack Webflow 232€", "https://order.coriace.co/formation/commande-mega-pack-webflow-232/etape/commande-mega-pack-webflow-232/", "Partie 2", "Partie 3");
+        }
+      }
+
 
        if (hasSpecialPlan) {
           courseTimeLeftCard2.forEach(function(card) {
