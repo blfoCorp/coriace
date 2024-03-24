@@ -144,7 +144,7 @@ window.addEventListener('load', function() {
           updateContent("84€", "Commande Pack Webflow 84€", "https://order.coriace.co/formation/commande-pack-webflow-84/etape/commande-pack-webflow-84/", "Wf E-co.", "Wf CMS", "2ème échéance", "3ème échéance");
         }
         if (hasMegaPackPlan) {
-          updateContent("116€", "Commande Mega Pack Webflow 116€", "https://order.coriace.co/formation/commande-mega-pack-webflow-116/etape/commande-mega-pack-webflow-116/", "Partie 2", "Partie 3", "2ème échéance", "2ème échéance");
+          updateContent("116€", "Commande Mega Pack Webflow 116€", "https://order.coriace.co/formation/commande-mega-pack-webflow-116/etape/commande-mega-pack-webflow-116/", "Partie 2", "Partie 3", "2ème échéance", "3ème échéance");
         }
       } else {
         // Utilisation de la fonction updateContent avec des valeurs spécifiques pour le cas où daysSinceStart < daysForLevel2
@@ -155,7 +155,7 @@ window.addEventListener('load', function() {
           updateContent("168€", "Commande Pack Webflow 168€", "https://order.coriace.co/formation/commande-pack-webflow-168/etape/commande-pack-webflow-168/", "Wf E-co.", "Wf CMS", "2ème échéance", "3ème échéance");
         }
         if (hasMegaPackPlan) {
-          updateContent("232€", "Commande Mega Pack Webflow 232€", "https://order.coriace.co/formation/commande-mega-pack-webflow-232/etape/commande-mega-pack-webflow-232/", "Partie 2", "Partie 3", "2ème échéance", "2ème échéance");
+          updateContent("232€", "Commande Mega Pack Webflow 232€", "https://order.coriace.co/formation/commande-mega-pack-webflow-232/etape/commande-mega-pack-webflow-232/", "Partie 2", "Partie 3", "2ème échéance", "3ème échéance");
         }
       }
       
