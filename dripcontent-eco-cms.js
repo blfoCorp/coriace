@@ -83,9 +83,11 @@ window.addEventListener('load', function() {
       var courseTimeLeftButton = document.querySelectorAll('[data-drip-content="courseTimeLeftButton"]');
       var courseTimeName1 = document.querySelectorAll('[data-drip-content="courseTimeName1"]');
       var courseTimeName2 = document.querySelectorAll('[data-drip-content="courseTimeName2"]');
+      var echeancePayment2 = document.querySelectorAll('[data-drip-content="echeancePayment2"]');
+      var echeancePayment3 = document.querySelectorAll('[data-drip-content="echeancePayment3"]');
       
       // Fonction pour mettre à jour le contenu en fonction du plan
-      var updateContent = function(priceText, buttonText, buttonHref, name1Text, name2Text) {
+      var updateContent = function(priceText, buttonText, buttonHref, name1Text, name2Text, paymentTime2, paymentTime3) {
         courseTimeLeftPrice.forEach(function(price) {
           price.textContent = priceText;
         });
@@ -98,6 +100,12 @@ window.addEventListener('load', function() {
         courseTimeName2.forEach(function(name) {
           name.textContent = name2Text;
         });
+        echeancePayment2.forEach(function(name) {
+          name.textContent = paymentTime2;
+        });
+        echeancePayment3.forEach(function(name) {
+          name.textContent = paymentTime3;
+        });
       };
       
       if (daysSinceStart >= daysForLevel2) {
@@ -107,24 +115,24 @@ window.addEventListener('load', function() {
         });
       
         if (hasEcomPlan) {
-          updateContent("60€", "Commande E-commerce CMS 60€", "https://order.coriace.co/formation/commande-webflow-ecommerce-cms-60/etape/commande-webflow-ecommerce-cms-60/", "Wf E-co.", "Wf CMS");
+          updateContent("60€", "Commande E-commerce CMS 60€", "https://order.coriace.co/formation/commande-webflow-ecommerce-cms-60/etape/commande-webflow-ecommerce-cms-60/", "Wf E-co.", "Wf CMS", "2ème échéance", "3ème échéance");
         }
         if (hasPackPlan) {
-          updateContent("84€", "Commande Pack Webflow 84€", "https://order.coriace.co/formation/commande-pack-webflow-84/etape/commande-pack-webflow-84/", "Wf E-co.", "Wf CMS");
+          updateContent("84€", "Commande Pack Webflow 84€", "https://order.coriace.co/formation/commande-pack-webflow-84/etape/commande-pack-webflow-84/", "Wf E-co.", "Wf CMS", "2ème échéance", "2ème échéance");
         }
         if (hasMegaPackPlan) {
-          updateContent("116€", "Commande Mega Pack Webflow 116€", "https://order.coriace.co/formation/commande-mega-pack-webflow-116/etape/commande-mega-pack-webflow-116/", "Partie 2", "Partie 3");
+          updateContent("116€", "Commande Mega Pack Webflow 116€", "https://order.coriace.co/formation/commande-mega-pack-webflow-116/etape/commande-mega-pack-webflow-116/", "Partie 2", "Partie 3", "2ème échéance", "2ème échéance");
         }
       } else {
         // Utilisation de la fonction updateContent avec des valeurs spécifiques pour le cas où daysSinceStart < daysForLevel2
         if (hasEcomPlan) {
-          updateContent("120€", "Commande Webflow E-commerce CMS 120€", "https://order.coriace.co/formation/commande-webflow-ecommerce-cms-120/etape/commande-webflow-ecommerce-cms-120/", "Wf E-co.", "Wf CMS");
+          updateContent("120€", "Commande Webflow E-commerce CMS 120€", "https://order.coriace.co/formation/commande-webflow-ecommerce-cms-120/etape/commande-webflow-ecommerce-cms-120/", "Wf E-co.", "Wf CMS", "2ème échéance", "3ème échéance");
         }
         if (hasPackPlan) {
-          updateContent("168€", "Commande Pack Webflow 168€", "https://order.coriace.co/formation/commande-pack-webflow-168/etape/commande-pack-webflow-168/", "Wf E-co.", "Wf CMS");
+          updateContent("168€", "Commande Pack Webflow 168€", "https://order.coriace.co/formation/commande-pack-webflow-168/etape/commande-pack-webflow-168/", "Wf E-co.", "Wf CMS", "2ème échéance", "2ème échéance");
         }
         if (hasMegaPackPlan) {
-          updateContent("232€", "Commande Mega Pack Webflow 232€", "https://order.coriace.co/formation/commande-mega-pack-webflow-232/etape/commande-mega-pack-webflow-232/", "Partie 2", "Partie 3");
+          updateContent("232€", "Commande Mega Pack Webflow 232€", "https://order.coriace.co/formation/commande-mega-pack-webflow-232/etape/commande-mega-pack-webflow-232/", "Partie 2", "Partie 3", "2ème échéance", "2ème échéance");
         }
       }
       
