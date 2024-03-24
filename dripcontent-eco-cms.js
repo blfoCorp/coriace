@@ -77,6 +77,7 @@ window.addEventListener('load', function() {
       });
       
       // Sélection des éléments pour les cartes, prix, boutons et noms des cours
+      var courseTimeLeftCard1 = document.querySelectorAll('[data-drip-content="courseTimeLeftCard1"]');
       var courseTimeLeftCard2 = document.querySelectorAll('[data-drip-content="courseTimeLeftCard2"]');
       var courseTimeLeftCard3 = document.querySelectorAll('[data-drip-content="courseTimeLeftCard3"]');
       var courseTimeLeftPrice = document.querySelectorAll('[data-drip-content="courseTimeLeftPrice"]');
@@ -85,7 +86,19 @@ window.addEventListener('load', function() {
       var courseTimeName2 = document.querySelectorAll('[data-drip-content="courseTimeName2"]');
       var echeancePayment2 = document.querySelectorAll('[data-drip-content="echeancePayment2"]');
       var echeancePayment3 = document.querySelectorAll('[data-drip-content="echeancePayment3"]');
-      
+      if (hasEcomPlan) {
+        // Masquer immédiatement pour ecomPlan
+        courseTimeLeftCard1.forEach(function(card) {
+          card.style.display = 'none';
+        });
+      } else if (hasPackPlan || hasMegaPackPlan) {
+        // Masquer après 30 jours pour packPlan et megaPackPlan
+        if (daysSinceStart >= daysForLevel2) { // Utilise daysForLevel2 qui est défini à 30 jours
+          courseTimeLeftCard1.forEach(function(card) {
+            card.style.display = 'none';
+          });
+        }
+      }
       // Fonction pour mettre à jour le contenu en fonction du plan
       var updateContent = function(priceText, buttonText, buttonHref, name1Text, name2Text, paymentTime2, paymentTime3) {
         courseTimeLeftPrice.forEach(function(price) {
