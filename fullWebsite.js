@@ -518,14 +518,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-  MemberStack.onReady.then(function(member) {
-    // Vérifiez si l'utilisateur est sur une page ou dans une section marquée comme protégée
-    var protectedContent = document.querySelector('[data-ms-content="protected"]');
+  var protectedContent = document.querySelector('[data-ms-content="protected"]');
 
-    // Si le contenu protégé est présent et que l'utilisateur n'est pas connecté, redirigez-le
-    if (protectedContent && !member.loggedIn) {
-      // Spécifiez l'URL de votre page de connexion
-      window.location.href = '/app/connexion';
-    }
-  });
+  // Vérifiez si l'utilisateur est sur une page protégée et si la clé '_ms-mem' est absente du localStorage
+  if (protectedContent && !localStorage.getItem('_ms-mem')) {
+    // Si la clé n'est pas présente, redirige l'utilisateur vers la page de connexion
+    window.location.href = '/app/connexion';
+  }
 });
