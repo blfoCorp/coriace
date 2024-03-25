@@ -515,3 +515,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  MemberStack.onReady.then(function(member) {
+    var isMemberLoggedIn = member.loggedIn;
+    var protectedContent = document.querySelector('[data-ms-content="protected"]');
+
+    if (protectedContent && !isMemberLoggedIn) {
+      // Spécifiez l'URL de votre page de connexion
+      window.location.href = '/app/connexion';
+    }
+  });
+});
