@@ -510,7 +510,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (hasPlan) {
             setTextToElements('.vertical-nav_member-label-text', 'Membre du Club');
         } else {
-            setTextToElements('.vertical-nav_member-label-text', 'Non Membre du Club');
+            setTextToElements('.vertical-nav_member-label-text', 'non Membre du Club');
             addClassToElements('.vertical-nav_club-member-label', 'is-inactive');
         }
     }
