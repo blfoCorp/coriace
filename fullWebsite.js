@@ -519,11 +519,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function () {
   MemberStack.onReady.then(function(member) {
-    // Cette vérification confirme si l'utilisateur est connecté
-    if (!member.loggedIn) {
-      // Si l'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
+    // Vérifiez si l'utilisateur est sur une page ou dans une section marquée comme protégée
+    var protectedContent = document.querySelector('[data-ms-content="protected"]');
+
+    // Si le contenu protégé est présent et que l'utilisateur n'est pas connecté, redirigez-le
+    if (protectedContent && !member.loggedIn) {
+      // Spécifiez l'URL de votre page de connexion
       window.location.href = '/app/connexion';
     }
   });
 });
-
