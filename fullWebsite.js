@@ -519,12 +519,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function () {
   MemberStack.onReady.then(function(member) {
-    var isMemberLoggedIn = member.loggedIn;
-    var protectedContent = document.querySelector('[data-ms-content="protected"]');
-
-    if (protectedContent && !isMemberLoggedIn) {
-      // Spécifiez l'URL de votre page de connexion
+    // Cette vérification confirme si l'utilisateur est connecté
+    if (!member.loggedIn) {
+      // Si l'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
       window.location.href = '/app/connexion';
     }
   });
 });
+
