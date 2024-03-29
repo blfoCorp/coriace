@@ -93,7 +93,7 @@ window.addEventListener('resize', function() {
 
 /* -------- AFFICHAGE DU CODE DE PROMOTION À L'INSCRIPTION -------- */
 // Fonction pour démarrer un timer de 24 heures
-function startCouponTimer() {
+/*function startCouponTimer() {
   var startTime = localStorage.getItem('coupon_start_time');
   if (!startTime) {
     startTime = new Date().getTime();
@@ -117,7 +117,7 @@ function startCouponTimer() {
     } else {
       clearInterval(timerInterval);
       localStorage.removeItem('coupon_start_time');
-      var promoPopinElement = document.querySelector('.promo-code_wrapper');
+      var promoPopinElement = document.querySelector('.promo-code-wrapper');
       if (promoPopinElement) {
         promoPopinElement.style.display = 'none';
       }
@@ -136,8 +136,8 @@ function updatePromoCode() {
       var memberObj = JSON.parse(memberData);
       
       if (memberObj && memberObj.metaData && memberObj.metaData.coupon_name) {
-        var promoElements = document.querySelectorAll('.promo-popin_code');
-        var promoPopinElement = document.querySelector('.promo-code_wrapper');
+        var promoElements = document.querySelectorAll('.promo-popin-code');
+        var promoPopinElement = document.querySelector('.promo-code-wrapper');
         
         promoElements.forEach(function(element) {
           element.textContent = memberObj.metaData.coupon_name;
@@ -155,7 +155,7 @@ function updatePromoCode() {
   }
 }
 
-window.onload = updatePromoCode;
+window.onload = updatePromoCode;*/
 
 
 /* -------- DÉTECTION DES VISITES LIEN AFFILIÉ + ENVOIE DES DONNÉES DANS MAKE -------- */
