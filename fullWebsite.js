@@ -92,70 +92,7 @@ window.addEventListener('resize', function() {
 
 
 /* -------- AFFICHAGE DU CODE DE PROMOTION À L'INSCRIPTION -------- */
-// Fonction pour démarrer un timer de 24 heures
-/*function startCouponTimer() {
-  var startTime = localStorage.getItem('coupon_start_time');
-  if (!startTime) {
-    startTime = new Date().getTime();
-    localStorage.setItem('coupon_start_time', startTime);
-  }
 
-  function updateTimer() {
-    var currentTime = new Date().getTime();
-    var elapsedTime = currentTime - startTime;
-    var remainingTime = 24 * 60 * 60 * 1000 - elapsedTime;
-
-    if (remainingTime >= 0) {
-      var hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-
-      var timerDisplay = document.querySelector('.promo-timer');
-      if (timerDisplay) {
-        timerDisplay.textContent = `${hours}h ${minutes}m ${seconds}s`;
-      }
-    } else {
-      clearInterval(timerInterval);
-      localStorage.removeItem('coupon_start_time');
-      var promoPopinElement = document.querySelector('.promo-code-wrapper');
-      if (promoPopinElement) {
-        promoPopinElement.style.display = 'none';
-      }
-    }
-  }
-
-  var timerInterval = setInterval(updateTimer, 1000);
-  updateTimer();
-}
-
-function updatePromoCode() {
-  var memberData = localStorage.getItem('_ms-mem');
-  
-  if (memberData) {
-    try {
-      var memberObj = JSON.parse(memberData);
-      
-      if (memberObj && memberObj.metaData && memberObj.metaData.coupon_name) {
-        var promoElements = document.querySelectorAll('.promo-popin-code');
-        var promoPopinElement = document.querySelector('.promo-code-wrapper');
-        
-        promoElements.forEach(function(element) {
-          element.textContent = memberObj.metaData.coupon_name;
-        });
-
-        if (promoPopinElement) {
-          promoPopinElement.style.display = 'flex';
-          promoPopinElement.style.flexDirection = 'column';
-          startCouponTimer();
-        }
-      }
-    } catch (e) {
-      // Gérer l'erreur de parse JSON
-    }
-  }
-}
-
-window.onload = updatePromoCode;*/
 
 
 /* -------- DÉTECTION DES VISITES LIEN AFFILIÉ + ENVOIE DES DONNÉES DANS MAKE -------- */
