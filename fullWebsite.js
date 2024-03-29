@@ -363,7 +363,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
         ];
         
 
-        // Définir l'attribut personnalisé pour sélectionner l'élément
+        // Définir l'attribut personnalisé pour sélectionner les éléments
         const attributeSelector = '[data-co-member="customer"]';
         
         // Initialiser le drapeau indiquant si l'utilisateur a un plan spécifique
@@ -381,16 +381,16 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 document.querySelectorAll(`[data-tab-link="${planConfig.dataTabLink}"]`).forEach(element => {
                     element.href = planConfig.newHref;
                 });
-
+        
                 document.querySelectorAll(`[data-lock-icon="${planConfig.dataLockIcon}"]`).forEach(element => {
                     element.style.display = 'none';
                 });
-
+        
                 document.querySelectorAll(`[data-start-button="${planConfig.dataStartButton}"]`).forEach(button => {
                     button.href = planConfig.newHref; 
                     button.textContent = 'Démarrer';
                 });
-
+        
                 document.querySelectorAll(`[data-hide-button="${planConfig.dataHideButton}"]`).forEach(element => {
                     element.style.display = 'none';
                 });
@@ -398,13 +398,13 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 hasSpecificPlan = true;
             }
         });
-
-        // Si l'utilisateur a un plan spécifié, afficher l'élément avec l'attribut personnalisé
+        
+        // Si l'utilisateur a un plan spécifié, afficher les éléments avec l'attribut personnalisé
         if (hasSpecificPlan) {
-            const elementToShow = document.querySelector(attributeSelector);
-            if (elementToShow) {
-                elementToShow.style.display = 'none';
-            }
+            // Utiliser querySelectorAll et forEach pour appliquer le style à tous les éléments correspondants
+            document.querySelectorAll(attributeSelector).forEach(elementToShow => {
+                elementToShow.style.display = 'block'; // Supposant que vous voulez les rendre visibles. Utilisez 'none' pour masquer.
+            });
         }
     }
 }
