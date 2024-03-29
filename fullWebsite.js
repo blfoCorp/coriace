@@ -403,7 +403,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
         if (hasSpecificPlan) {
             // Utiliser querySelectorAll et forEach pour appliquer le style à tous les éléments correspondants
             document.querySelectorAll(attributeSelector).forEach(elementToShow => {
-                elementToShow.style.display = 'block'; // Supposant que vous voulez les rendre visibles. Utilisez 'none' pour masquer.
+                elementToShow.style.display = 'none'; // Supposant que vous voulez les rendre visibles. Utilisez 'none' pour masquer.
             });
         }
     }
