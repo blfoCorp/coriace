@@ -403,7 +403,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
         if (hasSpecificPlan) {
             const elementToShow = document.querySelector(attributeSelector);
             if (elementToShow) {
-                elementToShow.style.display = 'block';
+                elementToShow.style.display = 'none';
             }
         }
     }
