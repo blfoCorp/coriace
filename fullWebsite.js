@@ -364,7 +364,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
         
 
         // Définir l'attribut personnalisé pour sélectionner les éléments
-        const attributeSelector = '[data-co-member="customer"]';
+        const attributeSelector = '[data-co-member="!customer"]';
         
         // Initialiser le drapeau indiquant si l'utilisateur a un plan spécifique
         let hasSpecificPlan = false;
