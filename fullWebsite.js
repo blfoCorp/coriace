@@ -92,15 +92,17 @@ window.addEventListener('resize', function() {
 
 
 /* -------- AFFICHAGE DU CODE DE PROMOTION À L'INSCRIPTION -------- */
-
 document.addEventListener('DOMContentLoaded', function() {
     updatePromoCode();
 });
 
 function startCouponTimer(couponName) {
   console.log("Déclenchement de startCouponTimer", new Date());
+  let timerFinished = localStorage.getItem('timer_finished');
   let startTime = localStorage.getItem('coupon_start_time');
   let currentTime = new Date().getTime();
+  
+  if (timerFinished) return;
   
   if (!startTime) {
     startTime = currentTime;
@@ -110,7 +112,6 @@ function startCouponTimer(couponName) {
   let elapsedTime = currentTime - startTime;
   let remainingTime = 8 * 60 * 60 * 1000 - elapsedTime;
 
-  // Assurez-vous que les éléments sont visibles uniquement si un coupon_name est présent et le timer n'est pas expiré
   if (remainingTime > 0 && couponName) {
     document.querySelectorAll('[data-co-offer="promo-code-wrapper"]').forEach(function(promoPopinElement) {
       promoPopinElement.style.display = 'block';
@@ -132,7 +133,7 @@ function startCouponTimer(couponName) {
     } else {
       console.log("Le timer est à 0 ou aucun coupon_name valide, masquage des éléments promo-code-wrapper", new Date());
       clearInterval(timerInterval);
-      localStorage.removeItem('coupon_start_time');
+      localStorage.setItem('timer_finished', 'true');
       document.querySelectorAll('[data-co-offer="promo-code-wrapper"]').forEach(function(promoPopinElement) {
         promoPopinElement.style.display = 'none';
       });
@@ -159,6 +160,10 @@ function updatePromoCode() {
         promoElements.forEach(function(element) {
           element.textContent = couponName;
         });
+        
+        if (!localStorage.getItem('timer_finished')) {
+          startCouponTimer(couponName);
+        }
       } else {
         console.log("Aucun coupon applicable trouvé", new Date());
       }
@@ -168,9 +173,6 @@ function updatePromoCode() {
   } else {
     console.log("Aucune donnée membre trouvée dans localStorage", new Date());
   }
-  
-  // Passer couponName à startCouponTimer pour décider de l'affichage basé sur la présence d'un coupon valide
-  startCouponTimer(couponName);
 }
 
 
