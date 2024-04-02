@@ -282,7 +282,7 @@ function afficherCitationEtAppliquerFond() {
     console.log(`Index de dégradé sélectionné : ${indexFond}`);
     console.log(`Dégradé appliqué : ${degradeFonds[indexFond]}`);
     
-    const element = document.querySelector('.dash_bento-card-container .is-quote');
+    const element = document.getElementById('quoteBlock');
     if (element) {
         console.log("Élément trouvé, tentative d'appliquer le dégradé.");
         element.style.backgroundImage = degradeFonds[indexFond];
