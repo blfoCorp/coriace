@@ -1,3 +1,5 @@
+// --- ENREGISTREMENT DE LA TABS ACTIVE POUR LA FORMATION WEBFLOW PAGE DE VENTE --- //
+
 document.addEventListener("DOMContentLoaded", function() {
   // Ajoute un écouteur d'événements à chaque bouton d'onglet
   document.querySelectorAll(".lesson-mod_level").forEach(button => {
