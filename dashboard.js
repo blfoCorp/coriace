@@ -255,8 +255,8 @@ const degradeFonds = [
     'linear-gradient(135deg, #6934ff, #ff6673)',
     'linear-gradient(135deg, #007991, #78ffd6)', // Bleu turquoise vibrant
     'linear-gradient(135deg, #ff5f6d, #ffc371)', // Rouge doux à jaune soleil
-    'linear-gradient(135deg, #7c00ff, #cc25e4, #ff6673)', 
     'linear-gradient(135deg, #696eff, #f8acff)',
+    'linear-gradient(135deg, #7c00ff, #cc25e4, #ff6673)', 
     'linear-gradient(135deg, #34073d, #ef745c)', 
     'linear-gradient(135deg, #125f96, #00ffc2)', 
 ];
