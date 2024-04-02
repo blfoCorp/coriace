@@ -1,5 +1,3 @@
- /*---  DÉBUT : BLOCAGE CLIC DROIT ----*/
-// Bloquer le clic droit
 document.addEventListener('contextmenu', function (event) {
  event.preventDefault();
   alert("Curieux de connaître ce qui se cache derrière notre espace membre ? Découvre tout cela dans nos formations avancées 😉");
@@ -7,7 +5,6 @@ document.addEventListener('contextmenu', function (event) {
 
 // Bloquer les raccourcis clavier
 document.addEventListener('keydown', function (event) {
-  // Bloquer les raccourcis courants pour accéder au panneau de développement
   const isF12 = event.keyCode === 123;
   const macShortcutJ = event.metaKey && event.altKey && event.keyCode === 74; // Cmd + Option + J
   const winLinuxShortcutJ = event.ctrlKey && event.shiftKey && event.keyCode === 74; // Ctrl + Shift + J
@@ -25,4 +22,9 @@ document.addEventListener('keydown', function (event) {
   }
 });
 
-/*---  FIN : BLOCAGE CLIC DROIT ----*/
+
+export function blocageConsole() {
+    console.log("Console bloquée");
+}
+
+
