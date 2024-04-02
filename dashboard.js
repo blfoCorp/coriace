@@ -276,7 +276,11 @@ function afficherCitationEtAppliquerFond() {
     document.getElementById('citationDuJour').innerText = citations[indexCitation];
     
     const indexFond = genererIndexAleatoire(degradeFonds.length);
-    document.getElementById('quoteBlock').style.backgroundImage = degradeFonds[indexFond];
+    const element = document.getElementById('quoteBlock');
+    if (element) {
+        element.style.backgroundImage = degradeFonds[indexFond];
+    }
 }
 
 afficherCitationEtAppliquerFond();
+
