@@ -212,7 +212,7 @@ function afficherCitationEtAppliquerFond() {
 document.addEventListener('DOMContentLoaded', afficherCitationEtAppliquerFond);
 
 // ----- CODE POUR AFFICHER LE NOMBRE TOTAL DE LEÇONS VISIONNÉES ------//
-document.addEventListener('DOMContentLoaded', afficherCitation);
+document.addEventListener('DOMContentLoaded', updateVideoCountDisplay);
 
 // Fonction pour compter les vidéos visionnées et mettre à jour l'affichage
 async function updateVideoCountDisplay() {
