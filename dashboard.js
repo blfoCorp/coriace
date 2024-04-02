@@ -211,7 +211,7 @@ function afficherCitationEtAppliquerFond() {
 }
 
 // Assurez-vous d'appeler afficherCitationEtAppliquerFond au bon endroit, comme au chargement de la page
-document.addEventListener('DOMContentLoaded', afficherCitationEtAppliquerFond);
+afficherCitationEtAppliquerFond();
 
 // ----- CODE POUR AFFICHER LE NOMBRE TOTAL DE LEÇONS VISIONNÉES ------//
 document.addEventListener('DOMContentLoaded', updateVideoCountDisplay);
