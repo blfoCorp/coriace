@@ -205,6 +205,8 @@ function afficherCitationEtAppliquerFond() {
     const element = document.querySelector('.dash_bento-card-container .is-quote');
     if (element) {
         element.style.backgroundImage = degradeFonds[indexFond];
+        console.log('Index du dégradé sélectionné :', indexFond);
+        console.log('Dégradé appliqué :', degradeFonds[indexFond]);
     }
 }
 
