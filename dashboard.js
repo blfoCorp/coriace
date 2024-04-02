@@ -291,4 +291,4 @@ function afficherCitationEtAppliquerFond() {
     }
 }
 
-window.addEventListener('load', afficherCitationEtAppliquerFond);
+afficherCitationEtAppliquerFond();
