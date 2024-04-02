@@ -22,9 +22,3 @@ document.addEventListener('keydown', function (event) {
   }
 });
 
-
-export function blocageConsole() {
-    console.log("Console bloquée");
-}
-
-
