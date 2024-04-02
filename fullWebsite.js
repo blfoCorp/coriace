@@ -544,7 +544,3 @@ function updatePromoCode() {
     console.log("Aucune donnée membre trouvée dans localStorage", new Date());
   }
 }
-
-import { blocageConsole } from './blocage-console.js';
-
-blocageConsole();
