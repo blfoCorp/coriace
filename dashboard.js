@@ -266,29 +266,15 @@ function genererIndexAleatoire(max) {
     let hash = graine;
     hash = ((hash << 5) - hash) + graine;
     hash = hash & hash; // Convertir en 32bit integer
-    const index = Math.abs(hash) % max;
-    return index;
+    return Math.abs(hash) % max;
 }
 
-// Fonction pour afficher la citation et appliquer le dégradé de fond
 function afficherCitationEtAppliquerFond() {
-    console.log("Début de la fonction afficherCitationEtAppliquerFond");
-
     const indexCitation = genererIndexAleatoire(citations.length);
-    console.log(`Index de citation sélectionné : ${indexCitation}`);
     document.getElementById('citationDuJour').innerText = citations[indexCitation];
     
     const indexFond = genererIndexAleatoire(degradeFonds.length);
-    console.log(`Index de dégradé sélectionné : ${indexFond}`);
-    console.log(`Dégradé appliqué : ${degradeFonds[indexFond]}`);
-    
-    const element = document.getElementById('quoteBlock');
-    if (element) {
-        console.log("Élément trouvé, tentative d'appliquer le dégradé.");
-        element.style.backgroundImage = degradeFonds[indexFond];
-    } else {
-        console.log("Élément .dash_bento-card-container .is-quote non trouvé.");
-    }
+    document.getElementById('quoteBlock').style.backgroundImage = degradeFonds[indexFond];
 }
 
 afficherCitationEtAppliquerFond();
