@@ -132,6 +132,83 @@ document.addEventListener("DOMContentLoaded", function() {
   loadLastThreeLessons();
 });
 
+
+// ----- CODE POUR AFFICHER LE NOMBRE TOTAL DE LEÇONS VISIONNÉES ------//
+document.addEventListener('DOMContentLoaded', updateVideoCountDisplay);
+
+// Fonction pour compter les vidéos visionnées et mettre à jour l'affichage
+async function updateVideoCountDisplay() {
+  const totalVideos = 458; // Le nombre total de vidéos
+  const member = await window.$memberstackDom.getCurrentMember();
+  
+  if (member) {
+    let memberJson = await window.$memberstackDom.getMemberJSON();
+    let cleanedJson = cleanJson(memberJson);
+
+    let videosWatched = 0; // Compteur pour les vidéos visionnées
+    if (cleanedJson && cleanedJson.lessons) {
+      Object.values(cleanedJson.lessons).forEach(lesson => {
+        if (lesson.time && lesson.time > 0) {
+          videosWatched++; // Incrémenter le compteur si la vidéo a été visionnée
+        }
+      });
+    }
+
+    // Afficher le compte de vidéos visionnées
+    const videosWatchedDisplay = document.querySelector('#videosWatchedDisplay'); // Supposer qu'il y a un élément avec cet ID
+    if (videosWatchedDisplay) {
+      videosWatchedDisplay.textContent = `${videosWatched}`;
+    }
+  }
+}
+
+// Appeler cette fonction pour mettre à jour l'affichage quand nécessaire
+updateVideoCountDisplay();
+
+
+// ----- CODE POUR AFFICHER LE TOTAL DE CRÉDIT WEBFLOW ET FIGMA ------//
+document.addEventListener('DOMContentLoaded', function() {
+
+  const memberData = JSON.parse(localStorage.getItem('_ms-mem')); // Assurez-vous que la clé est correcte
+
+  let totalCreditsWebflow = 0;
+  let totalCreditsFigma = 0;
+
+  if (memberData && memberData.customFields) {
+
+    // Calcul pour les crédits Webflow
+    let superAssistanceWebflow = memberData.customFields['super-assistance-webflow'];
+    if (superAssistanceWebflow && superAssistanceWebflow !== 'video') {
+      totalCreditsWebflow += parseFloat(superAssistanceWebflow) || 0;
+    }
+    if (memberData.customFields['credit-assistance-webflow']) {
+      totalCreditsWebflow += parseFloat(memberData.customFields['credit-assistance-webflow']) || 0;
+    }
+
+    // Calcul pour les crédits Figma
+    let superAssistanceFigma = memberData.customFields['super-assistance-figma'];
+    if (superAssistanceFigma && superAssistanceFigma !== 'video') {
+      totalCreditsFigma += parseFloat(superAssistanceFigma) || 0;
+    }
+    if (memberData.customFields['credit-assistance-figma']) {
+      totalCreditsFigma += parseFloat(memberData.customFields['credit-assistance-figma']) || 0;
+    }
+
+    // Afficher les crédits totaux pour Webflow et Figma
+    updateTotalCreditsDisplay('creditWebflowTotal', totalCreditsWebflow);
+    updateTotalCreditsDisplay('creditFigmaTotal', totalCreditsFigma);
+  } else {
+    console.log('Aucune donnée customFields trouvée ou membreData est nul.');
+  }
+});
+
+function updateTotalCreditsDisplay(elementId, credits) {
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.textContent = credits.toString();
+  }
+}
+
 // ----- FONCTION POUR AFFICHER UNE CITATION ALÉATOIRE CHAQUE JOUR ------//
 const citations = [
     "Seuls les plus coriaces osent braver les tempêtes pour atteindre le rivage de leurs rêves. N'abandonne jamais.",
@@ -212,79 +289,3 @@ function afficherCitationEtAppliquerFond() {
 
 // Assurez-vous d'appeler afficherCitationEtAppliquerFond au bon endroit, comme au chargement de la page
 afficherCitationEtAppliquerFond();
-
-// ----- CODE POUR AFFICHER LE NOMBRE TOTAL DE LEÇONS VISIONNÉES ------//
-document.addEventListener('DOMContentLoaded', updateVideoCountDisplay);
-
-// Fonction pour compter les vidéos visionnées et mettre à jour l'affichage
-async function updateVideoCountDisplay() {
-  const totalVideos = 458; // Le nombre total de vidéos
-  const member = await window.$memberstackDom.getCurrentMember();
-  
-  if (member) {
-    let memberJson = await window.$memberstackDom.getMemberJSON();
-    let cleanedJson = cleanJson(memberJson);
-
-    let videosWatched = 0; // Compteur pour les vidéos visionnées
-    if (cleanedJson && cleanedJson.lessons) {
-      Object.values(cleanedJson.lessons).forEach(lesson => {
-        if (lesson.time && lesson.time > 0) {
-          videosWatched++; // Incrémenter le compteur si la vidéo a été visionnée
-        }
-      });
-    }
-
-    // Afficher le compte de vidéos visionnées
-    const videosWatchedDisplay = document.querySelector('#videosWatchedDisplay'); // Supposer qu'il y a un élément avec cet ID
-    if (videosWatchedDisplay) {
-      videosWatchedDisplay.textContent = `${videosWatched}`;
-    }
-  }
-}
-
-// Appeler cette fonction pour mettre à jour l'affichage quand nécessaire
-updateVideoCountDisplay();
-
-
-// ----- CODE POUR AFFICHER LE TOTAL DE CRÉDIT WEBFLOW ET FIGMA ------//
-document.addEventListener('DOMContentLoaded', function() {
-
-  const memberData = JSON.parse(localStorage.getItem('_ms-mem')); // Assurez-vous que la clé est correcte
-
-  let totalCreditsWebflow = 0;
-  let totalCreditsFigma = 0;
-
-  if (memberData && memberData.customFields) {
-
-    // Calcul pour les crédits Webflow
-    let superAssistanceWebflow = memberData.customFields['super-assistance-webflow'];
-    if (superAssistanceWebflow && superAssistanceWebflow !== 'video') {
-      totalCreditsWebflow += parseFloat(superAssistanceWebflow) || 0;
-    }
-    if (memberData.customFields['credit-assistance-webflow']) {
-      totalCreditsWebflow += parseFloat(memberData.customFields['credit-assistance-webflow']) || 0;
-    }
-
-    // Calcul pour les crédits Figma
-    let superAssistanceFigma = memberData.customFields['super-assistance-figma'];
-    if (superAssistanceFigma && superAssistanceFigma !== 'video') {
-      totalCreditsFigma += parseFloat(superAssistanceFigma) || 0;
-    }
-    if (memberData.customFields['credit-assistance-figma']) {
-      totalCreditsFigma += parseFloat(memberData.customFields['credit-assistance-figma']) || 0;
-    }
-
-    // Afficher les crédits totaux pour Webflow et Figma
-    updateTotalCreditsDisplay('creditWebflowTotal', totalCreditsWebflow);
-    updateTotalCreditsDisplay('creditFigmaTotal', totalCreditsFigma);
-  } else {
-    console.log('Aucune donnée customFields trouvée ou membreData est nul.');
-  }
-});
-
-function updateTotalCreditsDisplay(elementId, credits) {
-  const element = document.getElementById(elementId);
-  if (element) {
-    element.textContent = credits.toString();
-  }
-}
