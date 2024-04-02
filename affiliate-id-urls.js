@@ -1,3 +1,44 @@
+// ----- FONCTION POUR ENREGISTRER L'ID AFFILIÉ DANS LES COOKIES DU VISITEUR ------//
+(function() {
+    // Fonction pour obtenir la valeur d'un paramètre spécifique dans l'URL
+    function getQueryParam(name) {
+        let results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        if (results == null) {
+           return null;
+        } else {
+           return decodeURIComponent(results[1]) || 0;
+        }
+    }
+
+    // Fonction pour retirer les accents d'une chaîne de caractères
+    function removeAccents(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    // Fonction pour stocker un cookie
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            let date = new Date();
+            date.setTime(date.getTime() + (days*24*60*60*1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+
+    // Récupération de l'identifiant affilié depuis l'URL
+    let affiliateId = getQueryParam('ref');
+
+    // Vérification et nettoyage de l'identifiant affilié
+    if (affiliateId) {
+        affiliateId = removeAccents(affiliateId);
+
+        // Stockage de l'identifiant affilié dans les cookies pour 30 jours
+        setCookie('aff_ref', affiliateId, 90);
+    }
+})();
+
+
 // ----- FONCTION POUR RÉCUPÉRER L'IDENTIFIANT AFFILIÉ DANS LES COOKIES ET AJOUTER L'ID AUX URLS SUR LA PAGE ------//
 (function() {
     document.addEventListener('DOMContentLoaded', function() {
