@@ -272,20 +272,23 @@ function genererIndexAleatoire(max) {
 
 // Fonction pour afficher la citation et appliquer le dégradé de fond
 function afficherCitationEtAppliquerFond() {
+    console.log("Début de la fonction afficherCitationEtAppliquerFond");
+
     const indexCitation = genererIndexAleatoire(citations.length);
-    const indexFond = genererIndexAleatoire(degradeFonds.length);
-    
-    // Afficher la citation
+    console.log(`Index de citation sélectionné : ${indexCitation}`);
     document.getElementById('citationDuJour').innerText = citations[indexCitation];
     
-    // Appliquer le dégradé de fond
+    const indexFond = genererIndexAleatoire(degradeFonds.length);
+    console.log(`Index de dégradé sélectionné : ${indexFond}`);
+    console.log(`Dégradé appliqué : ${degradeFonds[indexFond]}`);
+    
     const element = document.querySelector('.dash_bento-card-container .is-quote');
     if (element) {
+        console.log("Élément trouvé, tentative d'appliquer le dégradé.");
         element.style.backgroundImage = degradeFonds[indexFond];
-        console.log('Index du dégradé sélectionné :', indexFond);
-        console.log('Dégradé appliqué :', degradeFonds[indexFond]);
+    } else {
+        console.log("Élément .dash_bento-card-container .is-quote non trouvé.");
     }
 }
 
-// Assurez-vous d'appeler afficherCitationEtAppliquerFond au bon endroit, comme au chargement de la page
 afficherCitationEtAppliquerFond();
