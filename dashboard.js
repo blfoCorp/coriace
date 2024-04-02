@@ -174,19 +174,42 @@ const citations = [
     "Le secret pour avancer est de commencer, et pour continuer, d'être coriace. Le travail acharné mène invariablement au succès."
 ];
 
+const degradeFonds = [
+    'linear-gradient(135deg, #6934ff, #ff6673)',
+    'linear-gradient(135deg, #125f96, #00ffc2)', 
+    'linear-gradient(135deg, #007991, #78ffd6)', // Bleu turquoise vibrant
+    'linear-gradient(135deg, #ff5f6d, #ffc371)', // Rouge doux à jaune soleil
+    'linear-gradient(135deg, #7c00ff, #cc25e4, #ff6673)', 
+];
 
-function genererIndexAleatoire() {
+
+function genererIndexAleatoire(max) {
     const aujourdHui = new Date();
     const graine = aujourdHui.getFullYear() * 10000 + (aujourdHui.getMonth() + 1) * 100 + aujourdHui.getDate();
-    const rng = new Math.seedrandom(graine); // Utilisation de seedrandom pour générer un nombre aléatoire basé sur une graine
-    return Math.floor(rng() * citations.length);
+    let hash = graine;
+    hash = ((hash << 5) - hash) + graine;
+    hash = hash & hash; // Convertir en 32bit integer
+    const index = Math.abs(hash) % max;
+    return index;
 }
 
-// Fonction pour afficher la citation
-function afficherCitation() {
-    const index = genererIndexAleatoire();
-    document.getElementById('citationDuJour').innerText = citations[index];
+// Fonction pour afficher la citation et appliquer le dégradé de fond
+function afficherCitationEtAppliquerFond() {
+    const indexCitation = genererIndexAleatoire(citations.length);
+    const indexFond = genererIndexAleatoire(degradeFonds.length);
+    
+    // Afficher la citation
+    document.getElementById('citationDuJour').innerText = citations[indexCitation];
+    
+    // Appliquer le dégradé de fond
+    const element = document.querySelector('.dash_bento-card-container .is-quote');
+    if (element) {
+        element.style.backgroundImage = degradeFonds[indexFond];
+    }
 }
+
+// Assurez-vous d'appeler afficherCitationEtAppliquerFond au bon endroit, comme au chargement de la page
+document.addEventListener('DOMContentLoaded', afficherCitationEtAppliquerFond);
 
 // ----- CODE POUR AFFICHER LE NOMBRE TOTAL DE LEÇONS VISIONNÉES ------//
 document.addEventListener('DOMContentLoaded', afficherCitation);
