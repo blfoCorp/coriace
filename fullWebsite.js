@@ -356,6 +356,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+/*---  SI MEMBRE PAS CONNECTÉ SUR UNE PAGE SPÉCIFIQUE REDIRECTION PAGE DE CONNEXION ----*/
 
 document.addEventListener('DOMContentLoaded', function () {
   var protectedContent = document.querySelector('[data-ms-content="protected"]');
