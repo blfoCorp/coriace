@@ -1,213 +1,3 @@
-/* -------- GESTION DU MENU BURGER EN MOBILE -------- */
-// Vérifie si la largeur de la fenêtre est inférieure à 991px
-function isMobile() {
-    return window.innerWidth < 991;
-}
-
-// Variable pour contrôler l'initialisation du menu
-let isMenuSetup = false;
-
-// Les fonctions et les gestionnaires d'événements seront définis à l'intérieur de cette fonction
-function setupMenu() {
-    // Empêche la réinitialisation des gestionnaires d'événements
-    if (isMenuSetup) return;
-    isMenuSetup = true;
-
-    const menu = document.getElementById('menu');
-    const submenus = document.querySelectorAll('.mm_submenu');
-
-
-    function openSubmenu(submenuId) {
-        gsap.to(menu, {duration: 0.5, x: '-30%', ease: "power4.out"});
-        gsap.to(submenuId, {duration: 0.5, x: '0%', ease: "power4.out", onComplete: () => {
-            document.querySelector(submenuId).classList.add('is-open');
-        }});
-    }
-
-    function closeSubmenu(submenuId) {
-        gsap.to(menu, {duration: 0.5, x: '0%', ease: "power4.out"});
-        gsap.to(submenuId, {duration: 0.5, x: '100%', ease: "power4.out", onComplete: () => {
-            document.querySelector(submenuId).classList.remove('is-open');
-        }});
-    }
-
-    function openMenu() {
-        gsap.to('#menu', {duration: 0.5, x: '0%', ease: "power4.out", opacity: 1, onComplete: () => {
-            menu.classList.add('is-open');
-        }});
-    }
-
-    function closeMenu() {
-        submenus.forEach(submenu => {
-            if (submenu.classList.contains('is-open')) {
-                closeSubmenu('#' + submenu.id);
-            }
-        });
-        gsap.to('#menu', {duration: 0.5, x: '100%', opacity: 0, ease: "power4.out", onComplete: () => {
-            menu.classList.remove('is-open');
-        }});
-    }
-
-    if (isMobile()) {
-        document.getElementById('link1').addEventListener('click', function() {
-            openSubmenu('#submenu1');
-        });
-
-        document.getElementById('link2').addEventListener('click', function() {
-            openSubmenu('#submenu2');
-        });
-
-        submenus.forEach(submenu => {
-            const backButton = submenu.querySelector('.mm_submenu-back-btn');
-            if (backButton) {
-                backButton.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    closeSubmenu('#' + submenu.id);
-                });
-            }
-        });
-
-        document.getElementById('close-menu').addEventListener('click', function() {
-            if (menu.classList.contains('is-open')) {
-                closeMenu();
-            } else {
-                openMenu();
-            }
-        });
-    }
-}
-
-// Exécutez la configuration lorsque le DOM est entièrement chargé
-document.addEventListener('DOMContentLoaded', setupMenu);
-
-// Réajustez si la fenêtre est redimensionnée
-window.addEventListener('resize', function() {
-    // Réinitialise isMenuSetup à false si on passe de mobile à desktop et inversement
-    if (!isMobile() || isMenuSetup) {
-        isMenuSetup = false;
-    }
-    setupMenu();
-});
-
-// ----- FONCTION POUR ENREGISTRER L'ID AFFILIÉ DANS LES COOKIES DU VISITEUR ------//
-(function() {
-    // Fonction pour obtenir la valeur d'un paramètre spécifique dans l'URL
-    function getQueryParam(name) {
-        let results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-        if (results == null) {
-           return null;
-        } else {
-           return decodeURIComponent(results[1]) || 0;
-        }
-    }
-
-    // Fonction pour retirer les accents d'une chaîne de caractères
-    function removeAccents(str) {
-        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    }
-
-    // Fonction pour stocker un cookie
-    function setCookie(name, value, days) {
-        let expires = "";
-        if (days) {
-            let date = new Date();
-            date.setTime(date.getTime() + (days*24*60*60*1000));
-            expires = "; expires=" + date.toUTCString();
-        }
-        document.cookie = name + "=" + (value || "")  + expires + "; path=/";
-    }
-
-    // Récupération de l'identifiant affilié depuis l'URL
-    let affiliateId = getQueryParam('ref');
-
-    // Vérification et nettoyage de l'identifiant affilié
-    if (affiliateId) {
-        affiliateId = removeAccents(affiliateId);
-
-        // Stockage de l'identifiant affilié dans les cookies pour 30 jours
-        setCookie('aff_ref', affiliateId, 90);
-    }
-})();
-
-
-// ----- FONCTION POUR RÉCUPÉRER L'IDENTIFIANT AFFILIÉ DANS LES COOKIES ET AJOUTER L'ID AUX URLS SUR LA PAGE ------//
-(function() {
-    document.addEventListener('DOMContentLoaded', function() {
-        function getCookie(name) {
-            let value = "; " + document.cookie;
-            let parts = value.split("; " + name + "=");
-            if (parts.length === 2) return parts.pop().split(";").shift();
-            return null; // Retourne null si le cookie n'est pas trouvé
-        }
-
-        function removeAccents(str) {
-            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        }
-
-        let affiliateId = getCookie('aff_ref');
-        console.log("Affiliate ID: ", affiliateId); // Pour débogage
-
-        if (affiliateId) {
-            affiliateId = removeAccents(affiliateId); // Nettoyage de l'identifiant
-            let links = document.querySelectorAll('a'); // Sélection de tous les liens dans le document
-
-            links.forEach(function(link) {
-                if (link.hostname.endsWith('order.coriace.co')) {
-                    let originalHref = link.href;
-                    console.log("Original Href: ", originalHref); // Pour débogage
-
-                    // Ajout de l'identifiant affilié à l'URL
-                    link.href += link.href.indexOf('?') > -1 ? '&ref=' + encodeURIComponent(affiliateId) : '?ref=' + encodeURIComponent(affiliateId);
-                    console.log("Modified Href: ", link.href); // Pour débogage
-                }
-            });
-        }
-    });
-})();
-
-/* -------- DÉTECTION DES VISITES LIEN AFFILIÉ + ENVOIE DES DONNÉES DANS MAKE -------- */
-document.addEventListener('DOMContentLoaded', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const affiliateId = urlParams.get('ref');
-    if (affiliateId) {
-        // Obtenez la date et l'heure actuelles en ISO 8601
-        const visitDate = new Date().toISOString();
-        
-        // L'URL de votre Webhook Make
-        const webhookUrl = 'https://hook.eu1.make.com/7kq7nssrvgwcwkfwyxbw31wjj55kgj2d';
-        
-        // Préparez les données à envoyer au Webhook
-        const data = {
-            affiliate_id: affiliateId,
-            url: document.location.href,
-            referrer: document.referrer,
-            visit_date: visitDate // Ajout de la date et l'heure de la visite
-        };
-
-        // Envoyez les données au Webhook Make
-        fetch(webhookUrl, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(responseData => {
-            console.log('Données envoyées au Webhook :', responseData);
-        })
-        .catch(error => {
-            console.error('Erreur lors de l’envoi des données au Webhook :', error);
-        });
-    }
-});
-
-
 /*---  DÉBUT : DÉVEROUILLAGE FORMATION EN FONCTION DU PLAN DANS LA NAVIGATION ----*/
 async function updateTabLinksAndHideElementsForSpecificPlans() {
     const response = await window.$memberstackDom.getCurrentMember();
@@ -483,6 +273,218 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
 document.addEventListener("DOMContentLoaded", () => {
     updateTabLinksAndHideElementsForSpecificPlans();
 });
+
+/* -------- GESTION DU MENU BURGER EN MOBILE -------- */
+// Vérifie si la largeur de la fenêtre est inférieure à 991px
+function isMobile() {
+    return window.innerWidth < 991;
+}
+
+// Variable pour contrôler l'initialisation du menu
+let isMenuSetup = false;
+
+// Les fonctions et les gestionnaires d'événements seront définis à l'intérieur de cette fonction
+function setupMenu() {
+    // Empêche la réinitialisation des gestionnaires d'événements
+    if (isMenuSetup) return;
+    isMenuSetup = true;
+
+    const menu = document.getElementById('menu');
+    const submenus = document.querySelectorAll('.mm_submenu');
+
+
+    function openSubmenu(submenuId) {
+        gsap.to(menu, {duration: 0.5, x: '-30%', ease: "power4.out"});
+        gsap.to(submenuId, {duration: 0.5, x: '0%', ease: "power4.out", onComplete: () => {
+            document.querySelector(submenuId).classList.add('is-open');
+        }});
+    }
+
+    function closeSubmenu(submenuId) {
+        gsap.to(menu, {duration: 0.5, x: '0%', ease: "power4.out"});
+        gsap.to(submenuId, {duration: 0.5, x: '100%', ease: "power4.out", onComplete: () => {
+            document.querySelector(submenuId).classList.remove('is-open');
+        }});
+    }
+
+    function openMenu() {
+        gsap.to('#menu', {duration: 0.5, x: '0%', ease: "power4.out", opacity: 1, onComplete: () => {
+            menu.classList.add('is-open');
+        }});
+    }
+
+    function closeMenu() {
+        submenus.forEach(submenu => {
+            if (submenu.classList.contains('is-open')) {
+                closeSubmenu('#' + submenu.id);
+            }
+        });
+        gsap.to('#menu', {duration: 0.5, x: '100%', opacity: 0, ease: "power4.out", onComplete: () => {
+            menu.classList.remove('is-open');
+        }});
+    }
+
+    if (isMobile()) {
+        document.getElementById('link1').addEventListener('click', function() {
+            openSubmenu('#submenu1');
+        });
+
+        document.getElementById('link2').addEventListener('click', function() {
+            openSubmenu('#submenu2');
+        });
+
+        submenus.forEach(submenu => {
+            const backButton = submenu.querySelector('.mm_submenu-back-btn');
+            if (backButton) {
+                backButton.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    closeSubmenu('#' + submenu.id);
+                });
+            }
+        });
+
+        document.getElementById('close-menu').addEventListener('click', function() {
+            if (menu.classList.contains('is-open')) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        });
+    }
+}
+
+// Exécutez la configuration lorsque le DOM est entièrement chargé
+document.addEventListener('DOMContentLoaded', setupMenu);
+
+// Réajustez si la fenêtre est redimensionnée
+window.addEventListener('resize', function() {
+    // Réinitialise isMenuSetup à false si on passe de mobile à desktop et inversement
+    if (!isMobile() || isMenuSetup) {
+        isMenuSetup = false;
+    }
+    setupMenu();
+});
+
+// ----- FONCTION POUR ENREGISTRER L'ID AFFILIÉ DANS LES COOKIES DU VISITEUR ------//
+(function() {
+    // Fonction pour obtenir la valeur d'un paramètre spécifique dans l'URL
+    function getQueryParam(name) {
+        let results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        if (results == null) {
+           return null;
+        } else {
+           return decodeURIComponent(results[1]) || 0;
+        }
+    }
+
+    // Fonction pour retirer les accents d'une chaîne de caractères
+    function removeAccents(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    // Fonction pour stocker un cookie
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            let date = new Date();
+            date.setTime(date.getTime() + (days*24*60*60*1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+
+    // Récupération de l'identifiant affilié depuis l'URL
+    let affiliateId = getQueryParam('ref');
+
+    // Vérification et nettoyage de l'identifiant affilié
+    if (affiliateId) {
+        affiliateId = removeAccents(affiliateId);
+
+        // Stockage de l'identifiant affilié dans les cookies pour 30 jours
+        setCookie('aff_ref', affiliateId, 90);
+    }
+})();
+
+
+// ----- FONCTION POUR RÉCUPÉRER L'IDENTIFIANT AFFILIÉ DANS LES COOKIES ET AJOUTER L'ID AUX URLS SUR LA PAGE ------//
+(function() {
+    document.addEventListener('DOMContentLoaded', function() {
+        function getCookie(name) {
+            let value = "; " + document.cookie;
+            let parts = value.split("; " + name + "=");
+            if (parts.length === 2) return parts.pop().split(";").shift();
+            return null; // Retourne null si le cookie n'est pas trouvé
+        }
+
+        function removeAccents(str) {
+            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+
+        let affiliateId = getCookie('aff_ref');
+        console.log("Affiliate ID: ", affiliateId); // Pour débogage
+
+        if (affiliateId) {
+            affiliateId = removeAccents(affiliateId); // Nettoyage de l'identifiant
+            let links = document.querySelectorAll('a'); // Sélection de tous les liens dans le document
+
+            links.forEach(function(link) {
+                if (link.hostname.endsWith('order.coriace.co')) {
+                    let originalHref = link.href;
+                    console.log("Original Href: ", originalHref); // Pour débogage
+
+                    // Ajout de l'identifiant affilié à l'URL
+                    link.href += link.href.indexOf('?') > -1 ? '&ref=' + encodeURIComponent(affiliateId) : '?ref=' + encodeURIComponent(affiliateId);
+                    console.log("Modified Href: ", link.href); // Pour débogage
+                }
+            });
+        }
+    });
+})();
+
+/* -------- DÉTECTION DES VISITES LIEN AFFILIÉ + ENVOIE DES DONNÉES DANS MAKE -------- */
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const affiliateId = urlParams.get('ref');
+    if (affiliateId) {
+        // Obtenez la date et l'heure actuelles en ISO 8601
+        const visitDate = new Date().toISOString();
+        
+        // L'URL de votre Webhook Make
+        const webhookUrl = 'https://hook.eu1.make.com/7kq7nssrvgwcwkfwyxbw31wjj55kgj2d';
+        
+        // Préparez les données à envoyer au Webhook
+        const data = {
+            affiliate_id: affiliateId,
+            url: document.location.href,
+            referrer: document.referrer,
+            visit_date: visitDate // Ajout de la date et l'heure de la visite
+        };
+
+        // Envoyez les données au Webhook Make
+        fetch(webhookUrl, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(responseData => {
+            console.log('Données envoyées au Webhook :', responseData);
+        })
+        .catch(error => {
+            console.error('Erreur lors de l’envoi des données au Webhook :', error);
+        });
+    }
+});
+
+
+
 
 /*---  DÉBUT : ÉTAT DU LABEL MEMBRE CLUB CORIACE DANS LA NAVIGATION ----*/
 document.addEventListener('DOMContentLoaded', function() {
