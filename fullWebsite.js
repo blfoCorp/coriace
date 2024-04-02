@@ -523,17 +523,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-/*---  SI MEMBRE PAS CONNECTÉ SUR UNE PAGE SPÉCIFIQUE REDIRECTION PAGE DE CONNEXION ----*/
-
-document.addEventListener('DOMContentLoaded', function () {
-  var protectedContent = document.querySelector('[data-ms-content="protected"]');
-
-  // Vérifiez si l'utilisateur est sur une page protégée et si la clé '_ms-mem' est absente du localStorage
-  if (protectedContent && !localStorage.getItem('_ms-mem')) {
-    // Si la clé n'est pas présente, redirige l'utilisateur vers la page de connexion
-    window.location.href = '/app/connexion';
-  }
-});
 
 /* -------- AFFICHAGE DU CODE DE PROMOTION À L'INSCRIPTION -------- */
 document.addEventListener('DOMContentLoaded', function() {
@@ -619,6 +608,50 @@ function updatePromoCode() {
   }
 }
 
+/* --- REDIRECTION DES MEMBRES NON-CONNECTÉ EN CAS D'ACHAT DE LA FORMATION POUR CRÉER LEUR COMPTE DANS UN PREMIER TEMPS ---*/
+async function redirectToLoginIfNotMember(event) {
+  // Empêche l'action par défaut (pour les liens, cela empêche la navigation)
+  event.preventDefault();
+
+  const response = await window.$memberstackDom.getCurrentMember();
+  const member = response.data;
+
+  // Si l'utilisateur est connecté, exécutez l'action par défaut (suivre le lien, cliquer sur le bouton, etc.)
+  if (member) {
+    // Si c'est un lien, suivez l'URL du href
+    if (event.target.tagName.toLowerCase() === 'a') {
+      window.location.href = event.target.href;
+    } else {
+      // Pour un bouton, vous pouvez ajouter ici une logique supplémentaire si nécessaire
+    }
+  } else {
+    // Si l'utilisateur n'est pas connecté, préparez et redirigez-le vers la page de connexion avec l'URL actuelle en tant que paramètre de retour
+    const currentUrl = window.location.href;
+    const encodedCurrentUrl = encodeURIComponent(currentUrl);
+    window.location.href = `https://app.coriace.co/app/inscription/etape-1-inscription-coriace?returnUrl=${encodedCurrentUrl}`;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  const protectedElements = document.querySelectorAll('a[data-protected="true"], button[data-protected="true"]');
+
+  protectedElements.forEach(element => {
+    element.addEventListener('click', redirectToLoginIfNotMember);
+  });
+});
+
+/*---  SI MEMBRE PAS CONNECTÉ SUR UNE PAGE SPÉCIFIQUE REDIRECTION PAGE DE CONNEXION ----*/
+
+document.addEventListener('DOMContentLoaded', function () {
+  var protectedContent = document.querySelector('[data-ms-content="protected"]');
+
+  // Vérifiez si l'utilisateur est sur une page protégée et si la clé '_ms-mem' est absente du localStorage
+  if (protectedContent && !localStorage.getItem('_ms-mem')) {
+    // Si la clé n'est pas présente, redirige l'utilisateur vers la page de connexion
+    window.location.href = '/app/connexion';
+  }
+});
+
 /*---  DÉBUT : REDIRECTION ET BLOCAGE EN CAS D'ÉCHEC DE PAIEMENT ----*/
 
 async function checkMembershipAndRedirect() {
@@ -643,5 +676,3 @@ async function checkMembershipAndRedirect() {
 }
 
 document.addEventListener("DOMContentLoaded", checkMembershipAndRedirect);
-
-/*---  FIN : REDIRECTION ET BLOCAGE EN CAS D'ÉCHEC DE PAIEMENT ----*/
