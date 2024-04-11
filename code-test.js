@@ -32,7 +32,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 dataLockIcon: 'wpdvLockIcn',
                 dataStartButton: 'wpdvStartButton',
                 dataHideButton: 'wpdvHideButton',
-                protectAttribute: 'data-co-wpdv',
+                contentValue: 'wfpdv',
                 redirectUrl: '/app/formations/webflow-page-de-vente'
             },
             {
@@ -58,7 +58,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 dataLockIcon: 'wecoLockIcn',
                 dataStartButton: 'wecoStartButton',
                 dataHideButton: 'wecoHideButton',
-                protectAttribute: 'data-co-eco',
+                contentValue: 'wfeco',
                 redirectUrl: '/app/formations/webflow-e-commerce'
             },
             {
@@ -83,7 +83,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 dataLockIcon: 'wtheorieLockIcn',
                 dataStartButton: 'wtheorieStartButton',
                 dataHideButton: 'wtheorieHideButton',
-                protectAttribute: 'data-co-wftheorie',
+                contentValue: 'wftheorie',
                 redirectUrl: '/app/mini-formations/webflow-theorie'
             },
             {
@@ -108,7 +108,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 dataLockIcon: 'udeslyShopiLockIcn',
                 dataStartButton: 'udeslyShopifyStartButton',
                 dataHideButton: 'udeslyShopifyHideButton',
-                protectAttribute: 'data-co-wfshopi',
+                contentValue: 'wfshopi',
                 redirectUrl: '/app/mini-formations/udesly-webflow-shopify'
             },
             {
@@ -133,7 +133,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 dataLockIcon: 'cookiesLockIcn',
                 dataStartButton: 'cookiesStartButton',
                 dataHideButton: 'cookiesHideButton',
-                protectAttribute: 'data-co-wfcookies',
+                contentValue: 'wfcookies',
                 redirectUrl: '/app/mini-formations/webflow-cookie-consent-by-finsweet'
             },
             {
@@ -158,7 +158,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 dataLockIcon: 'clientFirstLockIcn',
                 dataStartButton: 'clientFirstStartButton',
                 dataHideButton: 'clientFirstHideButton',
-                protectAttribute: 'data-co-wfclientfirst',
+                contentValue: 'wfclientfirst',
                 redirectUrl: '/app/mini-formations/webflow-client-first'
             },
             {
@@ -171,7 +171,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 dataLockIcon: 'figDebutantLockIcn',
                 dataStartButton: 'figDebutantStartButton',
                 dataHideButton: 'figDebutantHideButton',
-                protectAttribute: 'data-co-figdeb',
+                contentValue: 'figdeb',
                 redirectUrl: '/app/formations/figma-debutant'
             },
             {
@@ -180,7 +180,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                     "pln_webflow-le-pack-3-fois--sshd024y"
                 ],
                 dataHideButton: 'packWebflowHideButton',
-                protectAttribute: 'data-co-wfpack',
+                contentValue: 'wfpack',
                 redirectUrl: '/app/packs/formations-principales-webflow'
             },
             {
@@ -189,7 +189,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                     "pln_le-mini-pack-webflow-3-fois--lsj50wev"
                 ],
                 dataHideButton: 'minipackWebflowHideButton',
-                protectAttribute: 'data-co-wfminipack',
+                contentValue: 'wfminipack',
                 redirectUrl: '/app/packs/mini-pack-webflow'
             },
             {
@@ -198,7 +198,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                     "pln_le-mega-pack-webflow-3-fois--tnkm02zj"
                 ],
                 dataHideButton: 'megapackWebflowHideButton',
-                protectAttribute: 'data-co-wfmegapack',
+                contentValue: 'wfmegapack',
                 redirectUrl: '/app/packs/mega-pack-webflow'
             },
              {
@@ -208,7 +208,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 dataTabLink: 'wfportfolioNiv1Tabs',
                 dataLockIcon: 'wfportfolioNiv1LockIcn',
                 newHref: '/modules-formation-thematique/webflow-creer-son-portfolio',
-                protectAttribute: 'data-co-wfportfolio',
+                contentValue: 'wfportfolio',
                 redirectUrl: '/app/formations-thematiques/webflow-creer-son-portfolio'
             },
             {
@@ -231,70 +231,87 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 dataHideButton: 'wfPlusHideButton',
                 newHref: '/app/webflow-plus',
                 dataTabLink: 'wPlusLink',
-                protectAttribute: 'data-co-wfplus',
+                contentValue: 'wfplus',
                 redirectUrl: '/app/webflow-plus'
                 
             }
         ];
         
 
-        // Définir l'attribut personnalisé pour sélectionner les éléments
-        const attributeSelector = '[data-co-member="!customer"]';
-        
-        // Initialiser le drapeau indiquant si l'utilisateur a un plan spécifique
         let hasSpecificPlan = false;
         let redirectUrls = []; // Collection des URLs de redirection pour les configurations non satisfaites
 
-        plansConfig.forEach(planConfig => {
-            const hasPlan = Array.isArray(planConfig.planId) ?
-                planConfig.planId.some(planId => userPlanIds.includes(planId)) :
-                userPlanIds.includes(planConfig.planId);
+        document.querySelectorAll('[data-co-protected]').forEach(protectedElement => {
+            const protectionValue = protectedElement.getAttribute('data-co-protected');
+            let protectionMet = false;
 
-            if (hasPlan) {
-                // L'utilisateur a le plan, effectuer les modifications nécessaires sur les éléments du DOM
-                document.querySelectorAll(`[data-tab-link="${planConfig.dataTabLink}"]`).forEach(element => {
-                    element.href = planConfig.newHref;
-                });
+            plansConfig.forEach(planConfig => {
+                const hasPlan = Array.isArray(planConfig.planId) ?
+                    planConfig.planId.some(planId => userPlanIds.includes(planId)) :
+                    userPlanIds.includes(planConfig.planId);
 
-                if (planConfig.dataLockIcon) {
-                    document.querySelectorAll(`[data-lock-icon="${planConfig.dataLockIcon}"]`).forEach(element => {
-                        element.style.display = 'none';
-                    });
+                if (protectionValue === planConfig.contentValue && hasPlan) {
+                    applyDOMChanges(protectedElement, planConfig);
+                    protectionMet = true;
+                    hasSpecificPlan = true;
+                } else if (protectionValue === planConfig.contentValue) {
+                    // Cette vérification assure qu'on ajoute l'URL de redirection seulement si elle correspond à l'élément protégé rencontré
+                    redirectUrls[protectionValue] = planConfig.redirectUrl;
                 }
+            });
 
-                if (planConfig.dataStartButton) {
-                    document.querySelectorAll(`[data-start-button="${planConfig.dataStartButton}"]`).forEach(button => {
-                        button.href = planConfig.newHref;
-                        button.textContent = 'Démarrer';
-                    });
-                }
-
-                document.querySelectorAll(`[data-hide-button="${planConfig.dataHideButton}"]`).forEach(element => {
-                    element.style.display = 'none';
-                });
-
-                // Indiquer qu'un élément spécifique doit être affiché
-                hasSpecificPlan = true;
-            } else if (planConfig.protectAttribute && document.querySelector(`[${planConfig.protectAttribute}="protected"]`)) {
-                redirectUrls.push(planConfig.redirectUrl);
+            // Si aucun plan correspondant n'est trouvé pour cet élément protégé, marquer pour une redirection possible
+            if (!protectionMet && redirectUrls[protectionValue]) {
+                window.location.href = redirectUrls[protectionValue];
+                return;
             }
         });
+
+        // Définir l'attribut personnalisé pour sélectionner les éléments
+        const attributeSelector = '[data-co-member="!customer"]';
 
         // Si l'utilisateur a un plan spécifié, afficher les éléments avec l'attribut personnalisé
         if (hasSpecificPlan) {
             document.querySelectorAll(attributeSelector).forEach(elementToShow => {
-                elementToShow.style.display = 'block'; // Modifier pour 'block' si vous voulez les rendre visibles
+                elementToShow.style.display = 'block';
             });
-        } else if (redirectUrls.length > 0) {
-            window.location.href = redirectUrls[0]; // Redirige vers la première URL de redirection non satisfaite
         }
     }
 }
 
+function applyDOMChanges(protectedElement, planConfig) {
+    // L'utilisateur a le plan, effectuer les modifications nécessaires sur les éléments du DOM
+    if (planConfig.dataTabLink) {
+        document.querySelectorAll(`[data-tab-link="${planConfig.dataTabLink}"]`).forEach(element => {
+            element.href = planConfig.newHref;
+        });
+    }
+
+    if (planConfig.dataLockIcon) {
+        document.querySelectorAll(`[data-lock-icon="${planConfig.dataLockIcon}"]`).forEach(element => {
+            element.style.display = 'none';
+        });
+    }
+
+    if (planConfig.dataStartButton) {
+        document.querySelectorAll(`[data-start-button="${planConfig.dataStartButton}"]`).forEach(button => {
+            button.href = planConfig.newHref;
+            button.textContent = 'Démarrer';
+        });
+    }
+
+    if (planConfig.dataHideButton) {
+        document.querySelectorAll(`[data-hide-button="${planConfig.dataHideButton}"]`).forEach(element => {
+            element.style.display = 'none';
+        });
+    }
+}
 // Attacher la fonction au chargement du contenu DOM
 document.addEventListener("DOMContentLoaded", () => {
     updateTabLinksAndHideElementsForSpecificPlans();
 });
+
+
 
 /* -------- GESTION DU MENU BURGER EN MOBILE -------- */
 // Vérifie si la largeur de la fenêtre est inférieure à 991px
