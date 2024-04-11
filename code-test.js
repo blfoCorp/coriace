@@ -2,9 +2,10 @@
 async function updateTabLinksAndHideElementsForSpecificPlans() {
     const response = await window.$memberstackDom.getCurrentMember();
     const member = response.data;
+    console.log("Member data:", member); // Afficher les données du membre
 
     if (member && Array.isArray(member.planConnections)) {
-        // Extraire les IDs de plan du membre
+         console.log("User Plan IDs:", userPlanIds); // Afficher les IDs de plan de l'utilisateur
         const userPlanIds = member.planConnections.map(connection => connection.planId);
         
         // Configuration des plans (c'est un tableau d'objets)
@@ -243,6 +244,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
 
         document.querySelectorAll('[data-co-protected]').forEach(protectedElement => {
             const protectionValue = protectedElement.getAttribute('data-co-protected');
+            console.log("Checking protection for:", protectionValue); // Vérifier la protection pour la valeur
             let protectionMet = false;
 
             plansConfig.forEach(planConfig => {
@@ -262,6 +264,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
 
             // Si aucun plan correspondant n'est trouvé pour cet élément protégé, marquer pour une redirection possible
             if (!protectionMet && redirectUrls[protectionValue]) {
+                console.log("Redirecting to:", redirectUrls[protectionValue]); // Rediriger vers l'URL
                 window.location.href = redirectUrls[protectionValue];
                 return;
             }
@@ -283,12 +286,14 @@ function applyDOMChanges(protectedElement, planConfig) {
     // L'utilisateur a le plan, effectuer les modifications nécessaires sur les éléments du DOM
     if (planConfig.dataTabLink) {
         document.querySelectorAll(`[data-tab-link="${planConfig.dataTabLink}"]`).forEach(element => {
+            console.log("Updating href for:", element); // Mettre à jour href pour l'élément
             element.href = planConfig.newHref;
         });
     }
 
     if (planConfig.dataLockIcon) {
         document.querySelectorAll(`[data-lock-icon="${planConfig.dataLockIcon}"]`).forEach(element => {
+            console.log("Hiding lock icon for:", element); // Masquer l'icône de verrouillage pour l'élément
             element.style.display = 'none';
         });
     }
