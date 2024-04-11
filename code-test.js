@@ -275,7 +275,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
         // Si l'utilisateur a un plan spécifié, afficher les éléments avec l'attribut personnalisé
         if (hasSpecificPlan) {
             document.querySelectorAll(attributeSelector).forEach(elementToShow => {
-                elementToShow.style.display = 'block';
+                elementToShow.style.display = 'none';
             });
         }
     }
