@@ -249,6 +249,8 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
             let protectionMet = false;
 
             plansConfig.forEach(planConfig => {
+                console.log("PlanConfig IDs:", planConfig.planId);
+                console.log("User Plan IDs:", userPlanIds);
                 const hasPlan = Array.isArray(planConfig.planId) ?
                     planConfig.planId.some(planId => userPlanIds.includes(planId)) :
                     userPlanIds.includes(planConfig.planId);
