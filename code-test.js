@@ -4,6 +4,8 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
     const member = response.data;
     console.log("Member data:", member); // Afficher les données du membre
 
+    
+    console.log("Plan connections:", member.planConnections);
     if (member && Array.isArray(member.planConnections)) {
         const userPlanIds = member.planConnections.map(connection => connection.planId);
         
