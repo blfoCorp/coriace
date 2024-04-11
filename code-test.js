@@ -240,7 +240,6 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
             }
         ];
         
-
         let hasSpecificPlan = false;
         let redirectUrls = []; // Collection des URLs de redirection pour les configurations non satisfaites
 
