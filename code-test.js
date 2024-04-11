@@ -5,7 +5,6 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
     console.log("Member data:", member); // Afficher les données du membre
 
     if (member && Array.isArray(member.planConnections)) {
-         console.log("User Plan IDs:", userPlanIds); // Afficher les IDs de plan de l'utilisateur
         const userPlanIds = member.planConnections.map(connection => connection.planId);
         
         // Configuration des plans (c'est un tableau d'objets)
