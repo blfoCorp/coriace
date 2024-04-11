@@ -269,46 +269,52 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 return;
             }
         });
-
-        // Définir l'attribut personnalisé pour sélectionner les éléments
-        const attributeSelector = '[data-co-member="!customer"]';
-
-        // Si l'utilisateur a un plan spécifié, afficher les éléments avec l'attribut personnalisé
-        if (hasSpecificPlan) {
-            document.querySelectorAll(attributeSelector).forEach(elementToShow => {
-                elementToShow.style.display = 'none';
-            });
-        }
     }
 }
 
-function applyDOMChanges(protectedElement, planConfig) {
-    // L'utilisateur a le plan, effectuer les modifications nécessaires sur les éléments du DOM
-    if (planConfig.dataTabLink) {
-        document.querySelectorAll(`[data-tab-link="${planConfig.dataTabLink}"]`).forEach(element => {
-            console.log("Updating href for:", element); // Mettre à jour href pour l'élément
-            element.href = planConfig.newHref;
+// Définir l'attribut personnalisé pour sélectionner les éléments
+        const attributeSelector = '[data-co-member="!customer"]';
+        
+        // Initialiser le drapeau indiquant si l'utilisateur a un plan spécifique
+        let hasSpecificPlan = false;
+        
+        // Parcourir chaque configuration de plan
+        plansConfig.forEach(planConfig => {
+            // Vérifier si l'utilisateur a un des plans spécifiés
+            const hasPlan = Array.isArray(planConfig.planId) ?
+                planConfig.planId.some(planId => userPlanIds.includes(planId)) :
+                userPlanIds.includes(planConfig.planId);
+            
+            // Si l'utilisateur a le plan, effectuer les modifications nécessaires sur les éléments du DOM
+            if (hasPlan) {
+                document.querySelectorAll(`[data-tab-link="${planConfig.dataTabLink}"]`).forEach(element => {
+                    element.href = planConfig.newHref;
+                });
+        
+                document.querySelectorAll(`[data-lock-icon="${planConfig.dataLockIcon}"]`).forEach(element => {
+                    element.style.display = 'none';
+                });
+        
+                document.querySelectorAll(`[data-start-button="${planConfig.dataStartButton}"]`).forEach(button => {
+                    button.href = planConfig.newHref; 
+                    button.textContent = 'Démarrer';
+                });
+        
+                document.querySelectorAll(`[data-hide-button="${planConfig.dataHideButton}"]`).forEach(element => {
+                    element.style.display = 'none';
+                });
+                // Indiquer qu'un élément spécifique doit être affiché
+                hasSpecificPlan = true;
+            }
         });
-    }
-
-    if (planConfig.dataLockIcon) {
-        document.querySelectorAll(`[data-lock-icon="${planConfig.dataLockIcon}"]`).forEach(element => {
-            console.log("Hiding lock icon for:", element); // Masquer l'icône de verrouillage pour l'élément
-            element.style.display = 'none';
-        });
-    }
-
-    if (planConfig.dataStartButton) {
-        document.querySelectorAll(`[data-start-button="${planConfig.dataStartButton}"]`).forEach(button => {
-            button.href = planConfig.newHref;
-            button.textContent = 'Démarrer';
-        });
-    }
-
-    if (planConfig.dataHideButton) {
-        document.querySelectorAll(`[data-hide-button="${planConfig.dataHideButton}"]`).forEach(element => {
-            element.style.display = 'none';
-        });
+        
+        // Si l'utilisateur a un plan spécifié, afficher les éléments avec l'attribut personnalisé
+        if (hasSpecificPlan) {
+            // Utiliser querySelectorAll et forEach pour appliquer le style à tous les éléments correspondants
+            document.querySelectorAll(attributeSelector).forEach(elementToShow => {
+                elementToShow.style.display = 'none'; // Supposant que vous voulez les rendre visibles. Utilisez 'none' pour masquer.
+            });
+        }
     }
 }
 // Attacher la fonction au chargement du contenu DOM
