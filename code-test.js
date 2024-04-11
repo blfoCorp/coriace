@@ -238,7 +238,8 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
         
         let hasSpecificPlan = false;
         let redirectUrls = []; // Collection des URLs de redirection pour les configurations non satisfaites
-
+        
+        console.log("Elements found:", document.querySelectorAll('[data-co-protected]').length);
         document.querySelectorAll('[data-co-protected]').forEach(protectedElement => {
             const protectionValue = protectedElement.getAttribute('data-co-protected');
             console.log("Checking protection for:", protectionValue); // Vérifier la protection pour la valeur
