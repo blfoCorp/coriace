@@ -215,7 +215,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 dataLockIcon: 'wfPlusLockIcn',
                 dataStartButton: 'wfPlusStartButton',
                 dataHideButton: 'wfPlusHideButton',
-                newHref: 'https://order.coriace.co/formation/commande-webflow-plus/etape/commande-webflow-plus/',
+                newHref: '/app/webflow-plus',
                 dataTabLink: 'wfPlusLink',
                 
                 
