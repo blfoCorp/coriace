@@ -216,7 +216,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 dataStartButton: 'wfPlusStartButton',
                 dataHideButton: 'wfPlusHideButton',
                 newHref: '/app/webflow-plus',
-                dataTabLink: 'wPlusLink',
+                dataTabLink: 'wfPlusLink',
                 
                 
             }
