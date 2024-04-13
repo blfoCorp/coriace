@@ -49,7 +49,7 @@ function cleanJson(json) {
 }
 
 // URL de l'image par défaut
-const defaultImage = 'https://uploads-ssl.webflow.com/65745e7679d91e4fdbc7cca7/65ae31e81732875dfe6e36ea_Popin%20Background%20Installments%20Payments-min.png';
+const defaultImage = 'https://uploads-ssl.webflow.com/65745e7679d91e4fdbc7cca7/661a7e6df533866984004cb3_65cf3da426e0a546bc744e42_6532916ca3e2c644d86bbfb1_Capture%20d%E2%80%99e%CC%81cran%202023-10-18%20a%CC%80%2017.21%203.png';
 
 // Fonction asynchrone pour charger les 3 dernières leçons
 async function loadLastThreeLessons() {
@@ -65,32 +65,29 @@ async function loadLastThreeLessons() {
 
       lastThreeLessons.forEach(([id, lesson], index) => {
         const card = document.getElementById(`card${index + 1}`);
-        if (!card) return; // S'assurer que la carte existe avant de continuer
+        if (!card) return;
 
         const img = card.querySelector('.dash_last-lesson-thumbnail');
         const name = card.querySelector('.dash_last-lesson-name');
         const time = card.querySelector('.dash_last-lesson-time');
-        const link = card.querySelector('#dashLastLessonLink'); // Assurez-vous que cette classe correspond à votre HTML
-        const tracker = card.querySelector('.dash_last-lesson-progress-tracker');
+        const link = card.querySelector('#dashLastLessonLink');
+        const progressBar = card.querySelector('.dash_last-lesson-progress-bar'); // L'élément concerné
 
-        // Utilisez l'image de la leçon si disponible, sinon utilisez l'image par défaut
         img.src = lesson.image || defaultImage;
         img.alt = lesson.name ? "Miniature de la leçon" : "Image par défaut";
+        name.textContent = lesson.name ? htmlDecode(lesson.name) : "Démarrez votre initiation - Page De Vente Tesla";
 
-        name.textContent = lesson.name ? htmlDecode(lesson.name) : "Visionnez votre première leçon !";
-
-        if (link && lesson.url) {
-          link.href = lesson.url;
-        } else if (link) {
-          link.href = "#"; // Ou un autre lien par défaut
-          link.style.pointerEvents = "none"; // Désactive le lien si aucune leçon n'est disponible
+        if (link) {
+          link.href = lesson.url || "/lecons-webflow-initiation/tesla-partie-1";
+          link.textContent = lesson.time > 0 ? "Reprendre" : "Démarrer";
         }
 
-        if (tracker && lesson.time && lesson.totalTime) {
-          const progressPercentage = (lesson.time / lesson.totalTime) * 100;
-          tracker.style.width = `${progressPercentage}%`;
-        } else if (tracker) {
-          tracker.style.width = "0%"; // Réinitialise la barre de progression si aucune leçon n'est disponible
+        if (progressBar) {
+          if (lesson.time > 0) {
+            progressBar.style.display = "block"; // Affiche le progressBar lorsque la leçon a été commencée
+          } else {
+            progressBar.style.display = "none"; // Continue de masquer le progressBar si aucune leçon n'a été commencée
+          }
         }
 
         if (time && lesson.time && lesson.totalTime) {
@@ -114,13 +111,12 @@ async function loadLastThreeLessons() {
         const tracker = card.querySelector('.dash_last-lesson-progress-tracker');
 
         img.src = defaultImage;
-        img.alt = "Image par défaut";
-        name.textContent = "Visionnez votre première leçon !";
+        img.alt = "";
+        name.textContent = "Démarrez votre initiation - Page De Vente Tesla";
         if (link) {
-          link.href = "#";
-          link.style.pointerEvents = "none";
+          link.href = "/lecons-webflow-initiation/tesla-partie-1";
         }
-        if (tracker) tracker.style.width = "0%";
+        if (tracker) tracker.style.display = "none";
         if (time) time.textContent = "";
       }
     }
