@@ -1,15 +1,19 @@
 /* -------- AFFICHAGE DU CODE DE PROMOTION À L'INSCRIPTION -------- */
 document.addEventListener('DOMContentLoaded', function() {
-    updatePromoCode();
+    let memberData = localStorage.getItem('_ms-mem');
+    if (memberData) {
+        let memberObj = JSON.parse(memberData);
+        if (memberObj && memberObj.metaData && memberObj.metaData.coupon_name) {
+            startCouponTimer(memberObj.metaData.coupon_name);
+        }
+    }
+
     let checkInterval = setInterval(function() {
         console.log("Vérification périodique du coupon en cours...");
-        let memberData = localStorage.getItem('_ms-mem');
-        let memberObj = memberData ? JSON.parse(memberData) : null;
-        let couponFound = memberObj && memberObj.metaData && memberObj.metaData.coupon_name;
-
-        if (localStorage.getItem('timer_finished') === 'true' || !memberData || couponFound) {
+        let timerFinished = localStorage.getItem('timer_finished') === 'true';
+        if (timerFinished) {
             clearInterval(checkInterval);
-            console.log("Arrêt de la vérification périodique du coupon - Coupon trouvé ou conditions non remplies.");
+            console.log("Arrêt de la vérification périodique du coupon - Conditions non remplies.");
         } else {
             updatePromoCode();
         }
@@ -17,25 +21,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function startCouponTimer(couponName) {
-    let startTime = parseInt(localStorage.getItem('coupon_start_time'), 10);
-    let currentTime = new Date().getTime();
-
+    let startTime = localStorage.getItem('coupon_start_time');
     if (!startTime) {
-        startTime = currentTime;
+        startTime = new Date().getTime();
         localStorage.setItem('coupon_start_time', startTime);
-    }
-
-    if (localStorage.getItem('timer_finished')) {
-        return;
-    }
-
-    let elapsedTime = currentTime - startTime;
-    let remainingTime = 24 * 60 * 60 * 1000 - elapsedTime;
-
-    if (remainingTime > 0 && couponName) {
-        document.querySelectorAll('[data-co-offer="promo-code-wrapper"]').forEach(function(promoPopinElement) {
-            promoPopinElement.style.display = 'block';
-        });
+    } else {
+        startTime = parseInt(startTime, 10);
     }
 
     let timerInterval = setInterval(function() {
@@ -45,7 +36,8 @@ function startCouponTimer(couponName) {
 }
 
 function updateTimer(couponName, startTime, timerInterval) {
-    let elapsedTime = new Date().getTime() - startTime;
+    let currentTime = new Date().getTime();
+    let elapsedTime = currentTime - startTime;
     let remainingTime = 24 * 60 * 60 * 1000 - elapsedTime;
 
     if (remainingTime > 0 && couponName) {
@@ -55,6 +47,9 @@ function updateTimer(couponName, startTime, timerInterval) {
 
         document.querySelectorAll('[data-co-offer="promo-timer"]').forEach(function(timerDisplay) {
             timerDisplay.textContent = `${hours}h ${minutes}m ${seconds}s`;
+        });
+        document.querySelectorAll('[data-co-offer="promo-code-wrapper"]').forEach(function(promoPopinElement) {
+            promoPopinElement.style.display = 'block';
         });
     } else {
         clearInterval(timerInterval);
@@ -71,7 +66,6 @@ function updatePromoCode() {
         let memberObj = JSON.parse(memberData);
         if (memberObj && memberObj.metaData && memberObj.metaData.coupon_name) {
             updateCouponDisplay(memberObj.metaData.coupon_name);
-            startCouponTimer(memberObj.metaData.coupon_name); // Ensure this is called when a coupon is found
         }
     }
 }
