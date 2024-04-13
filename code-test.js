@@ -1,5 +1,9 @@
 /* -------- AFFICHAGE DU CODE DE PROMOTION À L'INSCRIPTION -------- */
 document.addEventListener('DOMContentLoaded', function() {
+    initializeCouponTimer();
+});
+
+function initializeCouponTimer() {
     let memberData = localStorage.getItem('_ms-mem');
     if (memberData) {
         let memberObj = JSON.parse(memberData);
@@ -9,25 +13,21 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     let checkInterval = setInterval(function() {
-        console.log("Vérification périodique du coupon en cours...");
-        let timerFinished = localStorage.getItem('timer_finished') === 'true';
-        if (timerFinished) {
+        if (localStorage.getItem('timer_finished') === 'true') {
             clearInterval(checkInterval);
-            console.log("Arrêt de la vérification périodique du coupon - Conditions non remplies.");
         } else {
             updatePromoCode();
         }
-    }, 2000); // Vérifie les données du coupon toutes les secondes
-});
+    }, 1000); // Vérifie les données du coupon toutes les secondes
+}
 
 function startCouponTimer(couponName) {
     let startTime = localStorage.getItem('coupon_start_time');
     if (!startTime) {
-        startTime = new Date().getTime();
+        startTime = new Date().getTime().toString();
         localStorage.setItem('coupon_start_time', startTime);
-    } else {
-        startTime = parseInt(startTime, 10);
     }
+    startTime = parseInt(startTime, 10); // Make sure we work with the number
 
     let timerInterval = setInterval(function() {
         updateTimer(couponName, startTime, timerInterval);
@@ -41,16 +41,7 @@ function updateTimer(couponName, startTime, timerInterval) {
     let remainingTime = 24 * 60 * 60 * 1000 - elapsedTime;
 
     if (remainingTime > 0 && couponName) {
-        let hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        let minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-        let seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-
-        document.querySelectorAll('[data-co-offer="promo-timer"]').forEach(function(timerDisplay) {
-            timerDisplay.textContent = `${hours}h ${minutes}m ${seconds}s`;
-        });
-        document.querySelectorAll('[data-co-offer="promo-code-wrapper"]').forEach(function(promoPopinElement) {
-            promoPopinElement.style.display = 'block';
-        });
+        displayPromotionDetails(remainingTime);
     } else {
         clearInterval(timerInterval);
         localStorage.setItem('timer_finished', 'true');
@@ -58,6 +49,19 @@ function updateTimer(couponName, startTime, timerInterval) {
             promoPopinElement.style.display = 'none';
         });
     }
+}
+
+function displayPromotionDetails(remainingTime) {
+    let hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+    let seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+    document.querySelectorAll('[data-co-offer="promo-timer"]').forEach(function(timerDisplay) {
+        timerDisplay.textContent = `${hours}h ${minutes}m ${seconds}s`;
+    });
+    document.querySelectorAll('[data-co-offer="promo-code-wrapper"]').forEach(function(promoPopinElement) {
+        promoPopinElement.style.display = 'block';
+    });
 }
 
 function updatePromoCode() {
@@ -76,6 +80,7 @@ function updateCouponDisplay(couponName) {
         element.textContent = couponName;
     });
 }
+
 
 /*---  DÉBUT : DÉVEROUILLAGE FORMATION EN FONCTION DU PLAN DANS LA NAVIGATION ----*/
 async function updateTabLinksAndHideElementsForSpecificPlans() {
