@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     updatePromoCode();
     let checkInterval = setInterval(function() {
+        console.log("Vérification périodique du coupon en cours...");
         let memberDataExists = localStorage.getItem('_ms-mem') !== null;
         let timerFinished = localStorage.getItem('timer_finished') === 'true';
         let memberData = localStorage.getItem('_ms-mem');
@@ -9,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (timerFinished || !memberDataExists || couponFound) {
             clearInterval(checkInterval);
+            console.log("Arrêt de la vérification périodique du coupon - Coupon trouvé ou conditions non remplies.");
         } else {
             updatePromoCode();
         }
