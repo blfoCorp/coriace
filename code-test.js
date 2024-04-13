@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             updatePromoCode();
         }
-    }, 1000); // Vérifie les données du coupon toutes les secondes
+    }, 2000); // Vérifie les données du coupon toutes les secondes
 });
 
 function startCouponTimer(couponName) {
