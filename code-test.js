@@ -1,11 +1,96 @@
+/* -------- AFFICHAGE DU CODE DE PROMOTION À L'INSCRIPTION -------- */
+document.addEventListener('DOMContentLoaded', function() {
+    updatePromoCode();
+});
+
+function startCouponTimer(couponName) {
+  console.log("Déclenchement de startCouponTimer", new Date());
+  let timerFinished = localStorage.getItem('timer_finished');
+  let startTime = localStorage.getItem('coupon_start_time');
+  let currentTime = new Date().getTime();
+  
+  if (timerFinished) return;
+  
+  if (!startTime) {
+    startTime = currentTime;
+    localStorage.setItem('coupon_start_time', startTime);
+  }
+  
+  let elapsedTime = currentTime - startTime;
+  let remainingTime = 24 * 60 * 60 * 1000 - elapsedTime;
+
+  if (remainingTime > 0 && couponName) {
+    document.querySelectorAll('[data-co-offer="promo-code-wrapper"]').forEach(function(promoPopinElement) {
+      promoPopinElement.style.display = 'block';
+    });
+  }
+
+  function updateTimer() {
+    elapsedTime = new Date().getTime() - startTime;
+    remainingTime = 24 * 60 * 60 * 1000 - elapsedTime;
+
+    if (remainingTime >= 0 && couponName) {
+      let hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      let minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+      document.querySelectorAll('[data-co-offer="promo-timer"]').forEach(function(timerDisplay) {
+        timerDisplay.textContent = `${hours}h ${minutes}m ${seconds}s`;
+      });
+    } else {
+      console.log("Le timer est à 0 ou aucun coupon_name valide, masquage des éléments promo-code-wrapper", new Date());
+      clearInterval(timerInterval);
+      localStorage.setItem('timer_finished', 'true');
+      document.querySelectorAll('[data-co-offer="promo-code-wrapper"]').forEach(function(promoPopinElement) {
+        promoPopinElement.style.display = 'none';
+      });
+    }
+  }
+
+  let timerInterval = setInterval(updateTimer, 1000);
+  updateTimer();
+}
+
+function updatePromoCode() {
+  console.log("Déclenchement de updatePromoCode", new Date());
+  let memberData = localStorage.getItem('_ms-mem');
+  let couponName = null;
+  
+  if (memberData) {
+    try {
+      let memberObj = JSON.parse(memberData);
+      
+      if (memberObj && memberObj.metaData && memberObj.metaData.coupon_name) {
+        console.log("Coupon trouvé, mise à jour des éléments promo-code", new Date());
+        couponName = memberObj.metaData.coupon_name;
+        let promoElements = document.querySelectorAll('[data-co-offer="promo-code"]');
+        promoElements.forEach(function(element) {
+          element.textContent = couponName;
+        });
+        
+        if (!localStorage.getItem('timer_finished')) {
+          startCouponTimer(couponName);
+        }
+      } else {
+        console.log("Aucun coupon applicable trouvé", new Date());
+      }
+    } catch (e) {
+      console.error("Erreur lors du parsing des données membres", e);
+    }
+  } else {
+    console.log("Aucune donnée membre trouvée dans localStorage", new Date());
+  }
+}
+
 /*---  DÉBUT : DÉVEROUILLAGE FORMATION EN FONCTION DU PLAN DANS LA NAVIGATION ----*/
 async function updateTabLinksAndHideElementsForSpecificPlans() {
     const response = await window.$memberstackDom.getCurrentMember();
     const member = response.data;
 
-    
     if (member && Array.isArray(member.planConnections)) {
+        // Extraire les IDs de plan du membre
         const userPlanIds = member.planConnections.map(connection => connection.planId);
+        
         // Configuration des plans (c'est un tableau d'objets)
         const plansConfig = [
             {
@@ -30,9 +115,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 newHref: '/app/formation-membre/webflow-page-de-vente',
                 dataLockIcon: 'wpdvLockIcn',
                 dataStartButton: 'wpdvStartButton',
-                dataHideButton: 'wpdvHideButton',
-                contentValue: 'wfpdv',
-                redirectUrl: '/app/formations/webflow-page-de-vente'
+                dataHideButton: 'wpdvHideButton'
             },
             {
                 planId: [
@@ -56,9 +139,15 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 newHref: '/app/formation-membre/webflow-ecommerce',
                 dataLockIcon: 'wecoLockIcn',
                 dataStartButton: 'wecoStartButton',
-                dataHideButton: 'wecoHideButton',
-                contentValue: 'wfeco',
-                redirectUrl: '/app/formations/webflow-e-commerce'
+                dataHideButton: 'wecoHideButton'
+            },
+            {
+                planId: "pln_coriace-formation-webflow-cms-9a4w0cs2",
+                dataTabLink: 'wcmsTabs',
+                newHref: '/app/formation-membre/webflow-cms',
+                dataLockIcon: 'wcmsLockIcn',
+                dataStartButton: 'wcmsStartButton',
+                dataHideButton: 'wcmsHideButton'
             },
             {
                 planId: [
@@ -81,9 +170,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 newHref: '/modules-mini-formations-webflow/webflow-theorie',
                 dataLockIcon: 'wtheorieLockIcn',
                 dataStartButton: 'wtheorieStartButton',
-                dataHideButton: 'wtheorieHideButton',
-                contentValue: 'wftheorie',
-                redirectUrl: '/app/mini-formations/webflow-theorie'
+                dataHideButton: 'wtheorieHideButton'
             },
             {
                 planId: [
@@ -106,9 +193,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 newHref: '/modules-mini-formations-webflow/udesly-webfow-vers-shopify',
                 dataLockIcon: 'udeslyShopiLockIcn',
                 dataStartButton: 'udeslyShopifyStartButton',
-                dataHideButton: 'udeslyShopifyHideButton',
-                contentValue: 'wfshopi',
-                redirectUrl: '/app/mini-formations/udesly-webflow-shopify'
+                dataHideButton: 'udeslyShopifyHideButton'
             },
             {
                 planId: [
@@ -131,9 +216,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 newHref: '/modules-mini-formations-webflow/les-cookies',
                 dataLockIcon: 'cookiesLockIcn',
                 dataStartButton: 'cookiesStartButton',
-                dataHideButton: 'cookiesHideButton',
-                contentValue: 'wfcookies',
-                redirectUrl: '/app/mini-formations/webflow-cookie-consent-by-finsweet'
+                dataHideButton: 'cookiesHideButton'
             },
             {
                 planId: [
@@ -156,9 +239,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 newHref: '/modules-mini-formations-webflow/client-first',
                 dataLockIcon: 'clientFirstLockIcn',
                 dataStartButton: 'clientFirstStartButton',
-                dataHideButton: 'clientFirstHideButton',
-                contentValue: 'wfclientfirst',
-                redirectUrl: '/app/mini-formations/webflow-client-first'
+                dataHideButton: 'clientFirstHideButton'
             },
             {
                 planId: [
@@ -169,36 +250,28 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 newHref: '/app/formation-membre/figma-debutant',
                 dataLockIcon: 'figDebutantLockIcn',
                 dataStartButton: 'figDebutantStartButton',
-                dataHideButton: 'figDebutantHideButton',
-                contentValue: 'figdeb',
-                redirectUrl: '/app/formations/figma-debutant'
+                dataHideButton: 'figDebutantHideButton'
             },
             {
                 planId: [
                     "pln_webflow-le-pack-ezhb0291",
                     "pln_webflow-le-pack-3-fois--sshd024y"
                 ],
-                dataHideButton: 'packWebflowHideButton',
-                contentValue: 'wfpack',
-                redirectUrl: '/app/packs/formations-principales-webflow'
+                dataHideButton: 'packWebflowHideButton'
             },
             {
                 planId: [
                     "pln_le-mini-pack-webflow-2kje0tkt",
                     "pln_le-mini-pack-webflow-3-fois--lsj50wev"
                 ],
-                dataHideButton: 'minipackWebflowHideButton',
-                contentValue: 'wfminipack',
-                redirectUrl: '/app/packs/mini-pack-webflow'
+                dataHideButton: 'minipackWebflowHideButton'
             },
             {
                 planId: [
                     "pln_le-mega-pack-webflow-2ljs0t3b",
                     "pln_le-mega-pack-webflow-3-fois--tnkm02zj"
                 ],
-                dataHideButton: 'megapackWebflowHideButton',
-                contentValue: 'wfmegapack',
-                redirectUrl: '/app/packs/mega-pack-webflow'
+                dataHideButton: 'megapackWebflowHideButton'
             },
              {
                 planId: [
@@ -206,9 +279,7 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 ],
                 dataTabLink: 'wfportfolioNiv1Tabs',
                 dataLockIcon: 'wfportfolioNiv1LockIcn',
-                newHref: '/modules-formation-thematique/webflow-creer-son-portfolio',
-                contentValue: 'wfportfolio',
-                redirectUrl: '/app/formations-thematiques/webflow-creer-son-portfolio'
+                newHref: '/modules-formation-thematique/webflow-creer-son-portfolio'
             },
             {
                 planId: [
@@ -229,50 +300,14 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
                 dataStartButton: 'wfPlusStartButton',
                 dataHideButton: 'wfPlusHideButton',
                 newHref: '/app/webflow-plus',
-                dataTabLink: 'wPlusLink',
-                contentValue: 'wfplus',
-                redirectUrl: '/app/webflow-plus'
+                dataTabLink: 'wfPlusLink',
+                
                 
             }
         ];
         
-        let hasSpecificPlan = false;
-        let redirectUrls = []; // Collection des URLs de redirection pour les configurations non satisfaites
-        
-        console.log("Elements found:", document.querySelectorAll('[data-co-protected]').length);
-        document.querySelectorAll('[data-co-protected]').forEach(protectedElement => {
-            const protectionValue = protectedElement.getAttribute('data-co-protected');
-            console.log("Checking protection for:", protectionValue); // Vérifier la protection pour la valeur
-            let protectionMet = false;
 
-            plansConfig.forEach(planConfig => {
-                console.log("PlanConfig IDs:", planConfig.planId);
-                console.log("User Plan IDs:", userPlanIds);
-                const hasPlan = Array.isArray(planConfig.planId) ?
-                    planConfig.planId.some(planId => userPlanIds.includes(planId)) :
-                    userPlanIds.includes(planConfig.planId);
-
-                if (protectionValue === planConfig.contentValue && hasPlan) {
-                    applyDOMChanges(protectedElement, planConfig);
-                    protectionMet = true;
-                    hasSpecificPlan = true;
-                } else if (protectionValue === planConfig.contentValue) {
-                    // Cette vérification assure qu'on ajoute l'URL de redirection seulement si elle correspond à l'élément protégé rencontré
-                    redirectUrls[protectionValue] = planConfig.redirectUrl;
-                }
-            });
-
-            // Si aucun plan correspondant n'est trouvé pour cet élément protégé, marquer pour une redirection possible
-            if (!protectionMet && redirectUrls[protectionValue]) {
-                console.log("Redirecting to:", redirectUrls[protectionValue]); // Rediriger vers l'URL
-                window.location.href = redirectUrls[protectionValue];
-                return;
-            }
-        });
-    }
-}
-
-// Définir l'attribut personnalisé pour sélectionner les éléments
+        // Définir l'attribut personnalisé pour sélectionner les éléments
         const attributeSelector = '[data-co-member="!customer"]';
         
         // Initialiser le drapeau indiquant si l'utilisateur a un plan spécifique
@@ -317,12 +352,11 @@ async function updateTabLinksAndHideElementsForSpecificPlans() {
         }
     }
 }
+
 // Attacher la fonction au chargement du contenu DOM
 document.addEventListener("DOMContentLoaded", () => {
     updateTabLinksAndHideElementsForSpecificPlans();
 });
-
-
 
 /* -------- GESTION DU MENU BURGER EN MOBILE -------- */
 // Vérifie si la largeur de la fenêtre est inférieure à 991px
@@ -414,94 +448,6 @@ window.addEventListener('resize', function() {
     }
     setupMenu();
 });
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    updatePromoCode();
-    checkAndStartSecondTimer();
-});
-
-function updatePromoCode() {
-    let memberData = localStorage.getItem('_ms-mem');
-    let couponName = null;
-
-    if (memberData) {
-        let memberObj = JSON.parse(memberData);
-        if (memberObj && memberObj.metaData && memberObj.metaData.coupon_name) {
-            couponName = memberObj.metaData.coupon_name;
-            updatePromoElements(couponName);
-            if (!localStorage.getItem('timer_finished')) {
-                startCouponTimer(couponName, true);
-            }
-        }
-    }
-}
-
-function updatePromoElements(couponName) {
-    document.querySelectorAll('[data-co-offer="promo-code"]').forEach(function(element) {
-        element.textContent = couponName;
-    });
-    document.querySelectorAll('[data-co-offer="promo-code-wrapper"]').forEach(function(promoPopinElement) {
-        promoPopinElement.style.display = 'block';
-    });
-}
-
-function startCouponTimer(couponName, isFirstTimer) {
-    if (isFirstTimer) {
-        let endTime = new Date().getTime() + 8 * 60 * 60 * 1000;
-        updateTimer(endTime, couponName);
-    }
-    setSecondTimerStart(couponName);
-}
-
-function setSecondTimerStart(couponName) {
-    let currentTime = new Date();
-    let targetTime = new Date(currentTime.getTime());
-    targetTime.setDate(targetTime.getDate() + 2);
-    targetTime.setHours(16, 0, 0, 0); // Changé de 12h à 16h
-    localStorage.setItem('second_timer_start', targetTime.getTime());
-    localStorage.setItem('second_timer_coupon', couponName);
-}
-
-function checkAndStartSecondTimer() {
-    let secondTimerStart = localStorage.getItem('second_timer_start');
-    let couponName = localStorage.getItem('second_timer_coupon');
-
-    if (!secondTimerStart || !couponName) return;
-
-    let startTime = parseInt(secondTimerStart, 10);
-    let currentTime = new Date().getTime();
-    let scheduledEndTime = startTime + 8 * 60 * 60 * 1000;
-
-    if (currentTime >= startTime && currentTime < scheduledEndTime) {
-        updateTimer(scheduledEndTime, couponName);
-        updatePromoElements(couponName);
-    }
-}
-
-function updateTimer(endTime, couponName) {
-    clearInterval(window.timerInterval);
-    window.timerInterval = setInterval(function() {
-        let currentTime = new Date().getTime();
-        let remainingTime = endTime - currentTime;
-
-        if (remainingTime >= 0) {
-            let hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            let minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-            let seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-
-            document.querySelectorAll('[data-co-offer="promo-timer"]').forEach(function(timerDisplay) {
-                timerDisplay.textContent = `${hours}h ${minutes}m ${seconds}s`;
-            });
-        } else {
-            clearInterval(window.timerInterval);
-            localStorage.setItem('timer_finished', 'true');
-            document.querySelectorAll('[data-co-offer="promo-code-wrapper"]').forEach(function(promoPopinElement) {
-                promoPopinElement.style.display = 'none';
-            });
-        }
-    }, 1000);
-}
 
 
 // ----- FONCTION POUR ENREGISTRER L'ID AFFILIÉ DANS LES COOKIES DU VISITEUR ------//
