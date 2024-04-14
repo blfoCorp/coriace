@@ -681,3 +681,31 @@ async function checkMembershipAndRedirect() {
 }
 
 document.addEventListener("DOMContentLoaded", checkMembershipAndRedirect);
+
+
+<!-- 💙 MEMBERSCRIPT #51 v0.2 💙 DISPLAY MEMBER METADATA -->
+<script>
+  function replaceTextWithMetadata(metadata) {
+    var els = Array.from(document.querySelectorAll('[ms-code-member-meta]'));
+    els.forEach((el) => {
+      const key = el.getAttribute('ms-code-member-meta');
+      const value = metadata[key];
+      if (value !== undefined) {
+        el.innerHTML = value;
+        el.value = value;
+        el.src = value;
+      }
+    });
+  }
+
+  const memberstack = window.$memberstackDom;
+  memberstack.getCurrentMember()
+    .then(({ data: member }) => {
+      if (member && member.metaData) {
+        replaceTextWithMetadata(member.metaData);
+      }
+    })
+    .catch((error) => {
+      console.error('Error retrieving member data:', error);
+    });
+</script>
