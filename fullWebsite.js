@@ -26,7 +26,7 @@ function startCouponTimer(couponName) {
     }
 
     let elapsedTime = currentTime - startTime;
-    let remainingTime = 24 * 60 * 60 * 1000 - elapsedTime;
+    let remainingTime = 2 * 60 * 60 * 1000 - elapsedTime;
 
     if (remainingTime > 0 && couponName) {
         document.querySelectorAll('[data-co-offer="promo-code-wrapper"]').forEach(function(promoPopinElement) {
@@ -42,7 +42,7 @@ function startCouponTimer(couponName) {
 
 function updateTimer(couponName, startTime, timerInterval) {
     let elapsedTime = new Date().getTime() - startTime;
-    let remainingTime = 24 * 60 * 60 * 1000 - elapsedTime;
+    let remainingTime = 2 * 60 * 60 * 1000 - elapsedTime;
 
     if (remainingTime > 0 && couponName) {
         let hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
